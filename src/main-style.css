@@ -1,0 +1,252 @@
+/* base incubator */ 
+.test-2 {
+    position:absolute;
+    top: 3400px;
+    left: 200px;
+}
+
+/* top incubator */ 
+#s1, #e1 {
+	top: 3465px;
+	left: 438px;
+}
+
+/* right incubator */ 
+#s2, #e2 {
+	top: 3632px;
+	left: 502px;
+}
+
+/* bottom incubator */ 
+#s3, #e3 {
+	top: 3702px;
+	left: 443px;
+}
+
+/* left incubator */ 
+#s4, #e4 {
+	top: 3636px;
+	left: 267px;
+}
+
+#base {
+	/*z-index: -1; */
+}
+
+
+
+
+
+
+/* syringe color test */ 
+.test-1 {
+	position:absolute; 
+	top:3200px;
+}
+
+#syringe-test-1 {
+	left: 200px;
+	color: black;
+	/*background-color: black; */
+}
+
+#syringe-test-2 {
+	left: 400px;
+}
+
+#syringe-test-3 {
+	left: 400px;
+	z-index: 0.4;
+	color:black;
+}
+
+
+
+
+
+
+
+.begin-button {
+    background-color: transparent; 
+    border: none;
+    color: black;
+	display: inline-block;
+    font-family: Josefin Sans, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0;
+	opacity: 1; 
+	outline-style: solid; 
+    outline-width: 2px;
+    outline-color: black;
+    padding: 11px 25px 9px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+.begin-button:hover {
+  	outline-style: solid; 
+    outline-width: 2px;
+    outline-color: black;
+    text-decoration: none;
+    color: black;
+    transform: scale(1.05,1.05);
+
+}
+
+.begin-button:active {
+  transform: scale(1.1,1.1);
+  text-decoration: none;
+  background-color: transparent;
+  color: black;
+  outline-style: solid; 
+  outline-width: 2px;
+  outline-color: black;
+  text-decoration: none;
+  color: black;
+}
+.begin-button:focus{
+   outline-color: black;
+   outline-style: solid; 
+   outline-width: 2px;
+   text-decoration: none;
+    color: black;
+}
+
+
+.button {
+    background-color: transparent; 
+    border: none;
+    color: black;
+	display: inline-block;
+    font-family: Josefin Sans, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0;
+	opacity: 1; 
+    outline-style: solid; 
+    outline-width: 1px;
+    padding: 11px 25px 9px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+.button:hover {
+  opacity: 0.6;
+}
+
+.button:active {
+  transform: translateY(-3px);
+  text-decoration: none;
+  background-color: transparent;
+  color: black;
+}
+.button:focus{
+   outline-color: black;
+}
+
+.circle {
+	background: gray;
+	border-radius: 50px;
+	color: #CCCCCC;
+	font-family: Josefin Sans, sans-serif;
+	font-size: 12px;
+	height: 100px;
+	margin: auto;
+	text-align: center; 
+	text-transform: uppercase;
+	width: 100px;
+	-moz-border-radius: 50px;
+	-webkit-border-radius: 50px;
+}
+
+
+h4 {
+	color: #303030;
+	font-family: Josefin Slab, sans-serif;
+	font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 30px;
+} 
+
+.jumbotron {
+	color: #818181;
+    font: 400 15px Josefin Slab, sans-serif;
+    line-height: 1.8;
+    margin-bottom:0;
+}
+
+#myPage {
+    font-family: Josefin Slab, serif;
+    letter-spacing: 1px;
+}
+
+.navbar, .navbar:default {
+    font-family: Josefin Sans, serif;
+    text-transform: lowercase;
+    font-size: 15px;
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin-top:0;
+}
+
+.next {
+	color: black;
+	font-family: Josefin Sans, sans-serif;
+	font-size: 12px;
+	margin-left: 92%;
+	text-transform: uppercase;
+	text-align: center;
+	text-decoration: none;
+	outline-style: solid; 
+    outline-width: 1px;
+    padding: 10px 25px;
+    width: 50%;
+    text-align: center;
+}
+
+.next:hover, .next:active, .next:focus {
+	color: black;
+	outline-style: solid; 
+    outline-width: 1px;
+    outline-color: black;
+    padding: 10px 25px;
+}
+
+p { 
+	font-family: Josefin Sans;
+	text-transform: uppercase;
+}
+
+.project-button {
+    background-color: transparent; 
+    border: none;
+    color: black;
+	display: inline-block;
+    font-family: Josefin Sans, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0;
+	opacity: 1; 
+    outline-style: solid; 
+    outline-width: 1px;
+    padding: 7px 50px 5px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+.project-button:hover, .project-button:active, .project-button:focus {
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  outline-color: black;
+}
+
+.project-button:active {
+	transform: translateY(-3px);
+}
+
+*/.thumbnail{
+	background: black;
+}s

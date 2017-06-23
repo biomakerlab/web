@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html>
+	<head> 
+ 		<script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script> 
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
+		<!-- for vis.js --> 
+		<script src="http://visjs.org/dist/vis.js"></script>
+ 		<link href="http://visjs.org/dist/vis.css" rel="stylesheet" type="text/css" />
+
+		<!-- google fonts --> 
+		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
+		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet" type="text/css">
+
+ 		<script type="text/javascript">
+	        var ws;
+	        var wsUri = "ws://192.168.128.13:1880/ws/MicrobialDesignStudio"; // for modem? 
+	        var loc = window.location;
+	        
+	        var topicName = "@spec";
+
+	        var syringeProxyPrefix = '@i2cSerialProxy' ;  
+	        var electroporatorPrefix = '@electroporator';
+	        var purifierPrefix = '@purifier'; 
+
+	        var wheelPrefix = '@wheel';
+	        var pumpPrefix = '@mediapump';
+	        var carouselPrefix = '@carousel';
+	        var heaterPrefix = '@heater';
+	        var specPrefix = '@spec';
+	        var tempPrefix = '@temp'; 
+
+	        var incubatorPrefix = '@incubator' ;
+
+	        // keep track of number of cycles 
+	        var cycleCount = 0; 
+
+	        console.log(loc);
+
+	        // call to connect web socket
+	        // wsConnect(); 
+
+	        function wsConnect() {
+	            console.log("connect",wsUri);
+	            ws = new WebSocket(wsUri);
+	            //var line = "";    // either uncomment this for a building list of messages
+	            /*
+	            ws.onmessage = function(msg) {
+	                var line = "";  // or uncomment this to overwrite the existing message
+	                // parse the incoming message as a JSON object
+	                var data = msg.data;
+	                //console.log(data);
+	                // build the output from the topic and payload parts of the object
+	                line += "<p>"+data+"</p>";
+	                // replace the messages div with the new "line"
+	                document.getElementById('messages').innerHTML = line;
+	                //ws.send(JSON.stringify({data:data}));
+	            }
+	            */
+	            ws.onmessage = function(msg) {
+	            	// parsing messages 
+	                var data = msg.data;
+	                data = data.substr(1); 
+
+	                if (data.includes("carouselProcessing")) {
+		                data = data.replace(": ", "_");
+		                data = data.replace(" ", "(");
+		                data = data.replace("\r", ") //"); //final: carouselProcessing_SPIN(-100) //-100
+		                eval(data); // dangerous but effective 
+	                } else if (data.includes("bmlcycle")) {
+	                	data = data.replace("=", "(");
+	                	data = data + ")";
+						eval(data); 
+	                }	                                        
+	            }
+	            ws.onopen = function() {
+	                // update the status div with the connection status
+	                document.getElementById('status').innerHTML = 'Connected to ' + '<b>'+ wsUri+'</b>';
+	                //ws.send("Open for data");
+	                console.log("connected");
+	            }
+	            ws.onclose = function() {
+	                // update the status div with the connection status
+	                document.getElementById('status').innerHTML = "not connected";
+	                // in case of lost connection tries to reconnect every 3 secs
+	                setTimeout(wsConnect,3000);
+	            }
+	        }
+
+	        /////////////////// Data Processing //////////////////////
+	        function carouselProcessing_SPIN(steps){
+	        	console.log("carousel processing function called");
+	        	var rotation = steps / 1400.0; 
+	        	// call to animate 
+	        	var rotateCarousel = anime({ 
+					targets: "#incubator-image",
+					rotate: rotation + 'turn'
+				});
+	        }
+
+	        function bmlcycle_count(num) {
+	        	console.log("bmlcycle function called");
+	        	cycleCount = num; 
+	        }
+	        //////////////////////////////////////////////////////////
+
+	         // handler for SHOW response
+	        function handle_SHOW_response(arg){
+	                for(var propt in SHOW){
+	                    var textBox;
+	                    textBox = document.getElementById(propt);
+	                    if( textBox === null){}
+	                    else{
+	                        textBox.value = eval('arg.' + propt);
+	                    }
+	                }
+	            }
+	            
+	            function handle_RAW_SCAN_response(RAW_SCAN){
+	                var dataPoints=[];
+	                for (var i = 0; i < RAW_SCAN.length; i++) { 
+	                    dataPoints.push({y:RAW_SCAN[i]});
+	                }
+	                
+	                
+	                var chrt = document.getElementById('chartContainer');
+	                //var chart = new CanvasJS.Chart("chartContainer", {
+	                var chart = new CanvasJS.Chart(chrt, {
+
+	                    theme: "theme2",//theme1
+	                    backgroundColor: "#bcc4d1",
+	                    title:{
+	                        text: "Raw Spectrum",
+	                        fontFamily: 'Arial',
+	                        fontWeight: 'light',              
+	                    },
+	          
+	                      axisX:{
+	                        title: 'Wavelength',
+	                        titleFontFamily: 'Arial',
+	                        tickThickness: 1,
+	                        tickLength: 5,
+	                        gridThickness: 1,
+	                        lineThickness: 1
+
+	                      },
+
+	                      axisY:{
+	                        title: "AD count",
+	                        titleFontFamily: 'Arial',
+	                        tickThickness: 1,
+	                        tickLength: 5,
+	                        gridThickness: 1,
+	                        lineThickness: 1
+
+
+	                      },
+	                    animationEnabled: true,   // change to true
+	                    
+
+	                    data: [              
+	                    {
+	                        // Change type to "bar", "area", "spline", "pie",etc.
+	                        type: "line",
+	                        lineThickness: 1,
+	                        dataPoints: dataPoints
+	                    }
+	                    ]
+	                });
+	                chart.render();
+
+
+	                // TRY MAKING NEW TYPE OF CHART ////////////////////////////////////////
+	                  var container = document.getElementById('hoihoihoi');
+
+					  // var dataSet = new vis.DataSet(dataPoints); 
+					  // var options = {
+					 	//   start: '2014-06-10',
+		    	// 		  end: '2014-06-18'
+					  // }; 
+					  // var graph2d = new vis.Graph2d(container, dataset, options)
+
+					    // var container = document.getElementById('graph');
+						  var items = [
+						    {x: '2014-06-11', y: 10},
+						    {x: '2014-06-12', y: 25},
+						    {x: '2014-06-13', y: 30},
+						    {x: '2014-06-14', y: 10},
+						    {x: '2014-06-15', y: 15},
+						    {x: '2014-06-16', y: 30}
+						  ];
+
+						  var dataset = new vis.DataSet(items);
+						  var options = {
+						    start: '2014-06-10',
+						    end: '2014-06-18'
+						  };
+						  var graph2d = new vis.Graph2d(container, dataset, options)
+
+					  //////////////////////////////////////////////////////////////////////
+
+	            }       
+	                     
+	            
+	            // setCalibrationData() is used to push new calibration data into the MCU controlling the spec
+	       function specLightOnFunction(){
+
+	            topicName = '@spec';
+	            msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'on' + '</b>' ;
+	            msgToMachine = specPrefix +  ':' +  'WHITE 1' + ';' ;
+
+	            sendInterfaceMessage( msgToWeb, msgToMachine  );
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+	       function specUVOnFunction(){
+
+	            topicName = '@spec';
+	            msgToWeb = 'Spec <b> UV </b> Light is ' + '<b>'+ 'on' + '</b>' ;
+
+	            msgToMachine = specPrefix +  ':' +  'UVLASER 1' + ';' ;
+
+	            sendInterfaceMessage( msgToWeb, msgToMachine  );
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+	       function specUVOffFunction(){
+
+	            topicName = '@spec';
+	            msgToWeb = 'Spec <b> UV </b> Light is ' + '<b>'+ 'off' + '</b>' ;
+
+	            msgToMachine = specPrefix +  ':' +  'UVLASER 0' + ';' ;
+
+	            sendInterfaceMessage( msgToWeb, msgToMachine  );
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+
+	       function specShowFunction(){
+	            topicName = '@spec';
+	            msgToMachine = specPrefix +  ':' +  'SHOW' + ';' ;
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+	       function specStartFunction(){
+	            topicName = '@spec';
+	            msgToMachine = specPrefix +  ':' +  'START' + ';' ;
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+	       function specStopFunction(){
+	            topicName = '@spec';
+	            msgToMachine = specPrefix +  ':' +  'STOP' + ';' ;
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+	       function specRawSpectrumFunction(){
+
+	            topicName = '@spec';
+	            timeStamp = getFormattedDate();
+
+	            msgToWeb = '<b> Spectrometer reading @ </b>'  + timeStamp ;
+
+	            msgToMachine = specPrefix +  ':' +  'RAW_' + ';' ;
+
+	            sendInterfaceMessage( msgToWeb, ''  );
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+	       function specLightOffFunction(){
+
+	            topicName = '@spec';
+
+	            msgToWeb = 'Spec <b> White </b> Light is ' + '<b>'+ 'off' + '</b>' ;
+
+	            msgToMachine = specPrefix +  ':' +  'WHITE 0' + ';' ;
+
+	            sendInterfaceMessage( msgToWeb, msgToMachine  );
+	            sendMachineMessage( msgToMachine  );
+
+	       }
+
+	       function setSpecCalibrationButtonFunction(){
+	            
+	            topicName = '@spec';
+	            
+	            var message = ":CALIBRATE";
+	            message += " " + document.getElementById('serial').value;
+	            message += " " + document.getElementById('A0').value;
+	            message += " " + document.getElementById('B1').value;           
+	            message += " " + document.getElementById('B2').value;
+	            message += " " + document.getElementById('B3').value;
+	            message += " " + document.getElementById('B4').value;
+	            message += " " + document.getElementById('B5').value;
+	            message +=";"
+	            
+	            sendMachineMessage(message);
+	            }
+
+	            // setClockRate() is used to set a new clock rate
+	        
+	        function setClockPeriodButtonFunction(){
+	            
+	            topicName = '@spec';
+
+	            var message = ":CLOCK_PERIOD";
+	            message += " " + document.getElementById('clockPeriod').value + ';';
+	            sendMachineMessage(message);
+	            }
+	            
+	        function sendMachineMessage(m) {
+	                if (ws.readyState == 1) { ws.send(m); }
+	            }
+
+
+	        /*Functions added for GUI */
+	         
+	        function sendInterfaceMessage(m1, m2){
+
+	            document.getElementById("status").innerHTML =  "<span style=\"color:#355ea3\">" + m1 + "</span>" + '&nbsp &nbsp &nbsp &nbsp'+ "<span style=\"color:black\">" + m2 + "</span>"; ; 
+
+	        }
+
+	        function electroporatorLidButtonFunction(){
+
+	            action = $("#electroporatorLidPosition").children(":selected").attr("value");
+	            
+
+	            //OPEN or CLOSE
+	            
+	            msgToWeb = 'Electroporator lid is ' + '<b>'+ action.toUpperCase() + '</b>' ;
+	            msgToMachine = electroporatorPrefix +  ':' + action.toUpperCase() + ';' ;
+
+	            sendMachineMessage( msgToMachine  );
+	            sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	            
+	        }
+	   
+	        function electroporateButtonFunction(){
+
+	            setting = $("#transformationSetting").children(":selected").attr("value");
+	            
+
+	            //yeast vs. ecoli
+
+	            if (setting=='yeast'){
+	                
+	                msgToWeb = 'Transformation is prepared for ' + '<b>'+ setting.toUpperCase() + '</b>' ;
+	                msgToMachine = electroporatorPrefix +  ':' + 'FIRE' + ';';
+	            }
+	            else if (setting=='ecoli'){
+	                
+	                msgToWeb = 'Transformation is prepared for ' + '<b>'+ setting.toUpperCase() + '</b>' ;
+	                msgToMachine = electroporatorPrefix +  ':' + 'FIRE' + ';';             
+	            }
+	            
+
+	            //sendMachineMessage( msgToMachine  );
+	            sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	        }
+
+	        function carouselButtonFunction(){
+
+	                carouselNo = $("#carouselNo").children(":selected").attr("value");
+	                carouselStation = $("#carouselStation").children(":selected").attr("value");
+
+	                var carouselNoInt = parseInt(carouselNo) - 1 ;
+	                
+	                msgToWeb = 'Carousel: '+ '<b>' + carouselNoInt.toString() + '</b>' + ' moving to ' + '<b>'+carouselStation+'</b>' ;
+	                
+	                if (carouselStation != '4')
+	                    msgToMachine = carouselPrefix +  ':' + 'MOVE ' + carouselNoInt.toString() + ' ' +carouselStation +';' ;       
+	                else
+	                    msgToMachine = carouselPrefix +  ':' + 'HOME;' ;
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+
+	        }
+
+	        function pumpButtonFunction(){
+	                
+	                pumpDuration = $("#pumpDuration").children(":selected").attr("value");
+
+	                msgToWeb = 'Pump active for '+ '<b>' + pumpDuration + '</b>'+ ' milisecs.' ;
+	                msgToMachine = pumpPrefix +  ':' + 'PUMP ' + pumpDuration +';' ;       
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	        }
+
+
+	        function wheelPosButtonFunction(){
+	                
+	                
+	                wheelPosFree = document.getElementById('wheelPosFree').value;
+
+	                //check if input box has an input
+	                if (wheelPosFree.length > 0){
+	                wheelPos =  wheelPosFree;
+	                } 
+	                //else look at the value from dropdown
+	                else{
+	                 wheelPos = $("#wheelPosition").children(":selected").attr("value");
+	                }
+
+	                
+
+	                //"@wheel:set incustepper 0;"
+	                //msg = wheelprefix + ':set ' + 'incustepper' +  wheelNo;"
+	                //sendMachineMessage("@wheel:set incustepper 0;");
+
+	                msgToWeb = 'Incustepper to: '+ wheelPos ;
+	                msgToMachine = wheelPrefix +  ':' + 'set incustepper ' + wheelPos +';' ;       
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	                
+	         }
+
+	        function wheelSpeedButtonFunction(){
+	                
+	                
+	                wheelSpeed  = document.getElementById('wheelSpeed').value;
+	                
+	                //"@wheel:set incustepper 0;"
+	                //msg = wheelprefix + ':set ' + 'incustepper' +  wheelNo;"
+	                //sendMachineMessage("@wheel:set incustepper 0;");
+
+	                msgToWeb = 'Incustepper speed: '+ wheelSpeed ;
+	                msgToMachine = wheelPrefix +  ':' + 'set incuspeed ' + wheelSpeed +';' ;       
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	                
+	         }
+
+
+	        function syringeButtonFunction(){
+	                
+
+	                syringeNo = $("#syringeNo").children(":selected").attr("value");
+	                syringeAmount = $("#syringeAmount").children(":selected").attr("value");
+	                syringeAction = $("#syringeAction").children(":selected").attr("value");
+
+	                //@i2cSerialProxy:SY_E 17;
+	                if (syringeAction=='extend') 
+	                	msgToMachine = syringeProxyPrefix + ':' + 'SY' + '_E ' + syringeNo +';' ;
+	                else if (syringeAction=='retract')
+						msgToMachine = syringeProxyPrefix + ':' + 'SY' + '_Z ' + syringeNo +';' ;
+
+					msgToWeb = 'Syringe # ' + syringeNo + ' ' +syringeAction + ' ' + syringeAmount + ' ml.'
+	                document.getElementById("status").innerHTML =   "<span style=\"color:#355ea3\">" + msgToWeb; + "</span>"; 
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	                
+	                
+	         }
+
+	        function plungerButtonFunction(){
+	                
+
+	                syringeNo = $("#syringeNo").children(":selected").attr("value");
+	                syringeAmount = $("#syringeAmount").children(":selected").attr("value");
+
+	                //@i2cSerialProxy:PL_M 17 10;
+	                msgToMachine = syringeProxyPrefix + ':' + 'PL_M' + ' ' +syringeNo + ' ' + syringeAmount + ';' ;
+
+
+	                msgToWeb = 'Syringe # ' + syringeNo + ' ' + syringeAmount + ' dispensed'
+	                document.getElementById("status").innerHTML =   "<span style=\"color:#355ea3\">" + msgToWeb; + "</span>"; 
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	                
+	                
+	         }
+
+
+	        function mediaMagazineButtonFunction(){
+	                
+
+	                mediaMagazinePosition = $("#mediaType").children(":selected").attr("value");
+
+	                //msgToMachine = purifierPrefix +  ':' + 'set magazine ' + mediaMagazinePosition + ';' ;  
+	                msgToMachine = purifierPrefix +  ':' + 'SPIN ' + mediaMagazinePosition + ';' ;
+
+	                msgToWeb = 'Media magazine is moving to ' + mediaMagazinePosition;
+	                document.getElementById("status").innerHTML =   "<span style=\"color:#355ea3\">" + msgToWeb; + "</span>"; 
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	                
+	         }
+
+	        function centrifugeButtonFunction(){
+
+	            speed = $("#centrifugeSpeed").children(":selected").attr("value");
+
+
+	            msgToWeb = 'Centrifuge Speed is ' + speed;
+	            document.getElementById("status").innerHTML =   "<span style=\"color:#355ea3\">" + msgToWeb; + "</span>"; 
+
+	            //The new centrifuge code accepts :CENT <speed>;
+	            //msgToMachine = purifierPrefix +  ':' + 'set centrifuge ' + speed + ';' ;
+	            msgToMachine = purifierPrefix +  ':' + 'CENT ' + speed + ';' ;
+
+	            sendMachineMessage(msgToMachine);
+	            sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+
+	        }
+	          
+
+
+	         function getIncuTempButtonFunction(){
+
+	                topicName = '@incubator';
+
+	                //msgToWeb = 'Incubator Temp is <b>' + currentTemp +  '</b>'; 
+	                msgToMachine = tempPrefix +  ':' + 'get temp 0;' ;   
+
+	                sendMachineMessage(msgToMachine);
+	                //sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+
+	                //sendMachineMessage("@heater:set heater 1;");
+	         }  
+
+	         function heaterButtonOnFunction(){
+
+	                msgToWeb = 'Heater is <b>On</b>'; 
+	                msgToMachine = heaterPrefix +  ':' + 'set heater 1;' ;   
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+
+	                //sendMachineMessage("@heater:set heater 1;");
+	         }  
+
+	         function heaterButtonOffFunction(){
+
+	                msgToWeb = 'Heater is <b>Off</b>'; 
+	                msgToMachine = heaterPrefix +  ':' + 'set heater 0;' ;   
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage ( msgToWeb, msgToMachine ) ;
+	         } 
+
+	         function sendRawCommandFunction(){
+
+	                msgToMachine = document.getElementById('rawCommandForDebug').value;
+	                msgToWeb = 'Debug: ' + msgToMachine ;
+
+	                sendMachineMessage(msgToMachine);
+	                sendInterfaceMessage (msgToWeb, msgToMachine ) ;
+
+	         } 
+
+	         function getFormattedDate() {
+	                var date = new Date();
+
+	                var month = date.getMonth() + 1;
+	                var day = date.getDate();
+	                var hour = date.getHours();
+	                var min = date.getMinutes();
+	                var sec = date.getSeconds();
+
+	                month = (month < 10 ? "0" : "") + month;
+	                day = (day < 10 ? "0" : "") + day;
+	                hour = (hour < 10 ? "0" : "") + hour;
+	                min = (min < 10 ? "0" : "") + min;
+	                sec = (sec < 10 ? "0" : "") + sec;
+
+	                var str =  hour + ":" + min + ":" + sec + "   " + date.getFullYear() + "-" + month + "-" + day ;
+	                //var str = day + "_" +  hour + ":" + min + ":" + sec;
+
+	                /*alert(str);*/
+
+	                return str;
+				}
+ 		</script>
+
+		<script type="text/javascript">
+		  var wavelengths = null;
+		  var chart; 
+
+		  // Create a client instance
+		  // client = new Paho.MQTT.Client("m11.cloudmqtt.com", 36025, "web_" + parseInt(Math.random() * 100, 10));
+		  client = new Paho.MQTT.Client("m11.cloudmqtt.com", 36025, "web_" + parseInt(Math.random() * 100, 10));
+
+		  // set callback handlers
+		  client.onConnectionLost = onConnectionLost;
+		  client.onMessageArrived = onMessageArrived;
+		  var options = {
+		    useSSL: true,
+		    userName: "gdowfqda",
+		    password: "GleM9oIvIuao",
+		    onSuccess:onConnect,
+		    onFailure: doFail
+		  }
+
+		  // connect the client
+		  client.connect(options);
+
+		  // called when the client connects
+		  function onConnect() {
+		    // Once a connection has been made, make a subscription and send a message.
+		    console.log("onConnect andrea");
+		    client.subscribe("directory/#"); // the messages that this client subscribes to
+		    message = new Paho.MQTT.Message("Biolab Page Loaded");
+		    message.destinationName = "directory/initialize";
+		    client.send(message); 
+		  }
+
+		  function doFail(e){
+		    console.log(e);
+		  }
+
+		  // called when the client loses its connection
+		  function onConnectionLost(responseObject) {
+		    if (responseObject.errorCode !== 0) {
+		      console.log("onConnectionLost:"+responseObject.errorMessage);
+		    }
+		  }
+
+		  // called when a message arrives
+		  function onMessageArrived(message) {
+		    console.log("onMessageArrived:"+ message.payloadString);
+
+		    // parsing message received from CloudMQTT 
+		    var data = message.payloadString; 
+		    data = data.substr(1); 
+
+	        if (data.includes("carouselProcessing")) {
+		        data = data.replace(": ", "_");
+		        data = data.replace(" ", "(");
+		        data = data.replace("\r", ") //"); // CHANGE BACK TO: ("\r", ") //")
+		        eval(data); // dangerous but effective 
+	        } else if (data.includes("bmlcycle")) {
+	            data = data.replace("=", "(");
+	            data += ")";
+				eval(data); 
+	        } else if (data.includes("WAVELENGTHS")) {
+	        	data = data.substr(6); 
+	        	data = data.replace("=","(");
+	        	data += ")";
+	        	eval(data); // calls WAVELENGTHS(arg)   
+				// cut out everything up to the NM
+	        } else if (data.includes("RAW_SCAN")) {
+	        	data = data.substr(6);
+	        	data = data.replace("=","("); 
+	            data = data + ")"; 
+				eval(data); 
+	        }
+		  }
+
+		  // handler for WAVELENGTHS response
+		  function WAVELENGTHS(arg) {
+		  	wavelengths = arg.NM; // get NM member from response
+		  }
+
+		  // handler for RAW_SCAN response
+		  function RAW_SCAN(arg) {
+		  	var dataPoints = []; 
+		  	for (var i = 0 ; i < arg.length; i++) {
+		  		if (wavelengths === null) {
+		  			dataPoints.push({y:arg[i]});
+		  		}
+		  		else {
+		  			dataPoints.push({y:arg[i], x:wavelengths[i]});
+		  		}
+		  	}
+
+		  	// set x axis title
+		  	// if wavelengths unknown, label will be "bin number"
+		  	// else label will be wavelength (nm) 
+		  	var xAxisTitle = (wavelengths === null) ? "bin number" : "Wavelength (nm)";
+				
+				chart = new CanvasJS.Chart("chartContainer", {
+					theme: "theme2",//theme1
+					title:{
+						text: "Raw Spectrum Readings"              
+					},
+					animationEnabled: true,   // change to true
+					axisX:{
+						title:xAxisTitle
+					},
+					axisY:{
+						title: "Raw A/D Counts"
+					},
+					data: [              
+					{
+						// Change type to "bar", "area", "spline", "pie",etc.
+						type: "line",
+						dataPoints: dataPoints
+					}
+					]
+				});
+				chart.render();
+		  }
+
+		</script>
+
+		<title> biomakerlab </title>
+   		<meta charset="utf-8"> 
+  	    <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="src/main-style.css">
+		<script type="text/javascript" src="anime.min.js"></script>
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	</head>
+
+	<body id="myPage" data-spy="scroll" data-target=".navbar" >
+	  <div class="jumbotron text-center" style="background-color: #f9f9f9; margin-bottom:0;">
+
+	    <h1 style="font-family: Josefin Slab; letter-spacing: 3px"><br><br><strong>bio.maker.lab</strong></h1> 
+<!-- 	    <h4 style="font-family: Josefin Sans; text-transform: uppercase; font-size:14px">Get started using the Bio.Maker.Lab machine. <br><br></h4>  -->
+
+	    <p style="font-family: Josefin Slab; text-transform: lowercase; font-size: 17px; text-align: center">  
+	    	<strong> - choose your current project - </strong> <br>
+	    	<button class="project-button">  biologo </button> &nbsp;
+	    	<button class="project-button">  biodesign </button> &nbsp;
+	    	<button class="project-button">  biocakes </button> <br><br><br><br>
+		</p>  
+
+ 	    	<a class="begin-button" href="#step1"> Begin 
+	    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br></p>
+	    	
+	  <p> <br><br><br><br><br> </p> </div> 
+
+	  <!-- navigation bar --> 
+		<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #f9f9f9; border: 1; border-color: black;">
+		  <div class="container">
+		    <div class="navbar-header">
+		      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span> 
+		      </button>
+		      <a class="navbar-brand" href="#myPage" style="font-family: Josefin Slab">bio.maker.lab</a>
+		    </div>
+		    <div class="collapse navbar-collapse" id="myNavbar">
+		      <ul class="nav navbar-nav navbar-right">
+		        <li><a href="#step1">Transform</a></li>
+		        <li><a href="#step2">Incubate</a></li>
+		        <li><a href="#step3">Analyze</a></li>
+		        <li><a href="http://google.com" class="external">Questions</a></li>
+		      </ul>
+		    </div>
+		  </div>
+		</nav>
+
+		<!-- <div class="container">  -->
+			<div class="container-fluid" style="background-color:#e8efe8"  id="step1">
+				<h4 class="row text-center"> <br><br><br>  - step 1 -</h4> 
+				<h2 class="row text-center"> <strong>TRANSFORM </strong> </h2>  		
+				<p class="row text-center"> <br>transform the bacteria <br> 
+					delicious, delicious bacteria
+					ready to multiply
+					<br><br><br><br><br><br><br><br><br>
+					<br><br><br><br><br><br><br><br><br>
+					<br><br><br><br><br><br></p>
+				<a class="begin-button" href="#step2" style="float:right;"> Next 
+	    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br><br></p>
+			</div>
+
+			<div class="container-fluid" style="background-color:#dbe0db" id="step2">
+				<h4 class="row text-center"> <br><br><br>- step 2 -</h4> 
+				<h2 class="row text-center"> <strong>INCUBATE</strong> </h2>  		
+
+				<!-- buttons -->
+				<div class="row text-center"> 
+					<p> <br>SET TEMPERATURE: &nbsp; &nbsp;   
+						<select onclick="setTemp()" class="button">
+						  <option value="30">30 DEGREES</option>
+						  <option value="33">33 DEGREES</option>
+						  <option value="36">36 DEGREES</option>
+						  <option value="39">39 DEGREES</option>
+						</select>
+					</p>  <br>
+				<button class="button" onclick="beginButton()" class="start"> Begin Growth </button>
+				&nbsp;
+				<button class="button" onclick="stopButton()" class="stop"> Stop Growth </button>
+				<br>
+				<!-- <button type="button" onclick="numCycles()"> num cycles: </button> -->
+				</div> 
+				<div class="row text-center"> 
+					<br>
+					<object id="incubator-image" width="400" data="graphics/incubator-2-black.svg" type="image/svg+xml"></object>
+				</div>
+				<a class="begin-button" href="#step3" style="float:right;"> Next 
+	    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br><br></p>
+			</div>
+
+			<div class="container-fluid bg-grey" style="background-color:#dee3ed" id="step3"> <!-- original blue: bcc4d1 --> <!-- original green: a4aaa3 -->
+				<h4 class="row text-center"> <br><br><br>- step 3 -</h4> 
+				<h2 class="row text-center"><strong> DATA ANALYSIS</strong> </h2>  	
+
+				<div class="row text-center"> 
+				  <p> <br> <button class="button" onclick="updateSyringeReads()"> Update Readings </button> <br><br><br><br></p>
+				</div>
+				  <div class="row text-center">
+
+
+ 				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				      	<p>SYRINGE 1</p>
+				        <div class="circle"><br><br> OD growth curve (temp) </div>
+				      </div>
+				    </div>
+				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				      	<p>SYRINGE 2</p>
+				        <div class="circle"><br><br> OD growth curve (temp) </div>				     
+				      </div>
+				    </div>
+				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				      	<p>SYRINGE 3</p>
+				        <div class="circle"><br><br> OD growth curve (temp)</div>
+				      </div>
+				    </div>
+				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				      	<p>SYRINGE 4</p>
+				        <div class="circle"><br><br> OD growth curve (temp) </div>
+				      </div>
+				    </div>
+
+
+				<p> <br><br><br><br><br><br><br><br><br><br><br><br> </p>
+<!-- 				<div id="chartContainer" style="height: 250px; width: 90%; margin-left: 5%;" class="row text-center"> </div> chart --> 
+
+				<div class="container">
+				  <!-- Trigger the modal with a button -->
+				  <button type="button" class="button" data-toggle="modal" data-target="#myModal">  Raw Spectrum Results  </button>
+
+				  <!-- Modal -->
+				  <div class="modal fade" id="myModal" role="dialog">
+				    <div class="modal-dialog" style="width: 90%;">
+				    
+				      <!-- Modal content-->
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title"> - results - </h4>
+				        </div>
+				        <div class="modal-body">
+				         <div id="chartContainer" style="height: 250px; width: 90%; margin-left: 25%;" class="row text-center"> </div>        </div>
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        </div>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<p> <br><br><br><br><br><br><br><br><br><br><br><br> </p>
+			</div>
+
+
+<!-- testing -->
+			<div class="container-fluid bg-grey" style="background-color:#fff" id="stepx"> 
+				<h4 class="row text-center"> <br><br><br>- step x -</h4> 
+				<h2 class="row text-center"><strong> TESTING </strong> </h2>  	
+
+				<div id="incubator-demo"> 
+					<!-- total incubator --> 
+ 					<object x="10" y="10" class="test-2" id="base" width="500" data="graphics/incubator-3.svg" type="image/svg+xml"></object>
+ 					<div id="incubator-demo-parts">
+	 					<!-- transparent syringe --> 
+	 					<object  x="10" y="10" class="test-2" id="s1" width="35" data="graphics/syringe-3-1.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="test-2" id="s2" width="137" data="graphics/syringe-3-2.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="test-2" id="s3" width="35" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="test-2" id="s4" width="137" data="graphics/syringe-3-4.svg" type="image/svg+xml"></object>
+
+						<!-- special color syringe  --> 
+	 					<object  x="10" y="10" class="test-2" id="e1" width="35" data="graphics/ecoli-1.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="test-2" id="e2" width="137" data="graphics/ecoli-2.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="test-2" id="e3" width="35" data="graphics/ecoli-3.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="test-2" id="e4" width="137" data="graphics/ecoli-4.svg" type="image/svg+xml"></object>
+					</div>
+				</div> 
+
+
+					<!-- trying out the opacity --> 
+					<object  x="10" y="10" id="syringe-test-1" class="test-1" width="40" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
+					<object  x="10" y="10" id="syringe-test-2" class="test-1" width="40" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
+					<object  x="10" y="10" id="syringe-test-3" class="test-1" width="40" data="graphics/ecoli-3.svg" type="image/svg+xml"></object>
+
+
+				// <script>
+				// var element = document.getElementById("base");
+				// element.appendChild(document.getElementById("base"));
+				// console.log("ok: " + document.getElementById("e1").parentNode.nodeName);
+				// </script>
+
+
+				<p> <br><br><br> <br><br><br> <br><br><br> </p>
+			</div>
+		</div>
+
+		<!-- </div>  -->
+
+	</body>
+
+	<script type="text/javascript">
+		  // default graph
+		  chart = new CanvasJS.Chart("chartContainer", {
+					theme: "theme2",//theme1
+					backgroundColor: "#bcc4d1",
+					title:{
+						text: "Raw Spectrum Readings"              
+					},
+					// animationEnabled: false,   // change to true
+					axisX:{
+						title:"Wavelength (nm)",
+						minimum: 0,
+						maximum: 800
+					},
+					axisY:{
+						title: "Raw A/D Counts",
+						minimum: 0,
+						maximum: 40000
+					},
+					data: [              
+					{
+						type: "line",
+					}
+					]
+				});
+   			    chart.render();
+	</script>
+	<script type="text/javascript" src="src/main.js"></script>
+</html>
+
