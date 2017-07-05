@@ -1,45 +1,36 @@
 /* base incubator */ 
-.test-2 {
+.vis {
     position:absolute;
-    top: 3400px;
+    top: 4000px;
     left: 200px;
 }
 
 /* top incubator */ 
 #s1, #e1 {
-	top: 3465px;
+	top: 4065px;
 	left: 438px;
 }
 
 /* right incubator */ 
 #s2, #e2 {
-	top: 3632px;
+	top: 4232px;
 	left: 502px;
 }
 
 /* bottom incubator */ 
 #s3, #e3 {
-	top: 3702px;
+	top: 4302px;
 	left: 443px;
 }
 
 /* left incubator */ 
 #s4, #e4 {
-	top: 3636px;
+	top: 4236px;
 	left: 267px;
 }
 
-#base {
-	/*z-index: -1; */
-}
-
-
-
-
-
-
 /* syringe color test */ 
-.test-1 {
+/*.test-1 {
 	position:absolute; 
 	top:3200px;
 }
@@ -47,7 +38,7 @@
 #syringe-test-1 {
 	left: 200px;
 	color: black;
-	/*background-color: black; */
+	background-color: black; 
 }
 
 #syringe-test-2 {
@@ -59,10 +50,7 @@
 	z-index: 0.4;
 	color:black;
 }
-
-
-
-
+*/
 
 
 

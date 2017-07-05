@@ -721,14 +721,15 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</head>
 
-	<body id="myPage" data-spy="scroll" data-target=".navbar" >
+	<body id="myPage" data-spy="scroll" data-target=".navbar" 
+	onload="startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), draw()">
 	  <div class="jumbotron text-center" style="background-color: #f9f9f9; margin-bottom:0;">
 
 	    <h1 style="font-family: Josefin Slab; letter-spacing: 3px"><br><br><strong>bio.maker.lab</strong></h1> 
-<!-- 	    <h4 style="font-family: Josefin Sans; text-transform: uppercase; font-size:14px">Get started using the Bio.Maker.Lab machine. <br><br></h4>  -->
+	    <!-- <h4 style="font-family: Josefin Sans; text-transform: uppercase; font-size:14px">Get started using the Bio.Maker.Lab machine. <br><br></h4>  -->
 
-	    <p style="font-family: Josefin Slab; text-transform: lowercase; font-size: 17px; text-align: center">  
-	    	<strong> - choose your current project - </strong> <br>
+	    <p style="font-family: Josefin Sans; text-transform: lowercase; font-size: 16px; text-align: center">  
+	    	<strong> choose your current project: </strong> <br>
 	    	<button class="project-button">  biologo </button> &nbsp;
 	    	<button class="project-button">  biodesign </button> &nbsp;
 	    	<button class="project-button">  biocakes </button> <br><br><br><br>
@@ -766,8 +767,7 @@
 				<h4 class="row text-center"> <br><br><br>  - step 1 -</h4> 
 				<h2 class="row text-center"> <strong>TRANSFORM </strong> </h2>  		
 				<p class="row text-center"> <br>transform the bacteria <br> 
-					delicious, delicious bacteria
-					ready to multiply
+					multiply bacteria
 					<br><br><br><br><br><br><br><br><br>
 					<br><br><br><br><br><br><br><br><br>
 					<br><br><br><br><br><br></p>
@@ -777,7 +777,10 @@
 
 			<div class="container-fluid" style="background-color:#dbe0db" id="step2">
 				<h4 class="row text-center"> <br><br><br>- step 2 -</h4> 
-				<h2 class="row text-center"> <strong>INCUBATE</strong> </h2>  		
+				<h2 class="row text-center"> <strong>INCUBATE</strong> </h2> 
+
+
+
 
 				<!-- buttons -->
 				<div class="row text-center"> 
@@ -799,6 +802,36 @@
 					<br>
 					<object id="incubator-image" width="400" data="graphics/incubator-2-black.svg" type="image/svg+xml"></object>
 				</div>
+
+
+				<!-- OD TIMING VIS --> 
+				<div class="row text-center">
+					<div id="realTimeOD"> </div> 
+ 				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				        <div id="od-1" class="circle" onclick="disRealTimeOD(1)"><br><br> click for syringe 1 reading </div>
+				      </div>
+				    </div>
+				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				        <div id="od-2" class="circle" onclick="disRealTimeOD(2)"><br><br> click for syringe 2 reading </div>				     
+				      </div>
+				    </div>
+				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				        <div id="od-3" class="circle" onclick="disRealTimeOD(3)"><br><br> click for syringe 3 reading</div>
+				      </div>
+				    </div>
+				    <div class="col-sm-3">
+				      <div class="thumbnail-holder">
+				        <div id="od-4" class="circle" onclick="disRealTimeOD(4)"><br><br> click for syringe 4 reading </div>
+				      </div>
+				    </div>
+				</div> 
+
+				<div id="pieChart" style="height: 200px; width: 25%;"></div>
+				<!-- <button id="updateDataPoint">Update Data Point</button>   -->
+
 				<a class="begin-button" href="#step3" style="float:right;"> Next 
 	    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br><br></p>
 			</div>
@@ -808,39 +841,52 @@
 				<h2 class="row text-center"><strong> DATA ANALYSIS</strong> </h2>  	
 
 				<div class="row text-center"> 
-				  <p> <br> <button class="button" onclick="updateSyringeReads()"> Update Readings </button> <br><br><br><br></p>
+				  <p> <br> <button class="button" onclick="updateSyringeReads()"> Update All Readings </button> <br><br><br><br></p>
 				</div>
 				  <div class="row text-center">
 
 
  				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<p>SYRINGE 1</p>
-				        <div class="circle"><br><br> OD growth curve (temp) </div>
+				      	<p>history curve SYRINGE 1</p>
+				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
+						<button id="addDataPoint-1" class="button">Update History</button>  
+						<br><br> <div id="visualization-1"></div>
+
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<p>SYRINGE 2</p>
-				        <div class="circle"><br><br> OD growth curve (temp) </div>				     
+				      	<p>history curve SYRINGE 2</p>
+				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->	
+				        <button id="addDataPoint-2" class="button">Update History</button>  
+				        <br><br> <div id="visualization-2"></div>
+
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<p>SYRINGE 3</p>
-				        <div class="circle"><br><br> OD growth curve (temp)</div>
+				      	<p>history curve SYRINGE 3</p>
+				        <!-- <div class="circle"><br><br> history curve (temp)</div> -->
+				        <button id="addDataPoint-3" class="button">Update History</button>  
+				        <br><br> <div id="visualization-3"></div>
+
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<p>SYRINGE 4</p>
-				        <div class="circle"><br><br> OD growth curve (temp) </div>
+				      	<p>history curve SYRINGE 4</p>
+				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
+				        <button id="addDataPoint-4" class="button">Update History</button>  
+				        <br><br> <div id="visualization-4"></div>
+
 				      </div>
 				    </div>
 
+				<p> <br><br><br><br><br><br><br><br><br><br><br> </p>
+				<p> <br><br><br><br><br><br><br><br><br><br> </p>
+				<p> <br><br><br><br><br><br><br><br><br><br> </p>
 
-				<p> <br><br><br><br><br><br><br><br><br><br><br><br> </p>
-<!-- 				<div id="chartContainer" style="height: 250px; width: 90%; margin-left: 5%;" class="row text-center"> </div> chart --> 
 
 				<div class="container">
 				  <!-- Trigger the modal with a button -->
@@ -876,45 +922,182 @@
 
 				<div id="incubator-demo"> 
 					<!-- total incubator --> 
- 					<object x="10" y="10" class="test-2" id="base" width="500" data="graphics/incubator-3.svg" type="image/svg+xml"></object>
+<!--  					<object x="10" y="10" class="vis" id="base" width="500" data="graphics/incubator-3.svg" type="image/svg+xml"></object>
  					<div id="incubator-demo-parts">
-	 					<!-- transparent syringe --> 
-	 					<object  x="10" y="10" class="test-2" id="s1" width="35" data="graphics/syringe-3-1.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="test-2" id="s2" width="137" data="graphics/syringe-3-2.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="test-2" id="s3" width="35" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="test-2" id="s4" width="137" data="graphics/syringe-3-4.svg" type="image/svg+xml"></object>
+ -->	 					<!-- transparent syringe --> 
+<!-- 	 					<object  x="10" y="10" class="vis" id="s1" width="35" data="graphics/syringe-3-1.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="vis" id="s2" width="137" data="graphics/syringe-3-2.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="vis" id="s3" width="35" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="vis" id="s4" width="137" data="graphics/syringe-3-4.svg" type="image/svg+xml"></object>
 
-						<!-- special color syringe  --> 
-	 					<object  x="10" y="10" class="test-2" id="e1" width="35" data="graphics/ecoli-1.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="test-2" id="e2" width="137" data="graphics/ecoli-2.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="test-2" id="e3" width="35" data="graphics/ecoli-3.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="test-2" id="e4" width="137" data="graphics/ecoli-4.svg" type="image/svg+xml"></object>
-					</div>
+ -->						<!-- special color syringe  --> 
+<!-- 	 					<object  x="10" y="10" class="vis" id="e1" width="35" data="graphics/ecoli-1.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="vis" id="e2" width="137" data="graphics/ecoli-2.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="vis" id="e3" width="35" data="graphics/ecoli-3.svg" type="image/svg+xml"></object>
+						<object  x="10" y="10" class="vis" id="e4" width="137" data="graphics/ecoli-4.svg" type="image/svg+xml"></object>
+ -->					</div>
 				</div> 
 
+				<canvas id="canvas" style="border:2px solid black;" width="200" height="200">
+				</canvas>
 
-					<!-- trying out the opacity --> 
-					<object  x="10" y="10" id="syringe-test-1" class="test-1" width="40" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
-					<object  x="10" y="10" id="syringe-test-2" class="test-1" width="40" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
-					<object  x="10" y="10" id="syringe-test-3" class="test-1" width="40" data="graphics/ecoli-3.svg" type="image/svg+xml"></object>
+				 <script>
+					// anime({ 
+					//  targets: ['#base'],
+					//  rotate: '.25turn',
+					//  loop: true
+					// });
+
+function draw() {
+  var ctx = document.getElementById('canvas').getContext('2d');
+  var img = new Image();
+  img.onload = function() {
+    ctx.drawImage(img, 0, 0);
+    ctx.beginPath();
+    ctx.moveTo(30, 96);
+    ctx.lineTo(70, 66);
+    ctx.lineTo(103, 76);
+    ctx.lineTo(170, 15);
+    ctx.stroke();
+  };
+  img.src = 'graphics/BASE.png';;
+}
+// img.src = 'graphics/ecoli-4.svg'; // Set source path
+				 </script>
 
 
-				// <script>
-				// var element = document.getElementById("base");
-				// element.appendChild(document.getElementById("base"));
-				// console.log("ok: " + document.getElementById("e1").parentNode.nodeName);
-				// </script>
+
 
 
 				<p> <br><br><br> <br><br><br> <br><br><br> </p>
-			</div>
 		</div>
 
-		<!-- </div>  -->
+		<!-- </div>  s-->
 
 	</body>
 
-	<script type="text/javascript">
+<script type="text/javascript">
+	// SYRINGE 1 OD HISTORY 
+	var chart1 = new CanvasJS.Chart("visualization-1", { 
+		title: {
+			// text: "Syringe 1 OD History"
+		},
+		data: [
+		{
+			type: "line",
+			dataPoints: [
+				{ x: 0, y: 0 },	
+			]
+		}
+		]
+	});
+	chart1.render();	
+
+	$("#addDataPoint-1").click(function () {
+
+	var length = chart1.options.data[0].dataPoints.length;
+	// chart1.options.title.text = "New DataPoint Added at the end";
+	chart1.options.data[0].dataPoints.push({x: getTime(), y: getODRead(1)});
+	chart1.render();
+
+	});
+
+	// SYRINGE 2 OD HISTORY 
+	var chart2 = new CanvasJS.Chart("visualization-2", { 
+		title: {
+			// text: "Syringe 2 OD History"
+		},
+		data: [
+		{
+			type: "line",
+			dataPoints: [
+				{ x: 0, y: 0 },	
+			]
+		}
+		]
+	});
+	chart2.render();	
+
+	$("#addDataPoint-2").click(function () {
+
+	var length = chart2.options.data[0].dataPoints.length;
+	// chart2.options.title.text = "New DataPoint Added at the end";
+	chart2.options.data[0].dataPoints.push({x: getTime(), y: getODRead(2)});
+	chart2.render();
+
+	});
+
+	// SYRINGE 3 OD HISTORY 
+	var chart3 = new CanvasJS.Chart("visualization-3", { 
+		title: {
+			// text: "Syringe 3 OD History"
+		},
+		data: [
+		{
+			type: "line",
+			dataPoints: [
+				{ x: 0, y: 0 },	
+			]
+		}
+		]
+	});
+	chart3.render();	
+
+	$("#addDataPoint-3").click(function () {
+
+	var length = chart3.options.data[0].dataPoints.length;
+	// chart3.options.title.text = "New DataPoint Added at the end";
+	chart3.options.data[0].dataPoints.push({x: getTime(), y: getODRead(3)});
+	chart3.render();
+
+	});
+
+	// SYRINGE 4 OD HISTORY 
+	var chart4 = new CanvasJS.Chart("visualization-4", { 
+		title: {
+			// text: "Syringe 4 OD History"
+		},
+		data: [
+		{
+			type: "line",
+			dataPoints: [
+				{ x: 0, y: 0 },	
+			]
+		}
+		]
+	});
+	chart4.render();	
+
+	$("#addDataPoint-4").click(function () {
+
+	var length = chart4.options.data[0].dataPoints.length;
+	// chart4.options.title.text = "New DataPoint Added at the end";
+	chart4.options.data[0].dataPoints.push({x: getTime(), y: getODRead(4)});
+	chart4.render();
+
+	});
+
+
+	// REAL TIME OD PIE CHART (try)
+	var pieChart1 = new CanvasJS.Chart("pieChart",
+		{
+			data: [
+			{        
+				type: "doughnut",
+				startAngle: -70,                          
+				toolTipContent: "{legendText}: {y} - <strong>#percent% </strong>", 					
+				showInLegend: false,
+				dataPoints: [
+					{y: 0, indexLabel: "S1 reading (try)", legendText: "OD" },
+					{y: 60, legendText: "nah" },
+				]
+				}
+				]
+		});
+	pieChart1.render();
+
+
+	// RAW SPECTRUM GRAPH 
 		  // default graph
 		  chart = new CanvasJS.Chart("chartContainer", {
 					theme: "theme2",//theme1

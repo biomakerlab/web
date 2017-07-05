@@ -4,6 +4,67 @@
 //  loop: true
 // });
 
+// global variables 
+var timer; 
+var seconds = 0; 
+
+// timing events (OD readings) 
+function startTime() {
+  var today = new Date();
+  timer = today; 
+  var s = today.getSeconds();
+  document.getElementById('realTimeOD').innerHTML = "CURRENT TIME: " + s;
+  var t = setTimeout(startTime, 500);
+}
+
+// TODO: change
+function getTime() {
+  return timer.getSeconds(); 
+}
+
+// TODO: convert OD to meaningful values  
+function getODRead(sIndex) {
+    if (sIndex == 1) {
+      return getTime() + (Math.random() * 1.50); 
+  } else if (sIndex == 2) {
+    return getTime() + (Math.random() * 1.50); 
+  } else if (sIndex == 3) {
+    return getTime() + (Math.random() * 1.50); 
+  } else {
+    return getTime() + (Math.random() * 1.50); 
+  }
+}
+
+
+function disRealTimeOD(sIndex) {
+  var pseudoVal = getODRead(sIndex);  
+  pseudoVal = pseudoVal.toFixed(2);
+
+  if (sIndex == 1) {
+    document.getElementById('od-1').innerHTML = "<br><br> SYRINGE 1: <br>" + pseudoVal;
+    setTimeout(function() {
+    disRealTimeOD(1);
+  }, 500)
+  } else if (sIndex == 2) {
+    document.getElementById('od-2').innerHTML = "<br><br> SYRINGE 2: <br>" + pseudoVal;
+    setTimeout(function() {
+    disRealTimeOD(2);
+  }, 500)
+  } else if (sIndex == 3) {
+    document.getElementById('od-3').innerHTML = "<br><br> SYRINGE 3: <br>" + pseudoVal;
+    setTimeout(function() {
+    disRealTimeOD(3);
+  }, 500)
+  } else {
+    document.getElementById('od-4').innerHTML = "<br><br> SYRINGE 4: <br>" + pseudoVal; 
+    setTimeout(function() {
+    disRealTimeOD(4);
+  }, 500)
+  }
+
+}
+
+
 // animating e.coli color using opacity 
 for (var i = 0; i < 10; i++) {
   $("#syringe-test-3").animate({ opacity: 0}, 4000); 
@@ -14,8 +75,6 @@ for (var i = 0; i < 10; i++) {
     $("#e" + i).animate({opacity: 1}, 1000); 
   }
 }
-
-// console.log(anime.easings); 
 
 // buttons
 function beginButton() {
@@ -51,7 +110,7 @@ function numCycles() {
 }
 
 function updateSyringeReads() {
-  window.alert("Update Readings Button Clicked"); 
+  console.log("Update Readings Button Clicked"); 
 }
 
 // GO TO EXTERNAL LINK
