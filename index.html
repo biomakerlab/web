@@ -920,59 +920,85 @@
 				<h4 class="row text-center"> <br><br><br>- step x -</h4> 
 				<h2 class="row text-center"><strong> TESTING </strong> </h2>  	
 
-				<div id="incubator-demo"> 
-					<!-- total incubator --> 
-<!--  					<object x="10" y="10" class="vis" id="base" width="500" data="graphics/incubator-3.svg" type="image/svg+xml"></object>
- 					<div id="incubator-demo-parts">
- -->	 					<!-- transparent syringe --> 
-<!-- 	 					<object  x="10" y="10" class="vis" id="s1" width="35" data="graphics/syringe-3-1.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="vis" id="s2" width="137" data="graphics/syringe-3-2.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="vis" id="s3" width="35" data="graphics/syringe-3-3.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="vis" id="s4" width="137" data="graphics/syringe-3-4.svg" type="image/svg+xml"></object>
-
- -->						<!-- special color syringe  --> 
-<!-- 	 					<object  x="10" y="10" class="vis" id="e1" width="35" data="graphics/ecoli-1.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="vis" id="e2" width="137" data="graphics/ecoli-2.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="vis" id="e3" width="35" data="graphics/ecoli-3.svg" type="image/svg+xml"></object>
-						<object  x="10" y="10" class="vis" id="e4" width="137" data="graphics/ecoli-4.svg" type="image/svg+xml"></object>
- -->					</div>
+				<div class="row text-center"> 
+						<canvas id="canvas" style="border:1px solid black;" width="500" height="500"> </canvas>
+					</div>
 				</div> 
-
-				<canvas id="canvas" style="border:2px solid black;" width="200" height="200">
-				</canvas>
+				<img id="color4" width="0" src="graphics/final-graphics/color4.png" alt="color4">
 
 				 <script>
+				 // DRAWING THE INCUBATOR 
+					function draw() {
+						 var ctx = document.getElementById('canvas').getContext('2d');
+
+						 var imgBase = new Image();
+						 imgBase.src= "graphics/final-graphics/base.png";
+						 imgBase.onload = function() {
+						     ctx.drawImage(imgBase, 0, 0, 500, 500);
+						 };
+
+						var clear1 = new Image();
+						clear1.src="graphics/final-graphics/clear1.png";
+						clear1.onload = function() {
+							ctx.drawImage(clear1, 238,65, 35, 140)
+						};
+
+						var clear2 = new Image();
+						clear2.src="graphics/final-graphics/clear2.png";
+						clear2.onload = function() {
+							ctx.drawImage(clear2, 302,232, 137, 35)
+						};
+
+						var clear3 = new Image();
+						clear3.src="graphics/final-graphics/clear3.png";
+						clear3.onload = function() {
+							ctx.drawImage(clear3, 243, 293, 35, 140);
+						};
+
+						var clear4 = new Image();
+						clear4.src="graphics/final-graphics/clear4.png";
+						clear4.onload = function() {
+							ctx.drawImage(clear4, 67, 236, 137, 35);
+						};
+
+						var color1 = new Image();
+						color1.src="graphics/final-graphics/color1.png";
+						color1.onload = function() {
+							ctx.drawImage(color1, 238,65, 35, 140)
+						};
+
+						var color2 = new Image();
+						color2.src="graphics/final-graphics/color2.png";
+						clear2.onload = function() {
+							ctx.drawImage(color2, 302,232, 137, 35)
+						};
+
+						var color3 = new Image();
+						color3.src="graphics/final-graphics/color3.png";
+						color3.onload = function() {
+							ctx.drawImage(color3, 243, 293, 35, 140);
+						};
+
+						ctx.globalAlpha = 0.3;
+
+						// varcolor4 = new Image();
+						color4 = document.getElementById("color4");
+						// color4.src="graphics/final-graphics/color4.png";
+						ctx.drawImage(color4, 67, 236, 137, 35);
+
+						ctx.globalAlpha = 1.0;
+					}
+
 					// anime({ 
-					//  targets: ['#base'],
+					//  targets: ['#canvas'],
 					//  rotate: '.25turn',
 					//  loop: true
 					// });
 
-function draw() {
-  var ctx = document.getElementById('canvas').getContext('2d');
-  var img = new Image();
-  img.onload = function() {
-    ctx.drawImage(img, 0, 0);
-    ctx.beginPath();
-    ctx.moveTo(30, 96);
-    ctx.lineTo(70, 66);
-    ctx.lineTo(103, 76);
-    ctx.lineTo(170, 15);
-    ctx.stroke();
-  };
-  img.src = 'graphics/BASE.png';;
-}
-// img.src = 'graphics/ecoli-4.svg'; // Set source path
-				 </script>
+				</script>
 
-
-
-
-
-				<p> <br><br><br> <br><br><br> <br><br><br> </p>
 		</div>
 
-		<!-- </div>  s-->
 
 	</body>
 

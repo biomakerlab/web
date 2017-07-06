@@ -66,15 +66,10 @@ function disRealTimeOD(sIndex) {
 
 
 // animating e.coli color using opacity 
-for (var i = 0; i < 10; i++) {
-  $("#syringe-test-3").animate({ opacity: 0}, 4000); 
-  $("#syringe-test-3").animate({ opacity: 1}, 4000); 
-
-  for (var j = 1; j <= 4; j++) {
-    $("#e" + i).animate({opacity: 0}, 1000); 
-    $("#e" + i).animate({opacity: 1}, 1000); 
-  }
-}
+// for (var i = 1; i <= 10; i++) {
+  $("#color4").animate({ opacity: 0}, 4000); 
+  $("#scream").animate({ opacity: 1}, 4000); 
+// }
 
 // buttons
 function beginButton() {
