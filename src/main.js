@@ -4,6 +4,12 @@
 //  loop: true
 // });
 
+
+$('.project-button').on('click', function(){
+    $('.project-button').removeClass('selected');
+    $(this).addClass('selected');
+});
+
 // global variables 
 var timer; 
 var seconds = 0; 
@@ -67,7 +73,7 @@ function disRealTimeOD(sIndex) {
 
 // animating e.coli color using opacity 
 // for (var i = 1; i <= 10; i++) {
-  $("#color4").animate({ opacity: 0}, 4000); 
+  $("#color4setTemp").animate({ opacity: 0}, 4000); 
   $("#scream").animate({ opacity: 1}, 4000); 
 // }
 
@@ -96,7 +102,7 @@ function stopButton() {
 }
 
 function setTemp() {
-  window.alert("TEMPERATURE HAS BEEN SET");
+  console.log("set temperature button clicked");
 }
 
 function numCycles() {
@@ -105,7 +111,7 @@ function numCycles() {
 }
 
 function updateSyringeReads() {
-  console.log("Update Readings Button Clicked"); 
+  console.log("update readings button clicked"); 
 }
 
 // GO TO EXTERNAL LINK

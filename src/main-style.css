@@ -168,6 +168,12 @@ p {
     text-decoration: none;
 }
 
+
+.project-button:target {
+  background-color: black;
+}
+
+
 .project-button:hover, .project-button:active, .project-button:focus {
   background-color: black;
   color: white;
