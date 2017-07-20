@@ -1,20 +1,414 @@
-// anime({ 
-//  targets: ['#base'],
-//  rotate: '.125turn',
-//  loop: true
-// });
+ // global vars 
+ var timer;         // global timer
+ var seconds = 0;   // seconds passed 
+ var ctx;           // canvas context
+ var s1;            // colored syringe 1 
+ var s2;            // colored syringe 2
+ var s3;            // colored syringe 3
+ var s4;            // colored syringe 4
+ var currChart = 0; // chart displayed in analysis
 
 
-$('.project-button').on('click', function(){
-    $('.project-button').removeClass('selected');
-    $(this).addClass('selected');
+//////////////// BACTERIA ANIMATION //////////////////////
+var plasmid, bact;
+
+function startBacAnim() {
+    plasmid = new component("graphics/step2b.png", 0, 30, 48, 48,"image");
+    bact = new component("graphics/step2a.png", 100, 70, 140, 120, "image");
+    // bactArea.start();
+}
+
+// var bactArea = {
+//     canvas : document.getElementById('canvas-test'),
+//     start : function() {
+//         this.canvas.width = 250;
+//         this.canvas.height = 250;
+//         this.context = this.canvas.getContext("2d");
+//         this.interval = setInterval(updateBactArea, 20);
+//     },
+//     clear : function() {
+//         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+//     }
+// }
+
+// function component(color, x, y, width, height, type) {
+//     this.type = type;
+//     if (type == "image") {
+//       this.image = new Image();
+//       this.image.src = color;
+//     }
+//     this.width = width;
+//     this.height = height;
+//     this.x = x;
+//     this.y = y;    
+//     this.update = function(){
+//         ctx = bactArea.context;
+//         if (type == "image") {
+//           ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+//           if (this==cuvette) {
+//             if (this.x > 140) { this.x = 140;}
+//           }
+//         } else {
+//           ctx.fillStyle = color;
+//           ctx.fillRect(this.x, this.y, this.width, this.height);
+//         }
+//     }
+// }
+
+// function updateBactArea() {
+//     bactArea.clear();
+//     plasmid.x += 1;
+//     plasmid.update(); 
+//     bact.update();
+// }
+
+//////////////// CUVETTE ANIMATION //////////////////////
+var redGamePiece, blueGamePiece, yellowGamePiece
+var cuvette, cuvetteWater;
+
+function startGame() {
+    cuvette = new component("graphics/cuvette.png", 0, 30, 48, 120,"image");
+    cuvetteWater = new component("graphics/cuvette-water.png", 100, 70, 140, 120, "image");
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.getElementById('cuvette-image'),
+    start : function() {
+        this.canvas.width = 250;
+        this.canvas.height = 200;
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateGameArea, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function component(color, x, y, width, height, type) {
+    this.type = type;
+    if (type == "image") {
+      this.image = new Image();
+      this.image.src = color;
+    }
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;    
+    this.update = function(){
+        ctx = myGameArea.context;
+        if (type == "image") {
+          ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+          if (this==cuvette) {
+            if (this.x > 140) { this.x = 140;}
+          }
+        } else {
+          ctx.fillStyle = color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+}
+
+function updateGameArea() {
+    myGameArea.clear();
+    cuvette.x += 2;
+    cuvetteWater.update(); 
+    cuvette.update();
+}
+
+//////////////// DRAWING THE CUVETTE //////////////////////
+ctx = document.getElementById('cuvette-image').getContext('2d'); 
+ctx.canvas.width = 250;
+ctx.canvas.height = 200;
+
+  // draw image based on the color of the project  
+   var imgBase = new Image();
+   imgBase.src= "graphics/cuvette-water.png";
+   imgBase.onload = function() {
+    ctx.globalAlpha = 1.0; 
+      ctx.drawImage(imgBase, 100, 70, 140, 120);
+   };
+
+  var clear1 = new Image();
+  clear1.src="graphics/cuvette.png";
+  clear1.onload = function() {
+    ctx.globalAlpha = 1.0; 
+    ctx.drawImage(clear1, 0,30, 48, 120)
+  };
+
+// TODO: function that moves the cuvette into the water
+function transferCuvette() {
+  // move it dynamically 
+  console.log("TODO: animate cuvette"); 
+
+  // TRIGGER COUNTDOWN 
+  var countDownDate = new Date("Jan 5, 2018 15:37:25").getTime();
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    if (seconds.toString().length < 2) {
+      seconds = "0" + seconds; 
+    }
+    // Display the result in the element with id="demo"
+    document.getElementById("cuv-count").innerHTML =  seconds + " S";
+
+    // If the count down is finished, write some text 
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+}
+
+//////////////// DRAWING THE INCUBATOR //////////////////////
+function drawInc(index) { // options are 1, 2, or 3 
+  var color; 
+  if (index == 1) {
+    color = "yel"; 
+  } else if (index == 2) {
+    color = "green";
+  } else {
+    color = "pink"; 
+  }
+  
+  ctx = document.getElementById('incubator-image').getContext('2d');
+
+  // draw image based on the color of the project  
+   var imgBase = new Image();
+   imgBase.src= "graphics/final-graphics/base.png";
+   imgBase.onload = function() {
+    ctx.globalAlpha = 1.0; 
+      ctx.drawImage(imgBase, 0, 0, 500, 500);
+   };
+
+  var clear1 = new Image();
+  clear1.src="graphics/final-graphics/clear1.png";
+  clear1.onload = function() {
+    ctx.globalAlpha = 1.0; 
+    ctx.drawImage(clear1, 238,65, 35, 140)
+  };
+
+  var clear2 = new Image();
+  clear2.src="graphics/final-graphics/clear2.png";
+  clear2.onload = function() {
+    ctx.globalAlpha = 1.0; 
+    ctx.drawImage(clear2, 302,232, 137, 35)
+  };
+
+  var clear3 = new Image();
+  clear3.src="graphics/final-graphics/clear3.png";
+  clear3.onload = function() {
+    ctx.globalAlpha = 1.0; 
+    ctx.drawImage(clear3, 243, 293, 35, 140);
+  };
+
+  var clear4 = new Image();
+  clear4.src="graphics/final-graphics/clear4.png";
+  clear4.onload = function() {
+    ctx.globalAlpha = 1.0; 
+    ctx.drawImage(clear4, 67, 236, 137, 35);
+  };
+
+  var color1 = new Image();
+  color1.src="graphics/final-graphics/" + color + "1.png";
+  color1.onload = function() {
+    ctx.globalAlpha = 0.0;
+    ctx.drawImage(color1, 238,65, 35, 140)
+  };
+
+  var color2 = new Image();
+  color2.src="graphics/final-graphics/" + color + "2.png";
+  color2.onload = function() {
+    ctx.globalAlpha = 0.0;
+    ctx.drawImage(color2, 302,232, 137, 35)
+  };
+
+  var color3 = new Image();
+  color3.src="graphics/final-graphics/" + color + "3.png";
+  color3.onload = function() {
+    ctx.globalAlpha = 0.0;
+    ctx.drawImage(color3, 243, 293, 35, 140);
+  };
+
+  var color4 = new Image();
+  color4.src="graphics/final-graphics/" + color + "4.png";
+  color4.onload = function() {
+    ctx.globalAlpha = 0.0;
+    ctx.drawImage(color4, 67, 236, 137, 35);
+  };  
+
+
+  s1 = color1; s2 = color2; s3 = color3; s4 = color4;   
+}
+
+function redrawSyringe() {
+  ctx.globalAlpha = ctx.globalAlpha + 0.1;
+  console.log(ctx.globalAlpha);
+  if (ctx.globalAlpha > 0.99) {
+    console.log("opaque");
+  }
+  ctx.drawImage(s1, 238, 65,35,140); 
+  ctx.drawImage(s2, 302,232, 137, 35);
+  ctx.drawImage(s3, 243, 293, 35, 140);
+  ctx.drawImage(s4, 67, 236, 137, 35);
+} 
+
+///////////////////// GRAPHS /////////////////////////
+var chart1 = new CanvasJS.Chart("vis-1", { 
+  title: {
+    text: "Syringe 1 OD History Curve"
+  },
+  data: [
+  {
+    type: "line",
+    dataPoints: [
+      { x: 0, y: 0 }, 
+    ]
+  }
+  ]
 });
 
-// global variables 
-var timer; 
-var seconds = 0; 
+var chart2 = new CanvasJS.Chart("vis-2", { 
+  title: {
+    text: "Syringe 2 OD History Curve"
+  },
+  data: [
+  {
+    type: "line",
+    dataPoints: [
+      { x: 0, y: 0 }, 
+    ]
+  }
+  ]
+});
 
-// timing events (OD readings) 
+var chart3 = new CanvasJS.Chart("vis-3", { 
+  title: {
+    text: "Syringe 3 OD History Curve"
+  },
+  data: [
+  {
+    type: "line",
+    dataPoints: [
+      { x: 0, y: 0 }, 
+    ]
+  }
+  ]
+});
+
+var chart4 = new CanvasJS.Chart("vis-4", { 
+  title: {
+    text: "Syringe 4 OD History Curve"
+  },
+  data: [
+  {
+    type: "line",
+    dataPoints: [
+      { x: 0, y: 0 }, 
+    ]
+  }
+  ]
+});
+
+function chooseGraph(index) {
+  currChart = index; 
+  if (index == 1) {
+  if (document.getElementById("vis-1")) {
+    $("#vis-2").insertBefore("#vis-1")
+    $("#vis-3").insertBefore("#vis-1")
+    $("#vis-4").insertBefore("#vis-1")
+  };
+    chart1.render(); 
+  } else if (index == 2) {
+    if (document.getElementById("vis-2")) {
+    $("#vis-1").insertBefore("#vis-2")
+    $("#vis-3").insertBefore("#vis-2")
+    $("#vis-4").insertBefore("#vis-2")
+  };
+    chart2.render(); 
+  } else if (index == 3) {
+    if (document.getElementById("vis-3")) {
+    $("#vis-1").insertBefore("#vis-3")
+    $("#vis-2").insertBefore("#vis-3")
+    $("#vis-4").insertBefore("#vis-3")
+  };
+    chart3.render(); 
+  } else {
+    if (document.getElementById("vis-4")) {
+    $("#vis-1").insertBefore("#vis-4")
+    $("#vis-2").insertBefore("#vis-4")
+    $("#vis-3").insertBefore("#vis-4")
+  };
+    chart4.render(); 
+  }
+}
+
+$("#updateDataOD").click(function () {
+  if (currChart == 1) {
+    var length = chart1.options.data[0].dataPoints.length;
+    // chart1.options.title.text = "New DataPoint Added at the end";
+    chart1.options.data[0].dataPoints.push({x: getTime(), y: getODRead(1)});
+    chart1.render();
+  } else if (currChart == 2) {
+    var length = chart2.options.data[0].dataPoints.length;
+    // chart2.options.title.text = "New DataPoint Added at the end";
+    chart2.options.data[0].dataPoints.push({x: getTime(), y: getODRead(2)});
+    chart2.render();
+  } else if (currChart == 3) {
+    var length = chart3.options.data[0].dataPoints.length;
+    // chart3.options.title.text = "New DataPoint Added at the end";
+    chart3.options.data[0].dataPoints.push({x: getTime(), y: getODRead(3)});
+    chart3.render();
+  } else if (currChart == 4) {
+    var length = chart4.options.data[0].dataPoints.length;
+    // chart4.options.title.text = "New DataPoint Added at the end";
+    chart4.options.data[0].dataPoints.push({x: getTime(), y: getODRead(4)});
+    chart4.render();
+  }
+
+});
+
+// RAW SPECTRUM GRAPH - default graph
+chart = new CanvasJS.Chart("chartContainer", {
+    theme: "theme2", //theme1
+    backgroundColor: "#bcc4d1",
+    title:{
+      text: "Raw Spectrum Readings"              
+    },
+    // animationEnabled: false,   // change to true
+    axisX:{
+      title:"Wavelength (nm)",
+      minimum: 0,
+      maximum: 800
+    },
+    axisY:{
+      title: "Raw A/D Counts",
+      minimum: 0,
+      maximum: 40000
+    },
+    data: [              
+    {
+      type: "line",
+    }
+    ]
+});
+chart.render();
+
+ 
+//////////////// TIMING EVENTS (OD readings) //////////////////////
 function startTime() {
   var today = new Date();
   timer = today; 
@@ -41,7 +435,6 @@ function getODRead(sIndex) {
   }
 }
 
-
 function disRealTimeOD(sIndex) {
   var pseudoVal = getODRead(sIndex);  
   pseudoVal = pseudoVal.toFixed(2);
@@ -65,25 +458,22 @@ function disRealTimeOD(sIndex) {
     document.getElementById('od-4').innerHTML = "<br><br> SYRINGE 4: <br>" + pseudoVal; 
     setTimeout(function() {
     disRealTimeOD(4);
-  }, 500)
+  }, 1)
   }
-
 }
 
+// display temperature of incubator (based on dummy value) 
+function disTemp() {
+  var pseudoVal = getODRead(1); // dummy value
+  pseudoVal = pseudoVal.toFixed(2); 
+  document.getElementById('display-temp').innerHTML = "" +pseudoVal + "<br>degrees F";
+    setTimeout(function() {
+    disTemp();
+  }, 1000)
+}
 
-// animating e.coli color using opacity 
-// for (var i = 1; i <= 10; i++) {
-  $("#color4setTemp").animate({ opacity: 0}, 4000); 
-  $("#scream").animate({ opacity: 1}, 4000); 
-// }
-
-// buttons
+///////////////////////// BUTTONS //////////////////////////////
 function beginButton() {
-  // if (ws.readyState == 1) { window.alert("STARTING UP MACHINE");}
-  // else { window.alert("ERROR CONNECTING: connect to BoosterWifi");}
-  // // send message to machine to begin
-  // sendMachineMessage('@bml:START;');
-
   // send message to MQTT Broker 
   var message = new Paho.MQTT.Message("@bml:START;");
   message.destinationName = "machine1/state"; 
@@ -91,8 +481,6 @@ function beginButton() {
 }
 
 function stopButton() {
-  // window.alert("STOP GROWTH");
-  // sendMachineMessage('@bml:STOP;');
   if (window.confirm("You about to halt the incubation process. Do you want to continue?")) {
       // send message to MQTT Broker 
       var message = new Paho.MQTT.Message("@bml:STOP;");
@@ -114,7 +502,8 @@ function updateSyringeReads() {
   console.log("update readings button clicked"); 
 }
 
-// GO TO EXTERNAL LINK
+/////////////// PAGE NAVIGATION (transitions) ////////////////////
+// external link
 function changePage(event) {
     if($(event.target).hasClass('external')) {
         window.location.href = $(event.target).attr('href');

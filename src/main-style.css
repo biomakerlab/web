@@ -1,13 +1,39 @@
+.to-top {
+    background-color: transparent; 
+    border: none;
+    color: black;
+    display: inline-block;
+    font-family: Josefin Sans, sans-serif;
+    font-size: 10px;
+    opacity: 1; 
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+.to-top:hover, .to-top:focus {
+    text-decoration: none;
+    outline: 0; 
+    color: black;
+    opacity: 0.7;
+}
+
+.to-top:active {
+  text-decoration: none;
+  background-color: transparent;
+  color: black;
+}
+
 .begin-button {
     background-color: transparent; 
     border: none;
     color: black;
-	display: inline-block;
+	  display: inline-block;
     font-family: Josefin Sans, sans-serif;
     font-size: 12px;
     letter-spacing: 0;
-	opacity: 1; 
-	outline-style: solid; 
+	  opacity: 1; 
+	  outline-style: solid; 
     outline-width: 2px;
     outline-color: black;
     padding: 11px 25px 9px;
@@ -50,11 +76,11 @@
     background-color: transparent; 
     border: none;
     color: black;
-	display: inline-block;
+	  display: inline-block;
     font-family: Josefin Sans, sans-serif;
     font-size: 12px;
     letter-spacing: 0;
-	opacity: 1; 
+	  opacity: 1; 
     outline-style: solid; 
     outline-width: 1px;
     padding: 11px 25px 9px;
@@ -91,6 +117,21 @@
 	-moz-border-radius: 50px;
 	-webkit-border-radius: 50px;
 }
+
+.rectangle {
+  width: 100px;
+  height: 35px;
+  background: white;
+  font-family: Josefin Sans, sans-serif;
+  font-size: 12px;
+  margin: auto;
+  text-align: center; 
+  text-transform: uppercase;
+  outline-style: solid; 
+  outline-width: 1px;
+  outline-color: white;
+}
+
 
 
 h4 {

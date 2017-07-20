@@ -722,7 +722,7 @@
 	</head>
 
 	<body id="myPage" data-spy="scroll" data-target=".navbar" 
-	onload="startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4)">
+	onload="startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()">
 	  <div class="jumbotron text-center" style="background-color: #f9f9f9; margin-bottom:0;">
 
 	    <h1 style="font-family: Josefin Slab; letter-spacing: 3px"><br><br><strong>bio.maker.lab</strong></h1> 
@@ -764,43 +764,64 @@
 
 		<!-- <div class="container">  -->
 			<div class="container-fluid" style="background-color:#e8efe8"  id="step1">
-				<h4 class="row text-center"> <br><br><br>  - step 1 -</h4> 
-				<h2 class="row text-center"> <strong>TRANSFORM </strong> </h2>  		
-				<p class="row text-center"> <br>transform the bacteria <br> 
-					multiply bacteria
-					<br><br><br><br><br><br><br><br><br>
-					<br><br><br><br><br><br><br><br><br>
-					<br><br><br><br><br><br></p>
-				<a class="begin-button" href="#step2" style="float:right;"> Next 
-	    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br><br></p>
+				<div class="row text-center"> 
+					<h4> <br><br><br>  - step 1 -</h4> 
+					<h2> <strong>TRANSFORM </strong> </h2>  
+
+					<button onclick="startBacAnim()"> bact test </button> <br><br>
+					<canvas id="canvas-test" style="border:1px solid black;" width="250" height="200"> </canvas>
+					<br><br><br><br>
+
+					<div class="col-sm-4" style="border:0px solid black;" > 
+						<strong> 1. current temp: </strong> <br> 
+						<img src="graphics/therm.png" height="200"> <br><br>
+						<div id="display-temp" class="rectangle" onclick="disTemp()"><br><br> </div>
+						<br><br><br><br><br><br><br>
+					</div>
+					<div class="col-sm-4" style="border:0px solid black;" >
+						<strong> 2. "hardware"</strong> <br>
+						a. cuvette in water <br> 
+						<canvas id="cuvette-image" style="border:0px solid black;"> </canvas>
+<!-- 						<img src="graphics/cuvette-water.png" height="120"> <br><br>
+						<img src="graphics/cuvette.png" height="100"> <br><br> -->
+						<br> b. show timer countdown <br> 
+						<div id="cuv-count" class="rectangle" style="font-size:17px"> timer </div>
+						<br>c. click transform
+						<br> <button class="button" onclick="transferCuvette(), startGame()"> CLICK TO START TRANSFORM </button>
+						<br><br>
+					</div>
+					<div class="col-sm-4" style="border:0px solid black;" >
+						<strong> 3. plasmid representation </strong> <br><br>
+						<img src="graphics/step1.png" height="70"> 
+						1. plasmid and bacteria <br> <br>
+						<img src="graphics/step2.png" height="70"> 
+						2. plasmid into bacteria <br> <br>
+						<img src="graphics/step3.png" height="70"> 
+						3. plasmid duplicating
+						
+					
+						<br><br><br><br><br><br><br><br><br>
+					</div>
+
+					<a class="begin-button" href="#step2"> Next 
+		    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br><br></p>
+		    	</div>
 			</div>
+
 
 			<div class="container-fluid" style="background-color:#dbe0db" id="step2">
 				<h4 class="row text-center"> <br><br><br>- step 2 -</h4> 
 				<h2 class="row text-center"> <strong>INCUBATE</strong> </h2> 
 
-
-
-
 				<!-- buttons -->
 				<div class="row text-center"> 
-<!-- 					<p> <br>SET TEMPERATURE: &nbsp; &nbsp;   
-						<select onclick="setTemp()" class="button">
-						  <option value="30">30 DEGREES</option>
-						  <option value="33">33 DEGREES</option>
-						  <option value="36">36 DEGREES</option>
-						  <option value="39">39 DEGREES</option>
-						</select>
-					</p>  <br>
- -->				<button class="button" onclick="beginButton()" class="start"> Begin Growth </button>
+				<button class="button" onclick="beginButton()" class="start"> Begin Growth </button>
 				&nbsp;
 				<button class="button" onclick="stopButton()" class="stop"> Stop Growth </button>
 				<br>
-				<!-- <button type="button" onclick="numCycles()"> num cycles: </button> -->
 				</div> 
 				<div class="row text-center"> 
 					<br>
-					<!-- <object id="incubator-image" width="400" data="graphics/incubator-2-black.svg" type="image/svg+xml"></object> -->
 					<canvas id="incubator-image" style="border:0px solid black;" width="500" height="500"> </canvas>
 				</div>
 
@@ -812,22 +833,22 @@
 					<div id="realTimeOD"> </div> 
  				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-1" class="circle" onclick="disRealTimeOD(1)"><br><br> click for syringe 1 reading </div>
+				        <div id="od-1" class="circle"><br><br> click for syringe 1 reading </div>
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-2" class="circle" onclick="disRealTimeOD(2)"><br><br> click for syringe 2 reading </div>				     
+				        <div id="od-2" class="circle"><br><br> click for syringe 2 reading </div>				     
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-3" class="circle" onclick="disRealTimeOD(3)"><br><br> click for syringe 3 reading</div>
+				        <div id="od-3" class="circle"><br><br> click for syringe 3 reading</div>
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-4" class="circle" onclick="disRealTimeOD(4)"><br><br> click for syringe 4 reading </div>
+				        <div id="od-4" class="circle"><br><br> click for syringe 4 reading </div>
 				      </div>
 				    </div>
 
@@ -836,7 +857,7 @@
 					<a class="begin-button" href="#step3"> Next 
 		    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br><br></p>
 	    		</div>
-			</div>
+			<!-- </div> -->
 
 			<div class="container-fluid bg-grey" style="background-color:#dee3ed" id="step3"> <!-- original blue: bcc4d1 --> <!-- original green: a4aaa3 -->
 				<h4 class="row text-center"> <br><br><br>- step 3 -</h4> 
@@ -856,7 +877,7 @@
 
  				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="button" onclick="chooseGraph(1)"> Display Syringe 1 </button>
+				      	<button class="begin-button" onclick="chooseGraph(1)"> Display Syringe 1 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
 						<!-- <button id="addDataPoint-1" class="button">Update History</button>   -->
 						<br><br> <div id="vis-1a"></div>
@@ -865,7 +886,7 @@
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="button" onclick="chooseGraph(2)"> Display Syringe 2 </button>
+				      	<button class="begin-button" onclick="chooseGraph(2)"> Display Syringe 2 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->	
 				        <!-- <button id="addDataPoint-2" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-2a"></div>
@@ -874,7 +895,7 @@
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="button" onclick="chooseGraph(3)"> Display Syringe 3 </button>
+				      	<button class="begin-button" onclick="chooseGraph(3)"> Display Syringe 3 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp)</div> -->
 				        <!-- <button id="addDataPoint-3" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-3a"></div>
@@ -883,22 +904,22 @@
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="button" onclick="chooseGraph(4)"> Display Syringe 4 </button>
+				      	<button class="begin-button" onclick="chooseGraph(4)"> Display Syringe 4 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
 				        <!-- <button id="addDataPoint-4" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-4a"></div>
 				      </div>
 				    </div>
 
-					<p> <br><br><br><br><br><br><br><br><br><br><br> </p>
-					<p> <br><br><br><br><br><br><br><br><br><br> </p>
-					<p> <br><br><br><br><br><br><br><br><br><br> </p> 
+					<p> <br><br><br><br> </p>
+
+					<!-- Trigger the modal with a button -->
+				  <button type="button" class="button" data-toggle="modal" data-target="#myModal">  
+				  	View Raw Spectrum  </button>
+
 				</div>
 
 				<div class="container">
-				  <!-- Trigger the modal with a button -->
-				  <button type="button" class="button" data-toggle="modal" data-target="#myModal">  Raw Spectrum Results  </button>
-
 				  <!-- Modal -->
 				  <div class="modal fade" id="myModal" role="dialog">
 				    <div class="modal-dialog" style="width: 90%;">
@@ -918,291 +939,21 @@
 				    </div>
 				  </div>
 				</div>
-				<p> <br><br><br><br><br><br><br><br><br><br><br><br> </p>
+				<div class="row text-center">
+					<br><br><br> <a class="to-top" href="#myPage"> ( back to top ) </a> <p></br></p>
+				</div>
 			</div>
 
-
-<!-- testing -->
-			<div class="container-fluid bg-grey" style="background-color:#fff" id="stepx"> 
-				<h4 class="row text-center"> <br><br><br>- step x -</h4> 
-				<h2 class="row text-center"><strong> TESTING </strong> </h2>  	
-
- 
-				<img id="yel4" width="0" src="graphics/final-graphics/yel4.png" alt="yel4p">
-			</div>
+		<!-- testing -->
+<!-- 		<div class="container-fluid bg-grey" style="background-color:#fff" id="stepx"> 
+			<h4 class="row text-center"> <br><br><br>- step x -</h4> 
+			<h2 class="row text-center"><strong> TESTING </strong> </h2>  	
 
 
+			<img id="yel4" width="0" src="graphics/final-graphics/yel4.png" alt="yel4p">
+		</div>
+ -->
 	</body>
-
- <script>
- var ctx; // global var 
- var s1;
- var s2;
- var s3;
- var s4;
-
- // DRAWING THE INCUBATOR - based on current project 
-	function drawInc(index) { // options are 1, 2, or 3 
-		var color; 
-		if (index == 1) {
-			color = "yel"; 
-		} else if (index == 2) {
-			color = "green";
-		} else {
-			color = "pink"; 
-		}
-		
-		ctx = document.getElementById('incubator-image').getContext('2d');
-
-		// draw image based on the color of the project  
-		 var imgBase = new Image();
-		 imgBase.src= "graphics/final-graphics/base.png";
-		 imgBase.onload = function() {
-			ctx.globalAlpha = 1.0; 
-		    ctx.drawImage(imgBase, 0, 0, 500, 500);
-		 };
-
-		var clear1 = new Image();
-		clear1.src="graphics/final-graphics/clear1.png";
-		clear1.onload = function() {
-			ctx.globalAlpha = 1.0; 
-			ctx.drawImage(clear1, 238,65, 35, 140)
-		};
-
-		var clear2 = new Image();
-		clear2.src="graphics/final-graphics/clear2.png";
-		clear2.onload = function() {
-			ctx.globalAlpha = 1.0; 
-			ctx.drawImage(clear2, 302,232, 137, 35)
-		};
-
-		var clear3 = new Image();
-		clear3.src="graphics/final-graphics/clear3.png";
-		clear3.onload = function() {
-			ctx.globalAlpha = 1.0; 
-			ctx.drawImage(clear3, 243, 293, 35, 140);
-		};
-
-		var clear4 = new Image();
-		clear4.src="graphics/final-graphics/clear4.png";
-		clear4.onload = function() {
-			ctx.globalAlpha = 1.0; 
-			ctx.drawImage(clear4, 67, 236, 137, 35);
-		};
-
-		var color1 = new Image();
-		color1.src="graphics/final-graphics/" + color + "1.png";
-		color1.onload = function() {
-			ctx.globalAlpha = 0.0;
-			ctx.drawImage(color1, 238,65, 35, 140)
-		};
-
-		var color2 = new Image();
-		color2.src="graphics/final-graphics/" + color + "2.png";
-		color2.onload = function() {
-			ctx.globalAlpha = 0.0;
-			ctx.drawImage(color2, 302,232, 137, 35)
-		};
-
-		var color3 = new Image();
-		color3.src="graphics/final-graphics/" + color + "3.png";
-		color3.onload = function() {
-			ctx.globalAlpha = 0.0;
-			ctx.drawImage(color3, 243, 293, 35, 140);
-		};
-
-		var color4 = new Image();
-		color4.src="graphics/final-graphics/" + color + "4.png";
-		color4.onload = function() {
-			ctx.globalAlpha = 0.0;
-			ctx.drawImage(color4, 67, 236, 137, 35);
-		};	
-
-
-		s1 = color1; s2 = color2; s3 = color3; s4 = color4; 	
-	}
-
-	function redrawSyringe() {
-		ctx.globalAlpha = ctx.globalAlpha + 0.1;
-		console.log(ctx.globalAlpha);
-		if (ctx.globalAlpha > 0.99) {
-			console.log("completely opaque");
-		}
-		ctx.drawImage(s1, 238, 65,35,140); 
-	} 
-
-</script>
-
-
-<script type="text/javascript">
-	// SYRINGE 1 OD HISTORY 
-	var chosenChart = 0; 
-
-	var chart1 = new CanvasJS.Chart("vis-1", { 
-		title: {
-			text: "Syringe 1 OD History Curve"
-		},
-		data: [
-		{
-			type: "line",
-			dataPoints: [
-				{ x: 0, y: 0 },	
-			]
-		}
-		]
-	});
-
-
-	// SYRINGE 2 OD HISTORY 
-	var chart2 = new CanvasJS.Chart("vis-2", { 
-		title: {
-			text: "Syringe 2 OD History Curve"
-		},
-		data: [
-		{
-			type: "line",
-			dataPoints: [
-				{ x: 0, y: 0 },	
-			]
-		}
-		]
-	});
-
-	// SYRINGE 3 OD HISTORY 
-	var chart3 = new CanvasJS.Chart("vis-3", { 
-		title: {
-			text: "Syringe 3 OD History Curve"
-		},
-		data: [
-		{
-			type: "line",
-			dataPoints: [
-				{ x: 0, y: 0 },	
-			]
-		}
-		]
-	});
-
-	// SYRINGE 4 OD HISTORY 
-	var chart4 = new CanvasJS.Chart("vis-4", { 
-		title: {
-			text: "Syringe 4 OD History Curve"
-		},
-		data: [
-		{
-			type: "line",
-			dataPoints: [
-				{ x: 0, y: 0 },	
-			]
-		}
-		]
-	});
-
-	function chooseGraph(index) {
-		chosenChart = index; 
-		if (index == 1) {
-		if (document.getElementById("vis-1")) {
-			$("#vis-2").insertBefore("#vis-1")
-			$("#vis-3").insertBefore("#vis-1")
-			$("#vis-4").insertBefore("#vis-1")
-		};
-			chart1.render(); 
-		} else if (index == 2) {
-			if (document.getElementById("vis-2")) {
-			$("#vis-1").insertBefore("#vis-2")
-			$("#vis-3").insertBefore("#vis-2")
-			$("#vis-4").insertBefore("#vis-2")
-		};
-			chart2.render(); 
-		} else if (index == 3) {
-			if (document.getElementById("vis-3")) {
-			$("#vis-1").insertBefore("#vis-3")
-			$("#vis-2").insertBefore("#vis-3")
-			$("#vis-4").insertBefore("#vis-3")
-		};
-			chart3.render(); 
-		} else {
-			if (document.getElementById("vis-4")) {
-			$("#vis-1").insertBefore("#vis-4")
-			$("#vis-2").insertBefore("#vis-4")
-			$("#vis-3").insertBefore("#vis-4")
-		};
-			chart4.render(); 
-		}
-	}
-
-	$("#updateDataOD").click(function () {
-		if (chosenChart == 1) {
-			var length = chart1.options.data[0].dataPoints.length;
-			// chart1.options.title.text = "New DataPoint Added at the end";
-			chart1.options.data[0].dataPoints.push({x: getTime(), y: getODRead(1)});
-			chart1.render();
-		} else if (chosenChart == 2) {
-			var length = chart2.options.data[0].dataPoints.length;
-			// chart2.options.title.text = "New DataPoint Added at the end";
-			chart2.options.data[0].dataPoints.push({x: getTime(), y: getODRead(2)});
-			chart2.render();
-		} else if (chosenChart == 3) {
-			var length = chart3.options.data[0].dataPoints.length;
-			// chart3.options.title.text = "New DataPoint Added at the end";
-			chart3.options.data[0].dataPoints.push({x: getTime(), y: getODRead(3)});
-			chart3.render();
-		} else if (chosenChart == 4) {
-			var length = chart4.options.data[0].dataPoints.length;
-			// chart4.options.title.text = "New DataPoint Added at the end";
-			chart4.options.data[0].dataPoints.push({x: getTime(), y: getODRead(4)});
-			chart4.render();
-		}
-
-	});
-
-
-	// REAL TIME OD PIE CHART (try)
-	// var pieChart1 = new CanvasJS.Chart("pieChart",
-	// 	{
-	// 		data: [
-	// 		{        
-	// 			type: "doughnut",
-	// 			startAngle: -70,                          
-	// 			toolTipContent: "{legendText}: {y} - <strong>#percent% </strong>", 					
-	// 			showInLegend: false,
-	// 			dataPoints: [
-	// 				{y: 0, indexLabel: "S1 reading (try)", legendText: "OD" },
-	// 				{y: 60, legendText: "nah" },
-	// 			]
-	// 			}
-	// 			]
-	// 	});
-	// pieChart1.render(); // don't render for now
-
-
-	// RAW SPECTRUM GRAPH 
-		  // default graph
-		  chart = new CanvasJS.Chart("chartContainer", {
-					theme: "theme2",//theme1
-					backgroundColor: "#bcc4d1",
-					title:{
-						text: "Raw Spectrum Readings"              
-					},
-					// animationEnabled: false,   // change to true
-					axisX:{
-						title:"Wavelength (nm)",
-						minimum: 0,
-						maximum: 800
-					},
-					axisY:{
-						title: "Raw A/D Counts",
-						minimum: 0,
-						maximum: 40000
-					},
-					data: [              
-					{
-						type: "line",
-					}
-					]
-				});
-   			    chart.render();
-	</script>
 
 	<script type="text/javascript" src="src/main.js"></script>
 </html>
