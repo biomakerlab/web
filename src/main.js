@@ -10,65 +10,125 @@
 
 
 //////////////// BACTERIA ANIMATION //////////////////////
-var plasmid, bact;
+var plas1, bact1a, bact1b; 
+var plas2, bact2;
+var plas3a, plas3b, plas3c, plas3d, bact3; 
 
-function startBacAnim() {
-    plasmid = new component("graphics/step2b.png", 0, 30, 48, 48,"image");
-    bact = new component("graphics/step2a.png", 100, 70, 140, 120, "image");
-    // bactArea.start();
+// step 1 anime 
+function startBacAnim1() {
+    plas1  = new component("graphics/step2b.png", 10, 100, 30, 30,"image", "bactArea1");
+    bact1a = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea1");
+    bact1b = new component("graphics/step2a.png", 100, 0, 140, 120, "image", "bactArea1");
+    bactArea1.start();
 }
 
-// var bactArea = {
-//     canvas : document.getElementById('canvas-test'),
-//     start : function() {
-//         this.canvas.width = 250;
-//         this.canvas.height = 250;
-//         this.context = this.canvas.getContext("2d");
-//         this.interval = setInterval(updateBactArea, 20);
-//     },
-//     clear : function() {
-//         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-//     }
-// }
+var bactArea1 = {
+    canvas : document.getElementById('step-1-anime'),
+    start : function() {
+        this.canvas.width = 250;
+        this.canvas.height = 200;
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateBactArea1, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
 
-// function component(color, x, y, width, height, type) {
-//     this.type = type;
-//     if (type == "image") {
-//       this.image = new Image();
-//       this.image.src = color;
-//     }
-//     this.width = width;
-//     this.height = height;
-//     this.x = x;
-//     this.y = y;    
-//     this.update = function(){
-//         ctx = bactArea.context;
-//         if (type == "image") {
-//           ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-//           if (this==cuvette) {
-//             if (this.x > 140) { this.x = 140;}
-//           }
-//         } else {
-//           ctx.fillStyle = color;
-//           ctx.fillRect(this.x, this.y, this.width, this.height);
-//         }
-//     }
-// }
+function updateBactArea1() {
+    bactArea1.clear();
+    plas1.update(); 
+    bact1a.update();
+    bact1b.update(); 
+}
 
-// function updateBactArea() {
-//     bactArea.clear();
-//     plasmid.x += 1;
-//     plasmid.update(); 
-//     bact.update();
-// }
+// step 2 anime 
+function startBacAnim2() {
+    plas2 = new component("graphics/step2b.png", 0, 100, 30, 30,"image", "bactArea2");
+    bact2 = new component("graphics/step2a.png", 100, 70, 140, 120, "image", "bactArea2");
+    bactArea2.start();
+}
+
+var bactArea2 = {
+    canvas : document.getElementById('step-2-anime'),
+    start : function() {
+        this.canvas.width = 250;
+        this.canvas.height = 200;
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateBactArea2, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function updateBactArea2() {
+    bactArea2.clear();
+    plas2.x += 1;
+    plas2.update(); 
+    bact2.update();
+}
+
+// step 3 anime 
+function startBacAnim3() {
+    plas3a = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
+    plas3b = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
+    plas3c = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
+    plas3d = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
+    bact3 = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea3");
+    bactArea3.start();
+}
+
+var bactArea3 = {
+    canvas : document.getElementById('step-3-anime'),
+    start : function() {
+        this.canvas.width = 250;
+        this.canvas.height = 200;
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateBactArea3, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function updateBactArea3() {
+    bactArea3.clear();
+    plas3a.update(); 
+    plas3b.update(); 
+    plas3c.update(); 
+    plas3d.update(); 
+    bact3.update();
+}
+
+function loop() {
+    
+    /// increase alpha with delta value
+    alpha += delta;
+    
+    //// if delta <=0 or >=1 then reverse
+    if (alpha <= 0 || alpha >= 1) delta = -delta;
+    
+    /// clear canvas
+    ctx.clearRect(0, 0, demo.width, demo.height);
+    
+    /// set global alpha
+    ctx.globalAlpha = alpha;
+    
+    /// re-draw image
+    ctx.drawImage(img, 0, 0);
+    
+    /// loop using rAF
+    requestAnimationFrame(loop);
+}
+
 
 //////////////// CUVETTE ANIMATION //////////////////////
-var redGamePiece, blueGamePiece, yellowGamePiece
 var cuvette, cuvetteWater;
 
 function startGame() {
-    cuvette = new component("graphics/cuvette.png", 0, 30, 48, 120,"image");
-    cuvetteWater = new component("graphics/cuvette-water.png", 100, 70, 140, 120, "image");
+    cuvette = new component("graphics/cuvette.png", 0, 30, 48, 120,"image", "myGameArea");
+    cuvetteWater = new component("graphics/cuvette-water.png", 100, 70, 140, 120, "image", "myGameArea");
     myGameArea.start();
 }
 
@@ -85,7 +145,7 @@ var myGameArea = {
     }
 }
 
-function component(color, x, y, width, height, type) {
+function component(color, x, y, width, height, type, canvas) {
     this.type = type;
     if (type == "image") {
       this.image = new Image();
@@ -96,11 +156,24 @@ function component(color, x, y, width, height, type) {
     this.x = x;
     this.y = y;    
     this.update = function(){
-        ctx = myGameArea.context;
+        var ctx = eval(canvas + ".context");
         if (type == "image") {
           ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-          if (this==cuvette) {
-            if (this.x > 140) { this.x = 140;}
+          // unique animation for each context
+          if (this == cuvette) {
+            if (this.x > 140) { this.x = 140; }
+          } else if (this == plas2) {
+            if (this.x > 120) { this.x = 120; }
+          } else if (this == plas3b) {
+            if (this.x < 165) { this.x += 1; }
+            if (this.y > 80 ) {this.y -= 1; }
+             
+          } else if (this == plas3c) {
+            if (this.y < 135) { this.y += 1; }
+            if (this.x > 110) { this.x -= 1; }
+          } else if (this == plas3d) {
+            if (this.x < 145) { this.x += 1; }
+            if (this.y < 155) { this.y += 1; }
           }
         } else {
           ctx.fillStyle = color;
