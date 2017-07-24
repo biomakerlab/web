@@ -10,21 +10,23 @@
 
 
 //////////////// BACTERIA ANIMATION //////////////////////
-var plas1, bact1a, bact1b; 
+var plas1, bact1; 
 var plas2, bact2;
 var plas3a, plas3b, plas3c, plas3d, bact3; 
+var step1count = 0; 
 
 // step 1 anime 
 function startBacAnim1() {
-    plas1  = new component("graphics/step2b.png", 10, 100, 30, 30,"image", "bactArea1");
-    bact1a = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea1");
-    bact1b = new component("graphics/step2a.png", 100, 0, 140, 120, "image", "bactArea1");
+    plas1  = new component("graphics/step2b.png", 30, 70, 30, 30,"image", "bactArea1");
+    bact1 = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea1");
+    // bact1b = new component("graphics/step2a.png", 100, 0, 140, 120, "image", "bactArea1");
     bactArea1.start();
 }
 
 var bactArea1 = {
     canvas : document.getElementById('step-1-anime'),
     start : function() {
+        step1count = 0; 
         this.canvas.width = 250;
         this.canvas.height = 200;
         this.context = this.canvas.getContext("2d");
@@ -38,13 +40,14 @@ var bactArea1 = {
 function updateBactArea1() {
     bactArea1.clear();
     plas1.update(); 
-    bact1a.update();
-    bact1b.update(); 
+    bact1.update();
+    // bact1b.update(); 
+    step1count += 1; 
 }
 
 // step 2 anime 
 function startBacAnim2() {
-    plas2 = new component("graphics/step2b.png", 0, 100, 30, 30,"image", "bactArea2");
+    plas2 = new component("graphics/step2b.png", 30, 100, 30, 30,"image", "bactArea2");
     bact2 = new component("graphics/step2a.png", 100, 70, 140, 120, "image", "bactArea2");
     bactArea2.start();
 }
@@ -174,6 +177,14 @@ function component(color, x, y, width, height, type, canvas) {
           } else if (this == plas3d) {
             if (this.x < 145) { this.x += 1; }
             if (this.y < 155) { this.y += 1; }
+          } else if (this == bact1) {
+            if (step1count > 100) {
+              bact1 = new component("graphics/step2a.png", 100, 70, 140, 120, "image", "bactArea1");
+            } else if (step1count > 70) {
+              bact1 = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea1");
+            } else if (step1count > 40) {
+              bact1 = new component("graphics/step2a.png", 100, 70, 140, 120, "image", "bactArea1");
+            }
           }
         } else {
           ctx.fillStyle = color;
