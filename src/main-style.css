@@ -5,7 +5,7 @@
     display: inline-block;
     font-family: Josefin Sans, sans-serif;
     font-size: 10px;
-    opacity: 1; 
+    opacity: 1.0; 
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
@@ -104,15 +104,18 @@
 }
 
 .circle {
+  border: 1px solid #FFF;
 	background: gray;
 	border-radius: 50px;
+  border-color: black;
 	color: #CCCCCC;
 	font-family: Josefin Sans, sans-serif;
-	font-size: 12px;
+	font-size: 25px;
 	height: 100px;
 	margin: auto;
 	text-align: center; 
 	text-transform: uppercase;
+  color: black;
 	width: 100px;
 	-moz-border-radius: 50px;
 	-webkit-border-radius: 50px;

@@ -19,7 +19,6 @@ var step1count = 0;
 function startBacAnim1() {
     plas1  = new component("graphics/step2b.png", 30, 70, 30, 30,"image", "bactArea1");
     bact1 = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea1");
-    // bact1b = new component("graphics/step2a.png", 100, 0, 140, 120, "image", "bactArea1");
     bactArea1.start();
 }
 
@@ -272,66 +271,69 @@ function drawInc(index) { // options are 1, 2, or 3
 
   // draw image based on the color of the project  
    var imgBase = new Image();
-   imgBase.src= "graphics/final-graphics/base.png";
+   imgBase.src= "graphics/final-graphics/base-color.png";
    imgBase.onload = function() {
     ctx.globalAlpha = 1.0; 
-      ctx.drawImage(imgBase, 0, 0, 500, 500);
+      ctx.drawImage(imgBase, 0, 0, 1000, 1000);
    };
 
   var clear1 = new Image();
   clear1.src="graphics/final-graphics/clear1.png";
   clear1.onload = function() {
     ctx.globalAlpha = 1.0; 
-    ctx.drawImage(clear1, 238,65, 35, 140)
+    ctx.drawImage(clear1, 476, 130, 70, 280);
   };
 
   var clear2 = new Image();
   clear2.src="graphics/final-graphics/clear2.png";
   clear2.onload = function() {
     ctx.globalAlpha = 1.0; 
-    ctx.drawImage(clear2, 302,232, 137, 35)
+    ctx.drawImage(clear2, 604,464, 274, 70);
   };
 
   var clear3 = new Image();
   clear3.src="graphics/final-graphics/clear3.png";
   clear3.onload = function() {
     ctx.globalAlpha = 1.0; 
-    ctx.drawImage(clear3, 243, 293, 35, 140);
+    ctx.drawImage(clear3, 486, 586, 70, 280);
   };
 
   var clear4 = new Image();
   clear4.src="graphics/final-graphics/clear4.png";
   clear4.onload = function() {
     ctx.globalAlpha = 1.0; 
-    ctx.drawImage(clear4, 67, 236, 137, 35);
+    ctx.drawImage(clear4, 134, 472, 274, 70);
   };
+
+
+
 
   var color1 = new Image();
   color1.src="graphics/final-graphics/" + color + "1.png";
   color1.onload = function() {
     ctx.globalAlpha = 0.0;
-    ctx.drawImage(color1, 238,65, 35, 140)
+    ctx.drawImage(color1, 476, 130, 70, 280);
   };
 
   var color2 = new Image();
   color2.src="graphics/final-graphics/" + color + "2.png";
   color2.onload = function() {
     ctx.globalAlpha = 0.0;
-    ctx.drawImage(color2, 302,232, 137, 35)
+    ctx.drawImage(color2, 604,464, 274, 70);
   };
 
   var color3 = new Image();
   color3.src="graphics/final-graphics/" + color + "3.png";
   color3.onload = function() {
     ctx.globalAlpha = 0.0;
-    ctx.drawImage(color3, 243, 293, 35, 140);
+    ctx.drawImage(color3, 486, 586, 70, 280);
   };
 
   var color4 = new Image();
   color4.src="graphics/final-graphics/" + color + "4.png";
   color4.onload = function() {
     ctx.globalAlpha = 0.0;
-    ctx.drawImage(color4, 67, 236, 137, 35);
+    ctx.drawImage(color4, 134, 472, 274, 70);
   };  
 
 
@@ -344,19 +346,25 @@ function redrawSyringe() {
   if (ctx.globalAlpha > 0.99) {
     console.log("opaque");
   }
-  ctx.drawImage(s1, 238, 65,35,140); 
-  ctx.drawImage(s2, 302,232, 137, 35);
-  ctx.drawImage(s3, 243, 293, 35, 140);
-  ctx.drawImage(s4, 67, 236, 137, 35);
+  ctx.drawImage(s1, 238 * 2.0, 65 * 2.0,35 * 2.0,140 * 2.0); // just a factor of 2 
+  ctx.drawImage(s2, 302 * 2.0,232 * 2.0, 137 * 2.0, 35 * 2.0);
+  ctx.drawImage(s3, 243 * 2.0, 293 * 2.0, 35 * 2.0, 140 * 2.0);
+  ctx.drawImage(s4, 67 * 2.0, 236 * 2.0, 137 * 2.0, 35 * 2.0);
 } 
 
 ///////////////////// GRAPHS /////////////////////////
 var chart1 = new CanvasJS.Chart("vis-1", { 
+  backgroundColor: "#dee3ed",
+  colorSet:  "[#FFFFFF]",
   title: {
-    text: "Syringe 1 OD History Curve"
+    text: "OD HISTORY CURVE SYRINGE 1",
+    maxWidth: 300,
+    fontColor: "#98A1AD",
+    fontSize: 20
   },
   data: [
   {
+    color: "#98A1AD",
     type: "line",
     dataPoints: [
       { x: 0, y: 0 }, 
@@ -366,11 +374,16 @@ var chart1 = new CanvasJS.Chart("vis-1", {
 });
 
 var chart2 = new CanvasJS.Chart("vis-2", { 
+  backgroundColor: "#dee3ed",
   title: {
-    text: "Syringe 2 OD History Curve"
+    text: "OD HISTORY CURVE SYRINGE 2",
+    maxWidth: 300,
+    fontColor: "#4F6C7A",
+    fontSize: 20
   },
   data: [
   {
+    color: "#4F6C7A",
     type: "line",
     dataPoints: [
       { x: 0, y: 0 }, 
@@ -380,11 +393,17 @@ var chart2 = new CanvasJS.Chart("vis-2", {
 });
 
 var chart3 = new CanvasJS.Chart("vis-3", { 
+  backgroundColor: "#dee3ed",
   title: {
-    text: "Syringe 3 OD History Curve"
+    text: "OD HISTORY CURVE SYRINGE 3",
+    maxWidth: 300,
+    fontColor: "#E4AF9A",
+    fontSize: 20
+
   },
   data: [
   {
+    color: "#E4AF9A",
     type: "line",
     dataPoints: [
       { x: 0, y: 0 }, 
@@ -394,11 +413,16 @@ var chart3 = new CanvasJS.Chart("vis-3", {
 });
 
 var chart4 = new CanvasJS.Chart("vis-4", { 
+  backgroundColor: "#dee3ed",
   title: {
-    text: "Syringe 4 OD History Curve"
+    text: "OD HISTORY CURVE SYRINGE 4",
+    maxWidth: 300,
+    fontColor: "#AD9A98",
+    fontSize: 20
   },
   data: [
   {
+    color: "#AD9A98",
     type: "line",
     dataPoints: [
       { x: 0, y: 0 }, 
@@ -410,6 +434,7 @@ var chart4 = new CanvasJS.Chart("vis-4", {
 function chooseGraph(index) {
   currChart = index; 
   if (index == 1) {
+    document.getElementById("updateDataOD").style.backgroundColor = "#98A1AD";
   if (document.getElementById("vis-1")) {
     $("#vis-2").insertBefore("#vis-1")
     $("#vis-3").insertBefore("#vis-1")
@@ -417,6 +442,7 @@ function chooseGraph(index) {
   };
     chart1.render(); 
   } else if (index == 2) {
+    document.getElementById("updateDataOD").style.backgroundColor = "#4F6C7A";
     if (document.getElementById("vis-2")) {
     $("#vis-1").insertBefore("#vis-2")
     $("#vis-3").insertBefore("#vis-2")
@@ -424,6 +450,7 @@ function chooseGraph(index) {
   };
     chart2.render(); 
   } else if (index == 3) {
+    document.getElementById("updateDataOD").style.backgroundColor = "#E4AF9A";
     if (document.getElementById("vis-3")) {
     $("#vis-1").insertBefore("#vis-3")
     $("#vis-2").insertBefore("#vis-3")
@@ -431,6 +458,7 @@ function chooseGraph(index) {
   };
     chart3.render(); 
   } else {
+    document.getElementById("updateDataOD").style.backgroundColor = "#AD9A98";
     if (document.getElementById("vis-4")) {
     $("#vis-1").insertBefore("#vis-4")
     $("#vis-2").insertBefore("#vis-4")
@@ -497,7 +525,7 @@ function startTime() {
   var today = new Date();
   timer = today; 
   var s = today.getSeconds();
-  document.getElementById('realTimeOD').innerHTML = "CURRENT TIME: " + s;
+  // document.getElementById('realTimeOD').innerHTML = "CURRENT TIME: " + s; // displays current seconds passed
   var t = setTimeout(startTime, 500);
 }
 
@@ -524,25 +552,25 @@ function disRealTimeOD(sIndex) {
   pseudoVal = pseudoVal.toFixed(2);
 
   if (sIndex == 1) {
-    document.getElementById('od-1').innerHTML = "<br><br> SYRINGE 1: <br>" + pseudoVal;
+    document.getElementById('od-1').innerHTML = "<br>" + pseudoVal;
     setTimeout(function() {
     disRealTimeOD(1);
-  }, 500)
+  }, 1000)
   } else if (sIndex == 2) {
-    document.getElementById('od-2').innerHTML = "<br><br> SYRINGE 2: <br>" + pseudoVal;
+    document.getElementById('od-2').innerHTML = "<br>" + pseudoVal;
     setTimeout(function() {
     disRealTimeOD(2);
-  }, 500)
+  }, 1000)
   } else if (sIndex == 3) {
-    document.getElementById('od-3').innerHTML = "<br><br> SYRINGE 3: <br>" + pseudoVal;
+    document.getElementById('od-3').innerHTML = "<br>" + pseudoVal;
     setTimeout(function() {
     disRealTimeOD(3);
-  }, 500)
+  }, 1000)
   } else {
-    document.getElementById('od-4').innerHTML = "<br><br> SYRINGE 4: <br>" + pseudoVal; 
+    document.getElementById('od-4').innerHTML = "<br>" + pseudoVal; 
     setTimeout(function() {
     disRealTimeOD(4);
-  }, 1)
+  }, 1000)
   }
 }
 
@@ -556,7 +584,7 @@ function disTemp() {
   }, 1000)
 }
 
-///////////////////////// BUTTONS //////////////////////////////
+///////////////////////// BUTTONS ////////////////////////////// 
 function beginButton() {
   // send message to MQTT Broker 
   var message = new Paho.MQTT.Message("@bml:START;");

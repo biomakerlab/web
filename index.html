@@ -3,9 +3,6 @@
 	<head> 
  		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" type="text/javascript"></script>
-		<!-- for vis.js --> 
-		<!-- <script src="http://visjs.org/dist/vis.js"></script>
- 		<link href="http://visjs.org/dist/vis.css" rel="stylesheet" type="text/css" /> --> 
 
 		<!-- google fonts --> 
 		<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
@@ -770,10 +767,10 @@
 
 					
 					<br><br> <button class="button" onclick="startBacAnim1()"> step 1 </button>
-					<canvas id="step-1-anime" style="border:1px solid black;" width="250" height="200"> </canvas>
-					<br><br><button class="button" onclick="startBacAnim2()"> step 2 </button>
+					<canvas id="step-1-anime" style="border:1px solid black; height:200px" width="500" height="400"> </canvas>
+					<button class="button" onclick="startBacAnim2()"> step 2 </button>
 					<canvas id="step-2-anime" style="border:1px solid black;" width="250" height="200"> </canvas>
-					<br><br> <button class="button" onclick="startBacAnim3()"> step 3 </button>
+					<button class="button" onclick="startBacAnim3()"> step 3 </button>
 					<canvas id="step-3-anime" style="border:1px solid black;" width="250" height="200"> </canvas>
 					<br><br><br><br>
 
@@ -818,46 +815,46 @@
 				<h4 class="row text-center"> <br><br><br>- step 2 -</h4> 
 				<h2 class="row text-center"> <strong>INCUBATE</strong> </h2> 
 
-				<!-- buttons -->
 				<div class="row text-center"> 
-				<button class="button" onclick="beginButton()" class="start"> Begin Growth </button>
-				&nbsp;
-				<button class="button" onclick="stopButton()" class="stop"> Stop Growth </button>
-				<br>
-				</div> 
-				<div class="row text-center"> 
+					<!-- <button class="project-button" onclick="drawInc(2)">  OK </button> <br><br> -->
 					<br>
-					<canvas id="incubator-image" style="border:0px solid black;" width="500" height="500"> </canvas>
+					<canvas id="incubator-image" style="border:0px solid black;width:400px" width="1000" height="1000"> </canvas>
 				</div>
 
-				<button class="button" onclick="redrawSyringe()"> test </button> 
+				<!-- buttons -->
+				<div class="row text-center"> 
+				<br><button class="to-top" onclick="redrawSyringe()"> (click to test color change) </button> <br><br>
+				<button class="button" onclick="beginButton()" class="start"> Begin Growth </button> &nbsp;
+				<button class="button" onclick="stopButton()" class="stop"> Stop Growth </button> <br><br>
+				<br>
+				</div> 
 
 
 				<!-- OD TIMING VIS --> 
 				<div class="row text-center">
-					<div id="realTimeOD"> </div> 
+					<div id="realTimeOD" style="font-size:17px;"> <strong> CURRENT OD READINGS: </strong> <br><br></div> 
  				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-1" class="circle"><br><br> click for syringe 1 reading </div>
+				        <div id="od-1" class="circle" style="background-color:#98A1AD;"><br><br> click for syringe 1 reading </div> <p> <br> Syringe 1 </p>
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-2" class="circle"><br><br> click for syringe 2 reading </div>				     
+				        <div id="od-2" class="circle" style="background-color:#4F6C7A;"><br><br> click for syringe 2 reading </div>	<p> <br> Syringe 2 </p>			     
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-3" class="circle"><br><br> click for syringe 3 reading</div>
+				        <div id="od-3" class="circle" style="background-color:#E4AF9A;"><br><br> click for syringe 3 reading</div> <p> <br> Syringe 3 </p>
 				      </div>
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				        <div id="od-4" class="circle"><br><br> click for syringe 4 reading </div>
+				        <div id="od-4" class="circle" style="background-color:#AD9A98;"><br><br> click for syringe 4 reading </div> <p> <br> Syringe 4 </p>
 				      </div>
 				    </div>
 
-					<p><br><br><br><br><br><br><br></p>
+					<p><br><br><br><br><br><br><br><br><br></p>
 
 					<a class="begin-button" href="#step3"> Next 
 		    		<span class="glyphicon glyphicon-arrow-right"> </span> </a> <p></br><br></p>
@@ -868,8 +865,7 @@
 				<h4 class="row text-center"> <br><br><br>- step 3 -</h4> 
 				<h2 class="row text-center"><strong> DATA ANALYSIS</strong> </h2>  	
 
-				<div class="row text-center"> 
-				  <p> <br> <button class="button" id="updateDataOD"> Update Reading </button> <br><br></p>
+				<div class="row text-center"> <br>
 				
 				  <!-- <div class="row text-center"> -->
 				  	<div style="width: 75%; margin-left: 12.5%" id="vis-1"></div> 
@@ -878,11 +874,12 @@
 				  	<div style="width: 75%; margin-left: 12.5%" id="vis-4"></div> 
 				  	
 				<p> <br><br><br><br><br><br><br><br><br><br> </p>
-				<p> <br><br><br><br><br><br><br><br><br><br> </p>
+				<p> <br><br><br><br><br><br><br><br><br></p>
+				  <p> <br> <button class="to-top" id="updateDataOD" style="font-size:15px; outline-width:1px; outline-color:black; outline-style: solid; padding:3px 10px 0px 10px; "> click to update reading  </button> <br><br><br></p>
 
  				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="begin-button" onclick="chooseGraph(1)"> Display Syringe 1 </button>
+				      	<button class="begin-button" style="background-color:#98A1AD; color: black; outline-width:1px;" onclick="chooseGraph(1)"> Display Syringe 1 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
 						<!-- <button id="addDataPoint-1" class="button">Update History</button>   -->
 						<br><br> <div id="vis-1a"></div>
@@ -891,7 +888,7 @@
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="begin-button" onclick="chooseGraph(2)"> Display Syringe 2 </button>
+				      	<button class="begin-button" style="background-color:#4F6C7A; color: black; outline-width:1px;" onclick="chooseGraph(2)"> Display Syringe 2 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->	
 				        <!-- <button id="addDataPoint-2" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-2a"></div>
@@ -900,7 +897,7 @@
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="begin-button" onclick="chooseGraph(3)"> Display Syringe 3 </button>
+				      	<button class="begin-button" style="background-color:#E4AF9A; color: black; outline-width:1px;" onclick="chooseGraph(3)"> Display Syringe 3 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp)</div> -->
 				        <!-- <button id="addDataPoint-3" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-3a"></div>
@@ -909,7 +906,7 @@
 				    </div>
 				    <div class="col-sm-3">
 				      <div class="thumbnail-holder">
-				      	<button class="begin-button" onclick="chooseGraph(4)"> Display Syringe 4 </button>
+				      	<button class="begin-button" style="background-color:#AD9A98; color: black; outline-width:1px;" onclick="chooseGraph(4)"> Display Syringe 4 </button>
 				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
 				        <!-- <button id="addDataPoint-4" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-4a"></div>
@@ -919,8 +916,9 @@
 					<p> <br><br><br><br> </p>
 
 					<!-- Trigger the modal with a button -->
+					CLICK FOR RAW SPECTRUM RESULTS: <br>  
 				  <button type="button" class="button" data-toggle="modal" data-target="#myModal">  
-				  	View Raw Spectrum  </button>
+				  	  Raw Spectrum <br> Reading <br> </button>
 
 				</div>
 
@@ -953,9 +951,6 @@
 <!-- 		<div class="container-fluid bg-grey" style="background-color:#fff" id="stepx"> 
 			<h4 class="row text-center"> <br><br><br>- step x -</h4> 
 			<h2 class="row text-center"><strong> TESTING </strong> </h2>  	
-
-
-			<img id="yel4" width="0" src="graphics/final-graphics/yel4.png" alt="yel4p">
 		</div>
  -->
 	</body>
