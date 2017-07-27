@@ -14,11 +14,13 @@ var plas1, bact1;
 var plas2, bact2;
 var plas3a, plas3b, plas3c, plas3d, bact3; 
 var step1count = 0; 
+var f = 2.0; 
 
 // step 1 anime 
 function startBacAnim1() {
-    plas1  = new component("graphics/step2b.png", 30, 70, 30, 30,"image", "bactArea1");
-    bact1 = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea1");
+  // component object params: color, x, y, width, height, type, canvas
+    plas1  = new component("graphics/plasmid.png", 10 * f, 10 * f, 20 * f, 20 * f,"image", "bactArea1");
+    bact1 = new component("graphics/bact-orig.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
     bactArea1.start();
 }
 
@@ -26,8 +28,6 @@ var bactArea1 = {
     canvas : document.getElementById('step-1-anime'),
     start : function() {
         step1count = 0; 
-        this.canvas.width = 250;
-        this.canvas.height = 200;
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateBactArea1, 20);
     },
@@ -46,16 +46,14 @@ function updateBactArea1() {
 
 // step 2 anime 
 function startBacAnim2() {
-    plas2 = new component("graphics/step2b.png", 30, 100, 30, 30,"image", "bactArea2");
-    bact2 = new component("graphics/step2a.png", 100, 70, 140, 120, "image", "bactArea2");
+    plas2 = new component("graphics/plasmid.png", 10 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea2");
+    bact2 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea2");
     bactArea2.start();
 }
 
 var bactArea2 = {
     canvas : document.getElementById('step-2-anime'),
     start : function() {
-        this.canvas.width = 250;
-        this.canvas.height = 200;
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateBactArea2, 20);
     },
@@ -73,19 +71,17 @@ function updateBactArea2() {
 
 // step 3 anime 
 function startBacAnim3() {
-    plas3a = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
-    plas3b = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
-    plas3c = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
-    plas3d = new component("graphics/step2b.png", 120, 100, 30, 30,"image", "bactArea3");
-    bact3 = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea3");
+    plas3a = new component("graphics/plasmid.png", 70 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea3");
+    plas3b = new component("graphics/plasmid.png", 70 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea3");
+    plas3c = new component("graphics/plasmid.png", 70 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea3");
+    plas3d = new component("graphics/plasmid.png", 70 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea3");
+    bact3 = new component("graphics/bact-orig.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea3");
     bactArea3.start();
 }
 
 var bactArea3 = {
     canvas : document.getElementById('step-3-anime'),
     start : function() {
-        this.canvas.width = 250;
-        this.canvas.height = 200;
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateBactArea3, 20);
     },
@@ -129,66 +125,19 @@ function loop() {
 var cuvette, cuvetteWater;
 
 function startGame() {
-    cuvette = new component("graphics/cuvette.png", 0, 30, 48, 120,"image", "myGameArea");
-    cuvetteWater = new component("graphics/cuvette-water.png", 100, 70, 140, 120, "image", "myGameArea");
+    cuvette = new component("graphics/cuvette.png", 0 * f, 30 * f, 48 * f, 120 * f,"image", "myGameArea");
+    cuvetteWater = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "myGameArea");
     myGameArea.start();
 }
 
 var myGameArea = {
-    canvas : document.getElementById('cuvette-image'),
+    canvas : document.getElementById('cuvette-2'),
     start : function() {
-        this.canvas.width = 250;
-        this.canvas.height = 200;
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateGameArea, 20);
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
-}
-
-function component(color, x, y, width, height, type, canvas) {
-    this.type = type;
-    if (type == "image") {
-      this.image = new Image();
-      this.image.src = color;
-    }
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;    
-    this.update = function(){
-        var ctx = eval(canvas + ".context");
-        if (type == "image") {
-          ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-          // unique animation for each context
-          if (this == cuvette) {
-            if (this.x > 140) { this.x = 140; }
-          } else if (this == plas2) {
-            if (this.x > 120) { this.x = 120; }
-          } else if (this == plas3b) {
-            if (this.x < 165) { this.x += 1; }
-            if (this.y > 80 ) {this.y -= 1; }
-             
-          } else if (this == plas3c) {
-            if (this.y < 135) { this.y += 1; }
-            if (this.x > 110) { this.x -= 1; }
-          } else if (this == plas3d) {
-            if (this.x < 145) { this.x += 1; }
-            if (this.y < 155) { this.y += 1; }
-          } else if (this == bact1) {
-            if (step1count > 100) {
-              bact1 = new component("graphics/step2a.png", 100, 70, 140, 120, "image", "bactArea1");
-            } else if (step1count > 70) {
-              bact1 = new component("graphics/bact1a.png", 100, 70, 140, 120, "image", "bactArea1");
-            } else if (step1count > 40) {
-              bact1 = new component("graphics/step2a.png", 100, 70, 140, 120, "image", "bactArea1");
-            }
-          }
-        } else {
-          ctx.fillStyle = color;
-          ctx.fillRect(this.x, this.y, this.width, this.height);
-        }
     }
 }
 
@@ -200,27 +149,10 @@ function updateGameArea() {
 }
 
 //////////////// DRAWING THE CUVETTE //////////////////////
-ctx = document.getElementById('cuvette-image').getContext('2d'); 
-ctx.canvas.width = 250;
-ctx.canvas.height = 200;
 
-  // draw image based on the color of the project  
-   var imgBase = new Image();
-   imgBase.src= "graphics/cuvette-water.png";
-   imgBase.onload = function() {
-    ctx.globalAlpha = 1.0; 
-      ctx.drawImage(imgBase, 100, 70, 140, 120);
-   };
-
-  var clear1 = new Image();
-  clear1.src="graphics/cuvette.png";
-  clear1.onload = function() {
-    ctx.globalAlpha = 1.0; 
-    ctx.drawImage(clear1, 0,30, 48, 120)
-  };
-
+// STEP 1
 // TODO: function that moves the cuvette into the water
-function transferCuvette() {
+function cuvetteStep2() {
   // move it dynamically 
   console.log("TODO: animate cuvette"); 
 
@@ -254,6 +186,118 @@ function transferCuvette() {
       document.getElementById("demo").innerHTML = "EXPIRED";
     }
   }, 1000);
+}
+
+
+
+// STEP 2 
+ctx = document.getElementById('cuvette-2').getContext('2d'); 
+// ctx.canvas.width = 250;
+// ctx.canvas.height = 200;
+
+  // draw image based on the color of the project  
+   var imgBase = new Image();
+   imgBase.src= "graphics/cuvette-water.png";
+   imgBase.onload = function() {
+    ctx.globalAlpha = 1.0; 
+      ctx.drawImage(imgBase, 100 * f, 70 * f, 140 * f, 120 * f);
+   };
+
+  var clear1 = new Image();
+  clear1.src="graphics/cuvette.png";
+  clear1.onload = function() {
+    ctx.globalAlpha = 1.0; 
+    ctx.drawImage(clear1, 0 * f,30 * f, 48 * f, 120 * f);
+  };
+
+// TODO: function that moves the cuvette into the water
+function cuvetteStep2() {
+  // move it dynamically 
+  console.log("TODO: animate cuvette"); 
+
+  // TRIGGER COUNTDOWN 
+  var countDownDate = new Date("Jan 5, 2018 15:37:25").getTime();
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now an the count down date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    if (seconds.toString().length < 2) {
+      seconds = "0" + seconds; 
+    }
+    // Display the result in the element with id="demo"
+    document.getElementById("cuv-count").innerHTML =  seconds + " S";
+
+    // If the count down is finished, write some text 
+    if (distance < 0) {
+      clearInterval(x);
+      document.getElementById("demo").innerHTML = "EXPIRED";
+    }
+  }, 1000);
+}
+
+// STEP 3 
+
+///////////// COMPONENT OBJECT USED FOR ANIMATON /////////////////
+function component(color, x, y, width, height, type, canvas) {
+    this.type = type;
+    if (type == "image") {
+      this.image = new Image();
+      this.image.src = color;
+    }
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;    
+    this.update = function(){
+        var ctx = eval(canvas + ".context");
+        if (type == "image") {
+          ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+          // unique animation for each context
+          if (this == cuvette) {
+            if (this.x > 140 * f) { this.x = 140 * f; }
+          } 
+          else if (this == plas2) {
+            if (this.x > 70 * f) { this.x = 70 * f; }
+          } 
+          else if (this == plas3b) {
+            if (this.x < 100 * f) { this.x += 1 * f; }
+            if (this.y > 35 * f) {this.y -= 1 * f; }
+          } 
+          else if (this == plas3c) {
+            if (this.x > 60 * f) { this.x -= 1 * f; }
+            if (this.y < 65 * f) { this.y += 1 * f; }
+          } 
+          else if (this == plas3d) {
+            if (this.x < 90 * f) { this.x += 1 * f; }
+            if (this.y < 60 * f) { this.y += 1 * f; }
+          } 
+          else if (this == bact1) {
+            if (step1count > 100) {
+              bact1 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
+            } else if (step1count > 70) {
+              bact1 = new component("graphics/bact-orig.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
+            } else if (step1count > 40) {
+              bact1 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
+            }
+          }
+        } 
+        else {
+          ctx.fillStyle = color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
 }
 
 //////////////// DRAWING THE INCUBATOR //////////////////////
@@ -355,12 +399,28 @@ function redrawSyringe() {
 ///////////////////// GRAPHS /////////////////////////
 var chart1 = new CanvasJS.Chart("vis-1", { 
   backgroundColor: "#dee3ed",
-  colorSet:  "[#FFFFFF]",
+  height: 300,
   title: {
-    text: "OD HISTORY CURVE SYRINGE 1",
-    maxWidth: 300,
+    text: "OD HISTORY CURVE: SYRINGE 1",
+    fontFamily: "Josefin Sans",
     fontColor: "#98A1AD",
-    fontSize: 20
+    fontSize: 17
+  },
+  axisX:{
+      title:"TIME (sec)",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#98A1AD",
+      minimum: 0,
+      maximum: 60
+  },
+  axisY:{
+      title: "OPTICAL DENSITY",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#98A1AD",
+      minimum: 0,
+      maximum: 60
   },
   data: [
   {
@@ -375,11 +435,28 @@ var chart1 = new CanvasJS.Chart("vis-1", {
 
 var chart2 = new CanvasJS.Chart("vis-2", { 
   backgroundColor: "#dee3ed",
+  height: 300,
   title: {
-    text: "OD HISTORY CURVE SYRINGE 2",
-    maxWidth: 300,
+    text: "OD HISTORY CURVE: SYRINGE 2",
+    fontFamily: "Josefin Sans",
     fontColor: "#4F6C7A",
-    fontSize: 20
+    fontSize: 17
+  },
+  axisX:{
+      title:"TIME (sec)",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#4F6C7A",
+      minimum: 0,
+      maximum: 60
+  },
+  axisY:{
+      title: "OPTICAL DENSITY",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#4F6C7A",
+      minimum: 0,
+      maximum: 60
   },
   data: [
   {
@@ -394,12 +471,28 @@ var chart2 = new CanvasJS.Chart("vis-2", {
 
 var chart3 = new CanvasJS.Chart("vis-3", { 
   backgroundColor: "#dee3ed",
+  height: 300,
   title: {
-    text: "OD HISTORY CURVE SYRINGE 3",
-    maxWidth: 300,
+    text: "OD HISTORY CURVE: SYRINGE 3",
+    fontFamily: "Josefin Sans",
     fontColor: "#E4AF9A",
-    fontSize: 20
-
+    fontSize: 17
+  },
+  axisX:{
+      title:"TIME (sec)",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#E4AF9A",
+      minimum: 0,
+      maximum: 60
+  },
+  axisY:{
+      title: "OPTICAL DENSITY",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#E4AF9A",
+      minimum: 0,
+      maximum: 60
   },
   data: [
   {
@@ -414,11 +507,28 @@ var chart3 = new CanvasJS.Chart("vis-3", {
 
 var chart4 = new CanvasJS.Chart("vis-4", { 
   backgroundColor: "#dee3ed",
+  height: 300,
   title: {
-    text: "OD HISTORY CURVE SYRINGE 4",
-    maxWidth: 300,
+    text: "OD HISTORY CURVE: SYRINGE 4",
+    fontFamily: "Josefin Sans",
     fontColor: "#AD9A98",
-    fontSize: 20
+    fontSize: 17
+  },
+  axisX:{
+      title:"TIME (sec)",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#AD9A98",
+      minimum: 0,
+      maximum: 60
+  },
+  axisY:{
+      title: "OPTICAL DENSITY",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
+      titleFontColor: "#AD9A98",
+      minimum: 0,
+      maximum: 60
   },
   data: [
   {
@@ -495,19 +605,24 @@ $("#updateDataOD").click(function () {
 
 // RAW SPECTRUM GRAPH - default graph
 chart = new CanvasJS.Chart("chartContainer", {
-    theme: "theme2", //theme1
-    backgroundColor: "#bcc4d1",
+    theme: "theme1",
     title:{
-      text: "Raw Spectrum Readings"              
+      text: "RAW SPECTRUM READING",
+      fontFamily: "Josefin Sans",
+      fontSize: 20            
     },
-    // animationEnabled: false,   // change to true
+    animationEnabled: true,
     axisX:{
-      title:"Wavelength (nm)",
+      title:"WAVELENGTH (nm)",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
       minimum: 0,
       maximum: 800
     },
     axisY:{
-      title: "Raw A/D Counts",
+      title: "RAW A/D COUNTS",
+      titleFontFamily: "Josefin Sans",
+      titleFontSize: 15,
       minimum: 0,
       maximum: 40000
     },
