@@ -121,133 +121,176 @@ function loop() {
 }
 
 
-//////////////// CUVETTE ANIMATION //////////////////////
-var cuvette, cuvetteWater;
+//////////////// CUVETTE ANIMATION #1 //////////////////////
+var cuv1, cuvWa1;
+var ctx1 = document.getElementById('cuv-anim-1').getContext('2d'); 
 
-function startGame() {
-    cuvette = new component("graphics/cuvette.png", 0 * f, 30 * f, 48 * f, 120 * f,"image", "myGameArea");
-    cuvetteWater = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "myGameArea");
-    myGameArea.start();
+// draw start image
+var cuvImage1 = new Image();
+var cuvWatImage1 = new Image();
+cuvImage1.src="graphics/cuvette.png";
+cuvWatImage1.src= "graphics/cuvette-water.png";
+cuvImage1.onload = function() {
+  ctx1.drawImage(cuvWatImage1, 100 * f, 70 * f, 140 * f, 120 * f);
+  ctx1.drawImage(cuvImage1, 0 * f,30 * f, 48 * f, 120 * f);
+};
+
+function startCuv1() {
+    cuv1 = new component("graphics/cuvette.png", 0 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv1");
+    cuvWa1 = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv1");
+    areaCuv1.start();
 }
 
-var myGameArea = {
-    canvas : document.getElementById('cuvette-2'),
+var areaCuv1 = {
+    canvas : document.getElementById('cuv-anim-1'),
     start : function() {
         this.context = this.canvas.getContext("2d");
-        this.interval = setInterval(updateGameArea, 20);
+        this.interval = setInterval(updateAreaCuv1, 20);
     },
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
-function updateGameArea() {
-    myGameArea.clear();
-    cuvette.x += 2;
-    cuvetteWater.update(); 
-    cuvette.update();
+function updateAreaCuv1() {
+    areaCuv1.clear();
+    cuv1.x += 2;
+    cuv1.update();
+    cuvWa1.update(); 
 }
 
-//////////////// DRAWING THE CUVETTE //////////////////////
-
-// STEP 1
-// TODO: function that moves the cuvette into the water
-function cuvetteStep2() {
-  // move it dynamically 
-  console.log("TODO: animate cuvette"); 
-
-  // TRIGGER COUNTDOWN 
-  var countDownDate = new Date("Jan 5, 2018 15:37:25").getTime();
-
-  // Update the count down every 1 second
-  var x = setInterval(function() {
-
-    // Get todays date and time
-    var now = new Date().getTime();
-
-    // Find the distance between now an the count down date
-    var distance = countDownDate - now;
-
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    if (seconds.toString().length < 2) {
-      seconds = "0" + seconds; 
-    }
-    // Display the result in the element with id="demo"
-    document.getElementById("cuv-count").innerHTML =  seconds + " S";
-
-    // If the count down is finished, write some text 
-    if (distance < 0) {
-      clearInterval(x);
-      document.getElementById("demo").innerHTML = "EXPIRED";
-    }
-  }, 1000);
+function cuvStep1() {
+  document.getElementById('cuv-timer-1').innerHTML =
+  03 + ":" + 01;
+  startTimer1();
 }
 
-
-
-// STEP 2 
-ctx = document.getElementById('cuvette-2').getContext('2d'); 
-// ctx.canvas.width = 250;
-// ctx.canvas.height = 200;
-
-  // draw image based on the color of the project  
-   var imgBase = new Image();
-   imgBase.src= "graphics/cuvette-water.png";
-   imgBase.onload = function() {
-    ctx.globalAlpha = 1.0; 
-      ctx.drawImage(imgBase, 100 * f, 70 * f, 140 * f, 120 * f);
-   };
-
-  var clear1 = new Image();
-  clear1.src="graphics/cuvette.png";
-  clear1.onload = function() {
-    ctx.globalAlpha = 1.0; 
-    ctx.drawImage(clear1, 0 * f,30 * f, 48 * f, 120 * f);
-  };
-
-// TODO: function that moves the cuvette into the water
-function cuvetteStep2() {
-  // move it dynamically 
-  console.log("TODO: animate cuvette"); 
-
-  // TRIGGER COUNTDOWN 
-  var countDownDate = new Date("Jan 5, 2018 15:37:25").getTime();
-
-  // Update the count down every 1 second
-  var x = setInterval(function() {
-
-    // Get todays date and time
-    var now = new Date().getTime();
-
-    // Find the distance between now an the count down date
-    var distance = countDownDate - now;
-
-    // Time calculations for days, hours, minutes and seconds
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    if (seconds.toString().length < 2) {
-      seconds = "0" + seconds; 
-    }
-    // Display the result in the element with id="demo"
-    document.getElementById("cuv-count").innerHTML =  seconds + " S";
-
-    // If the count down is finished, write some text 
-    if (distance < 0) {
-      clearInterval(x);
-      document.getElementById("demo").innerHTML = "EXPIRED";
-    }
-  }, 1000);
+function startTimer1() {
+  var presentTime = document.getElementById('cuv-timer-1').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if(s==59){m=m-1}
+  // if(m<0){alert('timer completed')}
+  // if (m < 0) {
+  //   document.getElementById('cuv-timer-1').innerHTML = "done!!!!! no";
+  // } else {
+  document.getElementById('cuv-timer-1').innerHTML = m + ":" + s;
+  // }
+  
+  setTimeout(startTimer1, 1000);
 }
 
-// STEP 3 
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
+
+//////////////// CUVETTE ANIMATION #2 //////////////////////
+// description: heat shock. cuvette heat up must be represented 
+var cuv2, cuvWa2;
+var ctx2 = document.getElementById('cuv-anim-2').getContext('2d'); 
+
+// draw start image
+var cuvImage2 = new Image();
+var cuvWatImage2 = new Image();
+cuvImage2.src="graphics/cuvette.png";
+cuvWatImage2.src= "graphics/cuvette-water.png";
+cuvImage2.onload = function() {
+  ctx2.drawImage(cuvImage2, 140 * f,30 * f, 48 * f, 120 * f);
+  ctx2.drawImage(cuvWatImage2, 100 * f, 70 * f, 140 * f, 120 * f);
+};
+
+function startCuv2() {
+    cuv2 = new component("graphics/cuvette.png", 140 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv2");
+    cuvWa2 = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv2");
+    areaCuv2.start();
+}
+
+var areaCuv2 = {
+    canvas : document.getElementById('cuv-anim-2'),
+    start : function() {
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateAreaCuv2, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function updateAreaCuv2() {
+    areaCuv2.clear();
+    cuv2.update();
+    cuvWa2.update(); 
+}
+
+function cuvStep2() {
+  document.getElementById('cuv-timer-2').innerHTML =
+  03 + ":" + 01;
+  startTimer2();
+}
+
+function startTimer2() {
+  var presentTime = document.getElementById('cuv-timer-2').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  if(s==59){m=m-1}
+  // if(m<0){alert('timer completed')}
+  // if (m < 0) {
+  //   document.getElementById('cuv-timer-1').innerHTML = "done!!!!! no";
+  // } else {
+  document.getElementById('cuv-timer-2').innerHTML = m + ":" + s;
+  // }
+  
+  setTimeout(startTimer2, 1000);
+}
+
+// function checkSecond(sec) {
+//   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+//   if (sec < 0) {sec = "59"};
+//   return sec;
+// }
+
+
+//////////////// CUVETTE ANIMATION #3 //////////////////////
+var cuv3, cuvWa3;
+var ctx3 = document.getElementById('cuv-anim-3').getContext('2d'); 
+
+// draw start image
+var cuvImage3 = new Image();
+var cuvWatImage3 = new Image();
+cuvImage3.src="graphics/cuvette.png";
+cuvWatImage3.src= "graphics/cuvette-water.png";
+cuvImage3.onload = function() {
+  ctx3.drawImage(cuvImage3, 50 * f,30 * f, 48 * f, 120 * f);
+  ctx3.drawImage(cuvWatImage3, 10 * f, 70 * f, 140 * f, 120 * f);
+};
+
+function startCuv3() {
+    cuv3 = new component("graphics/cuvette.png", 50 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv3");
+    cuvWa3 = new component("graphics/cuvette-water.png", 10 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv3");
+    areaCuv3.start();
+}
+
+var areaCuv3 = {
+    canvas : document.getElementById('cuv-anim-3'),
+    start : function() {
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateAreaCuv3, 20);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+function updateAreaCuv3() {
+    areaCuv3.clear();
+    cuv3.x += 2;
+    cuv3.update();
+    cuvWa3.update(); 
+}
 
 ///////////// COMPONENT OBJECT USED FOR ANIMATON /////////////////
 function component(color, x, y, width, height, type, canvas) {
@@ -265,9 +308,15 @@ function component(color, x, y, width, height, type, canvas) {
         if (type == "image") {
           ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
           // unique animation for each context
-          if (this == cuvette) {
-            if (this.x > 140 * f) { this.x = 140 * f; }
-          } 
+          if (this == cuv1) {
+            if (this.x > 140 * f) {this.x = 140 * f; }
+          }
+          else if (this == cuv2) {
+          //   if (this.x > 140 * f) {this.x = 140 * f; }
+          }
+          else if (this == cuv3) {
+            if (this.x > 170 * f) {this.x = 170 * f; }
+          }
           else if (this == plas2) {
             if (this.x > 70 * f) { this.x = 70 * f; }
           } 

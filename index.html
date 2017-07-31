@@ -721,7 +721,7 @@
 	</head>
 
 	<body id="myPage" data-spy="scroll" data-target=".navbar" 
-	onload="startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()">
+	>
 	  <div class="jumbotron text-center" style="background-color: #f9f9f9; margin-bottom:0;">
 
 	    <h1 style="font-family: Josefin Slab; letter-spacing: 3px"><br><br><strong>bio.maker.lab</strong></h1> 
@@ -768,48 +768,59 @@
 					<h2> <strong> TRANSFORM </strong> </h2>  
 
 					<!-- NEW LAYOUT -->
-					<div class="col-sm-4" style="border:1px solid black;"> 
+					<div class="col-sm-4" style="border:0px solid black;"> 
 						<!-- put info above the title --> 
-						<canvas id="step-1-anime" style="border:1px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<canvas id="step-1-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<!-- <div> bacterial animation </div>  -->
 						<button class="to-top" onclick="startBacAnim1()"> (click for step 1 animation) </button> <br>
 						<p> ------------------------------------------------- </p>
-						1. take cuvette out of cool temp <br>
-						2. place it into solution <br>
-						3. add countdown: "place for 3 minutes" <br><br>
-						<img src="graphics/cuvette.png" height="100"> <br><br><br>
-						<img src="graphics/cuvette-water.png" height="120"> <br><br><br>
+						- take cuvette out of cool temp <br>
+						- place it into solution <br>
+						- current temp: x degrees F 
+
+						<canvas id="cuv-anim-1" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
+						<div> 3 minute countdown: </div>
+						<div id="cuv-timer-1" class="countdown" style="font-size:17px"> timer here </div>
+							<br> <button class="to-top" onclick="startCuv1(), cuvStep1()"> 
+						(CLICK TO PLACE CUVETTE) </button>
+
 						<p> ------------------------------------------------- </p>
 						<h4> PLACE </h4> 
 					</div>
-					<div class="col-sm-4" style="border:1px solid black;"> 
+					<div class="col-sm-4" style="border:0px solid black;"> 
 						<!-- put info above the title --> 
-						<canvas id="step-2-anime" style="border:1px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<canvas id="step-2-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<!-- <div> bacterial animation </div>  -->
 						<button class="to-top" onclick="startBacAnim2()"> (click for step 2 animation) </button> <br>
 						<p> ------------------------------------------------- </p>
 
-						1. heat shock <br>
-						2. show timer countdown <br> 
-						3. "transform" button <br>
+						- heat shock <br>
+						- current temp: x degrees F <br>
 
-						<canvas id="cuvette-2" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
-						<div id="cuv-count" class="rectangle" style="font-size:17px"> timer </div>
-						<br> <button class="button" onclick="cuvetteStep2(), startGame()"> 
-						CLICK TO START TRANSFORM </button>
+						<canvas id="cuv-anim-2" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
+						<div> 3 minute countdown: </div>
+						<div id="cuv-timer-2" class="countdown" style="font-size:17px"> timer here </div>
+						<br> <button class="to-top" onclick="startCuv2(), cuvStep2()"> 
+						(CLICK TO START TRANSFORM) </button>
 						<br><br>
-
 						<p> ------------------------------------------------- </p>
 						<h4> TRANSFORM </h4> 
 					</div>
-					<div class="col-sm-4" style="border:1px solid black;"> 
+					<div class="col-sm-4" style="border:0px solid black;"> 
 						<!-- put info above the title --> 
-						<canvas id="step-3-anime" style="border:1px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<canvas id="step-3-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<!-- <div> bacterial animation </div>  -->
 						<button class="to-top" onclick="startBacAnim3()"> (click for step 3 animation) </button> <br>
 						<p> ------------------------------------------------- </p>
 						1. remove cuvette from solution <br>
-						2. put into syringe <br>
-						3. onto incubate section . . . <br>
-						<img src="graphics/cuvette.png" height="100"> <br><br><br>
-						<img src="graphics/cuvette-water.png" height="120"> <br><br><br><br>
+
+						<canvas id="cuv-anim-3" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
+						<div> time to take out the cuvette! </div>
+
+						<br> <button class="to-top" onclick="startCuv3()"> 
+						(CLICK TO REMOVE CUVETTE) </button>
+						<br><br><br><br><br>
+
 						<p> ------------------------------------------------- </p>
 						<h4> REMOVE </h4>
 					</div> 
@@ -835,7 +846,7 @@
 				<div class="row text-center" > 
 					<button class="to-top" onclick="drawInc(1)"> (click to test default incubator image) </button>
 					<br> <button class="to-top" onclick="redrawSyringe()"> (click to test color change) </button> <br><br>
-					<button class="button" onclick="beginButton()" class="start"> Begin Growth </button> &nbsp;
+					<button class="button" onclick="beginButton(), startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()" class="start"> Begin Growth </button> &nbsp;
 					<button class="button" onclick="stopButton()" class="stop"> Stop Growth </button> <br><br>
 				</div> 
 
@@ -846,22 +857,22 @@
 					<div class="col-sm-2"></div>
  				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
-				        <div id="od-1" class="circle" style="background-color:#98A1AD;"><br><br> click for syringe 1 reading </div> <p> <br> Syringe 1 </p>
+				        <div id="od-1" class="circle" style="background-color:#98A1AD;"><br><br> </div> <p> <br> Syringe 1 </p>
 				      </div>
 				    </div>
 				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
-				        <div id="od-2" class="circle" style="background-color:#4F6C7A;"><br><br> click for syringe 2 reading </div>	<p> <br> Syringe 2 </p>			     
+				        <div id="od-2" class="circle" style="background-color:#4F6C7A;"><br><br> </div>	<p> <br> Syringe 2 </p>			     
 				      </div>
 				    </div>
 				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
-				        <div id="od-3" class="circle" style="background-color:#E4AF9A;"><br><br> click for syringe 3 reading</div> <p> <br> Syringe 3 </p>
+				        <div id="od-3" class="circle" style="background-color:#E4AF9A;"><br><br> </div> <p> <br> Syringe 3 </p>
 				      </div>
 				    </div>
 				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
-				        <div id="od-4" class="circle" style="background-color:#AD9A98;"><br><br> click for syringe 4 reading </div> <p> <br> Syringe 4 </p>
+				        <div id="od-4" class="circle" style="background-color:#AD9A98;"><br><br> </div> <p> <br> Syringe 4 </p>
 				      </div>
 				    </div>
 				    <div class="col-sm-2"></div>
@@ -898,40 +909,28 @@
  				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
 				      	<button class="begin-button" style="background-color:#98A1AD; color: black; outline-width:1px;" onclick="chooseGraph(1)"> Display Syringe 1 </button>
-				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
-						<!-- <button id="addDataPoint-1" class="button">Update History</button>   -->
 						<br><br> <div id="vis-1a"></div>
-
 				      </div>
 				    </div>
 				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
 				      	<button class="begin-button" style="background-color:#4F6C7A; color: black; outline-width:1px;" onclick="chooseGraph(2)"> Display Syringe 2 </button>
-				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->	
-				        <!-- <button id="addDataPoint-2" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-2a"></div>
-
 				      </div>
 				    </div>
 				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
 				      	<button class="begin-button" style="background-color:#E4AF9A; color: black; outline-width:1px;" onclick="chooseGraph(3)"> Display Syringe 3 </button>
-				        <!-- <div class="circle"><br><br> history curve (temp)</div> -->
-				        <!-- <button id="addDataPoint-3" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-3a"></div>
-
 				      </div>
 				    </div>
 				    <div class="col-sm-2">
 				      <div class="thumbnail-holder">
 				      	<button class="begin-button" style="background-color:#AD9A98; color: black; outline-width:1px;" onclick="chooseGraph(4)"> Display Syringe 4 </button>
-				        <!-- <div class="circle"><br><br> history curve (temp) </div> -->
-				        <!-- <button id="addDataPoint-4" class="button">Update History</button>   -->
 				        <br><br> <div id="vis-4a"></div>
 				      </div>
 				    </div>
 				    <div class="col-sm-2"></div>
-
 					<p> <br><br><br><br> </p>
 
 					<!-- Trigger the modal with a button -->
@@ -967,15 +966,7 @@
 					<br><br><br> <a class="to-top" href="#myPage"> ( back to top ) </a> <p></br></p>
 				</div>
 			</div>
-
-		<!-- testing -->
-<!-- 		<div class="container-fluid bg-grey" style="background-color:#fff" id="stepx"> 
-			<h4 class="row text-center"> <br><br><br>- step x -</h4> 
-			<h2 class="row text-center"><strong> TESTING </strong> </h2>  	
-		</div>
- -->
 	</body>
-
 	<script type="text/javascript" src="src/main.js"></script>
 </html>
 
