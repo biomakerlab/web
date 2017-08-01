@@ -1,5 +1,5 @@
-.to-top {
-    background-color: transparent; 
+.begin-anim-button {
+    background-color: #E4AF9A; 
     border: none;
     color: black;
     display: inline-block;
@@ -9,19 +9,33 @@
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
+    padding: 5px 10px 3px 10px;
+    opacity: .8
 }
 
-.to-top:hover, .to-top:focus {
+.begin-anim-button:hover {
+    text-decoration: none;
+    color: black;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: black;
+}
+
+.begin-anim-button:focus {
     text-decoration: none;
     outline: 0; 
     color: black;
-    opacity: 0.7;
+    outline-style: solid;
+    outline-width: 0px;
+    outline-color: black;
+
 }
 
-.to-top:active {
+.anim-button:active {
   text-decoration: none;
   background-color: transparent;
   color: black;
+  outline-width: 1px;
 }
 
 .begin-button {
@@ -36,7 +50,7 @@
 	  outline-style: solid; 
     outline-width: 2px;
     outline-color: black;
-    padding: 11px 25px 9px;
+    padding: 11px 20px 3px;
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
@@ -123,17 +137,15 @@
 }
 
 .rectangle {
-  width: 100px;
+  width: 90px;
   height: 35px;
-  background: white;
+  /*background: white;*/
   font-family: Josefin Sans, sans-serif;
-  font-size: 12px;
-  margin: auto;
-  text-align: center; 
+  font-size: 15px;
   text-transform: uppercase;
   outline-style: solid; 
-  outline-width: 1px;
-  outline-color: white;
+  outline-width: 0px;
+  outline-color: black;
 }
 
 
@@ -232,4 +244,30 @@ p {
 
 */.thumbnail{
 	background: black;
-}s
+}
+
+.to-top {
+    background-color: transparent; 
+    border: none;
+    color: black;
+    display: inline-block;
+    font-family: Josefin Sans, sans-serif;
+    font-size: 10px;
+    opacity: 1.0; 
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+}
+
+.to-top:hover, .to-top:focus {
+    text-decoration: none;
+    outline: 0; 
+    color: black;
+    opacity: 0.7;
+}
+
+.to-top:active {
+  text-decoration: none;
+  background-color: transparent;
+  color: black;
+}

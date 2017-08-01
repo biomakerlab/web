@@ -1,4 +1,4 @@
- // global vars 
+// global vars 
  var timer;         // global timer
  var seconds = 0;   // seconds passed 
  var ctx;           // canvas context
@@ -189,22 +189,37 @@ function checkSecond(sec) {
 
 //////////////// CUVETTE ANIMATION #2 //////////////////////
 // description: heat shock. cuvette heat up must be represented 
-var cuv2, cuvWa2;
+var cuv2, cuvWa2, hotWa2, thermReg, thermHot;
+var thermAlpha = 0.0; 
 var ctx2 = document.getElementById('cuv-anim-2').getContext('2d'); 
 
 // draw start image
 var cuvImage2 = new Image();
 var cuvWatImage2 = new Image();
+var hotWatImage2 = new Image();
+var thermImage2 = new Image(); 
+var thermHotImage2 = new Image(); 
 cuvImage2.src="graphics/cuvette.png";
 cuvWatImage2.src= "graphics/cuvette-water.png";
+hotWatImage2.src = "graphics/hot-water.png";
+thermImage2.src = "graphics/therm.png";
+thermHotImage2.src = "graphics/hot-therm.png"
 cuvImage2.onload = function() {
   ctx2.drawImage(cuvImage2, 140 * f,30 * f, 48 * f, 120 * f);
   ctx2.drawImage(cuvWatImage2, 100 * f, 70 * f, 140 * f, 120 * f);
+  ctx2.drawImage(hotWatImage2, 105 * f, 75 * f, 140 * f, 120 * f);
+  ctx2.drawImage(thermImage2, 10 * f, 10 * f, 20 * f, 50 * f); 
+  // ctx2.globalAlpha = 0.4; 
+  // ctx2.drawImage(thermHotImage2, 15* f, 15 * f, 20 * f, 50 * f); 
+  // ctx2.globalAlpha = 1.0;
 };
 
 function startCuv2() {
     cuv2 = new component("graphics/cuvette.png", 140 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv2");
     cuvWa2 = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv2");
+    hotWa2 = new component("graphics/hot-water.png", 105 * f, 75 * f, 140 * f, 120 * f, "image", "areaCuv2");
+    thermReg = new component("graphics/therm.png", 10 * f, 10 * f, 20 * f, 50 * f, "image", "areaCuv2");
+    thermHot = new component("graphics/hot-therm.png", 15 * f, 15 * f, 20 * f, 50 * f, "image", "areaCuv2");
     areaCuv2.start();
 }
 
@@ -223,6 +238,9 @@ function updateAreaCuv2() {
     areaCuv2.clear();
     cuv2.update();
     cuvWa2.update(); 
+    hotWa2.update();
+    thermReg.update();
+    thermHot.update();
 }
 
 function cuvStep2() {
@@ -237,22 +255,9 @@ function startTimer2() {
   var m = timeArray[0];
   var s = checkSecond((timeArray[1] - 1));
   if(s==59){m=m-1}
-  // if(m<0){alert('timer completed')}
-  // if (m < 0) {
-  //   document.getElementById('cuv-timer-1').innerHTML = "done!!!!! no";
-  // } else {
   document.getElementById('cuv-timer-2').innerHTML = m + ":" + s;
-  // }
-  
   setTimeout(startTimer2, 1000);
 }
-
-// function checkSecond(sec) {
-//   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
-//   if (sec < 0) {sec = "59"};
-//   return sec;
-// }
-
 
 //////////////// CUVETTE ANIMATION #3 //////////////////////
 var cuv3, cuvWa3;
@@ -341,6 +346,10 @@ function component(color, x, y, width, height, type, canvas) {
               bact1 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
             }
           }
+          else if (this == hotWa2) {
+            thermAlpha += .01; 
+            ctx2.globalAlpha = thermAlpha; 
+          }
         } 
         else {
           ctx.fillStyle = color;
@@ -397,9 +406,6 @@ function drawInc(index) { // options are 1, 2, or 3
     ctx.globalAlpha = 1.0; 
     ctx.drawImage(clear4, 134, 472, 274, 70);
   };
-
-
-
 
   var color1 = new Image();
   color1.src="graphics/final-graphics/" + color + "1.png";
@@ -488,14 +494,14 @@ var chart2 = new CanvasJS.Chart("vis-2", {
   title: {
     text: "OD HISTORY CURVE: SYRINGE 2",
     fontFamily: "Josefin Sans",
-    fontColor: "#4F6C7A",
+    fontColor: "#6c8b98",
     fontSize: 17
   },
   axisX:{
       title:"TIME (sec)",
       titleFontFamily: "Josefin Sans",
       titleFontSize: 15,
-      titleFontColor: "#4F6C7A",
+      titleFontColor: "#6c8b98",
       minimum: 0,
       maximum: 60
   },
@@ -503,13 +509,13 @@ var chart2 = new CanvasJS.Chart("vis-2", {
       title: "OPTICAL DENSITY",
       titleFontFamily: "Josefin Sans",
       titleFontSize: 15,
-      titleFontColor: "#4F6C7A",
+      titleFontColor: "#6c8b98",
       minimum: 0,
       maximum: 60
   },
   data: [
   {
-    color: "#4F6C7A",
+    color: "#6c8b98",
     type: "line",
     dataPoints: [
       { x: 0, y: 0 }, 
@@ -601,7 +607,7 @@ function chooseGraph(index) {
   };
     chart1.render(); 
   } else if (index == 2) {
-    document.getElementById("updateDataOD").style.backgroundColor = "#4F6C7A";
+    document.getElementById("updateDataOD").style.backgroundColor = "#6c8b98";
     if (document.getElementById("vis-2")) {
     $("#vis-1").insertBefore("#vis-2")
     $("#vis-3").insertBefore("#vis-2")
@@ -689,7 +695,6 @@ function startTime() {
   var today = new Date();
   timer = today; 
   var s = today.getSeconds();
-  // document.getElementById('realTimeOD').innerHTML = "CURRENT TIME: " + s; // displays current seconds passed
   var t = setTimeout(startTime, 500);
 }
 
@@ -763,10 +768,6 @@ function stopButton() {
       message.destinationName = "machine1/state"; 
       client.send(message); 
     } 
-}
-
-function setTemp() {
-  console.log("set temperature button clicked");
 }
 
 function numCycles() {
