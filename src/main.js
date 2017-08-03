@@ -125,16 +125,6 @@ function loop() {
 var cuv1, cuvWa1;
 var ctx1 = document.getElementById('cuv-anim-1').getContext('2d'); 
 
-// draw start image
-var cuvImage1 = new Image();
-var cuvWatImage1 = new Image();
-cuvImage1.src="graphics/cuvette.png";
-cuvWatImage1.src= "graphics/cuvette-water.png";
-cuvImage1.onload = function() {
-  ctx1.drawImage(cuvWatImage1, 100 * f, 70 * f, 140 * f, 120 * f);
-  ctx1.drawImage(cuvImage1, 0 * f,30 * f, 48 * f, 120 * f);
-};
-
 function startCuv1() {
     cuv1 = new component("graphics/cuvette.png", 0 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv1");
     cuvWa1 = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv1");
@@ -193,33 +183,14 @@ var cuv2, cuvWa2, hotWa2, thermReg, thermHot;
 var thermAlpha = 0.0; 
 var ctx2 = document.getElementById('cuv-anim-2').getContext('2d'); 
 
-// draw start image
-var cuvImage2 = new Image();
-var cuvWatImage2 = new Image();
-var hotWatImage2 = new Image();
-var thermImage2 = new Image(); 
-var thermHotImage2 = new Image(); 
-cuvImage2.src="graphics/cuvette.png";
-cuvWatImage2.src= "graphics/cuvette-water.png";
-hotWatImage2.src = "graphics/hot-water.png";
-thermImage2.src = "graphics/therm.png";
-thermHotImage2.src = "graphics/hot-therm.png"
-cuvImage2.onload = function() {
-  ctx2.drawImage(cuvImage2, 140 * f,30 * f, 48 * f, 120 * f);
-  ctx2.drawImage(cuvWatImage2, 100 * f, 70 * f, 140 * f, 120 * f);
-  ctx2.drawImage(hotWatImage2, 105 * f, 75 * f, 140 * f, 120 * f);
-  ctx2.drawImage(thermImage2, 10 * f, 10 * f, 20 * f, 50 * f); 
-  // ctx2.globalAlpha = 0.4; 
-  // ctx2.drawImage(thermHotImage2, 15* f, 15 * f, 20 * f, 50 * f); 
-  // ctx2.globalAlpha = 1.0;
-};
-
 function startCuv2() {
+    thermAlpha = 0.0; 
+    ctx2.globalAlpha = thermAlpha;
     cuv2 = new component("graphics/cuvette.png", 140 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv2");
     cuvWa2 = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv2");
-    hotWa2 = new component("graphics/hot-water.png", 105 * f, 75 * f, 140 * f, 120 * f, "image", "areaCuv2");
+    hotWa2 = new component("graphics/hot-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv2");
     thermReg = new component("graphics/therm.png", 10 * f, 10 * f, 20 * f, 50 * f, "image", "areaCuv2");
-    thermHot = new component("graphics/hot-therm.png", 15 * f, 15 * f, 20 * f, 50 * f, "image", "areaCuv2");
+    thermHot = new component("graphics/hot-therm.png", 10 * f, 10 * f, 20 * f, 50 * f, "image", "areaCuv2");
     areaCuv2.start();
 }
 
@@ -263,16 +234,6 @@ function startTimer2() {
 var cuv3, cuvWa3;
 var ctx3 = document.getElementById('cuv-anim-3').getContext('2d'); 
 
-// draw start image
-var cuvImage3 = new Image();
-var cuvWatImage3 = new Image();
-cuvImage3.src="graphics/cuvette.png";
-cuvWatImage3.src= "graphics/cuvette-water.png";
-cuvImage3.onload = function() {
-  ctx3.drawImage(cuvImage3, 50 * f,30 * f, 48 * f, 120 * f);
-  ctx3.drawImage(cuvWatImage3, 10 * f, 70 * f, 140 * f, 120 * f);
-};
-
 function startCuv3() {
     cuv3 = new component("graphics/cuvette.png", 50 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv3");
     cuvWa3 = new component("graphics/cuvette-water.png", 10 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv3");
@@ -310,50 +271,49 @@ function component(color, x, y, width, height, type, canvas) {
     this.y = y;    
     this.update = function(){
         var ctx = eval(canvas + ".context");
-        if (type == "image") {
-          ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
-          // unique animation for each context
-          if (this == cuv1) {
-            if (this.x > 140 * f) {this.x = 140 * f; }
-          }
-          else if (this == cuv2) {
-          //   if (this.x > 140 * f) {this.x = 140 * f; }
-          }
-          else if (this == cuv3) {
-            if (this.x > 170 * f) {this.x = 170 * f; }
-          }
-          else if (this == plas2) {
-            if (this.x > 70 * f) { this.x = 70 * f; }
-          } 
-          else if (this == plas3b) {
-            if (this.x < 100 * f) { this.x += 1 * f; }
-            if (this.y > 35 * f) {this.y -= 1 * f; }
-          } 
-          else if (this == plas3c) {
-            if (this.x > 60 * f) { this.x -= 1 * f; }
-            if (this.y < 65 * f) { this.y += 1 * f; }
-          } 
-          else if (this == plas3d) {
-            if (this.x < 90 * f) { this.x += 1 * f; }
-            if (this.y < 60 * f) { this.y += 1 * f; }
-          } 
-          else if (this == bact1) {
-            if (step1count > 100) {
-              bact1 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
-            } else if (step1count > 70) {
-              bact1 = new component("graphics/bact-orig.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
-            } else if (step1count > 40) {
-              bact1 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
-            }
-          }
-          else if (this == hotWa2) {
-            thermAlpha += .01; 
-            ctx2.globalAlpha = thermAlpha; 
-          }
+        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+
+        // unique animation for each context
+        if (this == cuv1) {
+          if (this.x > 140 * f) {this.x = 140 * f; }
+        }
+        else if (this == cuv2) {
+        //   if (this.x > 140 * f) {this.x = 140 * f; }
+        }
+        else if (this == cuv3) {
+          if (this.x > 170 * f) {this.x = 170 * f; }
+        }
+        else if (this == plas2) {
+          if (this.x > 70 * f) { this.x = 70 * f; }
         } 
-        else {
-          ctx.fillStyle = color;
-          ctx.fillRect(this.x, this.y, this.width, this.height);
+        else if (this == plas3b) {
+          if (this.x < 100 * f) { this.x += 1 * f; }
+          if (this.y > 35 * f) {this.y -= 1 * f; }
+        } 
+        else if (this == plas3c) {
+          if (this.x > 60 * f) { this.x -= 1 * f; }
+          if (this.y < 65 * f) { this.y += 1 * f; }
+        } 
+        else if (this == plas3d) {
+          if (this.x < 90 * f) { this.x += 1 * f; }
+          if (this.y < 60 * f) { this.y += 1 * f; }
+        } 
+        else if (this == bact1) {
+          if (step1count > 100) {
+            bact1 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
+          } else if (step1count > 70) {
+            bact1 = new component("graphics/bact-orig.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
+          } else if (step1count > 40) {
+            bact1 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
+          }
+        }
+
+        // change the transparency
+        if (this == thermReg || this == cuvWa2) {
+            thermAlpha += .005; 
+            ctx2.globalAlpha = thermAlpha; 
+        } else {
+          ctx2.globalAlpha = 1.0;
         }
     }
 }
