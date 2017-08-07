@@ -8,6 +8,30 @@
  var s4;            // colored syringe 4
  var currChart = 0; // chart displayed in analysis
 
+//////////////// COMMENTS SECTION //////////////////////
+$(document).ready(function(){
+  console.log("hi");
+  $('#comments-container').comments({
+      profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
+      // getComments: function(success, error) {
+      //     var commentsArray = [{
+      //         id: 1,
+      //         created: '2015-10-01',
+      //         content: 'Lorem ipsum dolort sit amet',
+      //         fullname: 'Simon Powell',
+      //         upvote_count: 2,
+      //         user_has_upvoted: false
+      //     }];
+      //     success(commentsArray);
+      // }
+    // deleteButtonColor: 'red'
+    roundProfilePictures: false;
+
+  });
+})
+
+// how to make it like..... stateful. idk i don't think that's the right werd. hmm
+// also stylistic stuff 
 
 //////////////// BACTERIA ANIMATION //////////////////////
 var plas1, bact1; 
@@ -310,7 +334,7 @@ function component(color, x, y, width, height, type, canvas) {
 
         // change the transparency
         if (this == thermReg || this == cuvWa2) {
-            thermAlpha += .005; 
+            thermAlpha += 0.001; 
             ctx2.globalAlpha = thermAlpha; 
         } else {
           ctx2.globalAlpha = 1.0;
