@@ -10,7 +10,6 @@
 
 //////////////// COMMENTS SECTION //////////////////////
 $(document).ready(function(){
-  console.log("hi");
   $('#comments-container').comments({
       profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
       // getComments: function(success, error) {
@@ -24,14 +23,8 @@ $(document).ready(function(){
       //     }];
       //     success(commentsArray);
       // }
-    // deleteButtonColor: 'red'
-    roundProfilePictures: false;
-
   });
 })
-
-// how to make it like..... stateful. idk i don't think that's the right werd. hmm
-// also stylistic stuff 
 
 //////////////// BACTERIA ANIMATION //////////////////////
 var plas1, bact1; 
@@ -146,6 +139,7 @@ function loop() {
 
 
 //////////////// CUVETTE ANIMATION #1 //////////////////////
+var userInputTime1; 
 var cuv1, cuvWa1;
 var ctx1 = document.getElementById('cuv-anim-1').getContext('2d'); 
 
@@ -174,16 +168,31 @@ function updateAreaCuv1() {
 }
 
 function cuvStep1() {
-  document.getElementById('cuv-timer-1').innerHTML =
+  document.getElementById('cuv-timer-1').innerHTML = userInputTime1; 
   03 + ":" + 01;
   startTimer1();
 }
 
+function userSetTime1() {
+    var x = document.getElementById("frm1");
+    var text = "";
+    var i;
+    for (i = 0; i < x.length ;i++) {
+        text += x.elements[i].value;
+    }
+    userInputTime1 = text;
+}
+
 function startTimer1() {
   var presentTime = document.getElementById('cuv-timer-1').innerHTML;
-  var timeArray = presentTime.split(/[:]+/);
-  var m = timeArray[0];
-  var s = checkSecond((timeArray[1] - 1));
+  if (!presentTime.includes(':')) {
+      m = userInputTime1;
+      s = 0; 
+    } else {
+      var timeArray = presentTime.split(/[:]+/);
+      m = timeArray[0];
+      s = checkSecond((timeArray[1] - 1));
+    }  
   if(s==59){m=m-1}
   // if(m<0){alert('timer completed')}
   // if (m < 0) {
@@ -202,7 +211,7 @@ function checkSecond(sec) {
 }
 
 //////////////// CUVETTE ANIMATION #2 //////////////////////
-// description: heat shock. cuvette heat up must be represented 
+var userInputTime2; 
 var cuv2, cuvWa2, hotWa2, thermReg, thermHot;
 var thermAlpha = 0.0; 
 var ctx2 = document.getElementById('cuv-anim-2').getContext('2d'); 
@@ -238,17 +247,32 @@ function updateAreaCuv2() {
     thermHot.update();
 }
 
+function userSetTime2() {
+    var x = document.getElementById("frm2");
+    var text2 = "";
+    var i;
+    for (i = 0; i < x.length ;i++) {
+        text2 += x.elements[i].value;
+    }
+    userInputTime2 = text2;
+}
+
 function cuvStep2() {
-  document.getElementById('cuv-timer-2').innerHTML =
-  03 + ":" + 01;
+  document.getElementById('cuv-timer-2').innerHTML = userInputTime2;
   startTimer2();
 }
 
 function startTimer2() {
   var presentTime = document.getElementById('cuv-timer-2').innerHTML;
-  var timeArray = presentTime.split(/[:]+/);
-  var m = timeArray[0];
-  var s = checkSecond((timeArray[1] - 1));
+  var m, s;
+  if (!presentTime.includes(':')) {
+    m = userInputTime2;
+    s = 0; 
+  } else {
+    var timeArray = presentTime.split(/[:]+/);
+    m = timeArray[0];
+    s = checkSecond((timeArray[1] - 1));
+  }
   if(s==59){m=m-1}
   document.getElementById('cuv-timer-2').innerHTML = m + ":" + s;
   setTimeout(startTimer2, 1000);

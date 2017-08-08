@@ -1,3 +1,12 @@
+input {
+  width: 20%;
+  padding: 4px 10px;
+  border: none;
+  /*border-radius: 4px;*/
+  background-color: white;
+
+}
+
 .begin-anim-button {
     background-color: #E4AF9A; 
     border: none;
@@ -212,14 +221,14 @@ p {
     background-color: transparent; 
     border: none;
     color: black;
-	display: inline-block;
+	  display: inline-block;
     font-family: Josefin Sans, sans-serif;
     font-size: 11px;
     letter-spacing: 0;
-	opacity: 1; 
-    outline-style: solid; 
-    outline-width: 1px;
-    padding: 7px 50px 5px;
+	  opacity: 1; 
+    /*outline-style: solid; */
+    /*outline-width: 1px;*/
+    /*padding: 7px 50px 5px;*/
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
@@ -231,16 +240,16 @@ p {
 }
 
 
-.project-button:hover, .project-button:active, .project-button:focus {
+/*.project-button:hover, .project-button:active, .project-button:focus {
   background-color: black;
   color: white;
   text-decoration: none;
   outline-color: black;
 }
-
-.project-button:active {
+*/
+/*.project-button:active {
 	transform: translateY(-3px);
-}
+}*/
 
 */.thumbnail{
 	background: black;
