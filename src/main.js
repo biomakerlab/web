@@ -194,10 +194,10 @@ function startTimer1() {
       s = checkSecond((timeArray[1] - 1));
     }  
   if(s==59){m=m-1}
-  // if(m<0){alert('timer completed')}
-  // if (m < 0) {
-  //   document.getElementById('cuv-timer-1').innerHTML = "done!!!!! no";
-  // } else {
+  if(m<0) {
+    document.getElementById('cuv-timer-1').innerHTML = "complete"
+    return;
+  } 
   document.getElementById('cuv-timer-1').innerHTML = m + ":" + s;
   // }
   
@@ -274,6 +274,10 @@ function startTimer2() {
     s = checkSecond((timeArray[1] - 1));
   }
   if(s==59){m=m-1}
+  if(m<0) {
+    document.getElementById('cuv-timer-2').innerHTML = "complete"
+    return;
+  } 
   document.getElementById('cuv-timer-2').innerHTML = m + ":" + s;
   setTimeout(startTimer2, 1000);
 }
@@ -366,6 +370,20 @@ function component(color, x, y, width, height, type, canvas) {
     }
 }
 
+//////////////// Project Descriptions //////////////////////
+function displayInfo(index) {
+  if (index == 1) {
+    document.getElementById('project-info').innerHTML = "<u> BIOLOGO DESCRIPTION/OPTIONS </u>" + 
+    "<br> .................. <br> .................. <br> .................."
+  } else if (index == 2) {
+    document.getElementById('project-info').innerHTML = "<u> BIOSENSOR DESCRIPTION/OPTIONS </u>" + 
+    "<br> .................. <br> .................. <br> .................."
+  } else {
+    document.getElementById('project-info').innerHTML = "<u> BIOCAKES DESCRIPTION/OPTIONS </u>" + 
+    "<br> .................. <br> .................. <br> .................."
+  }
+}
+
 //////////////// DRAWING THE INCUBATOR //////////////////////
 function drawInc(index) { // options are 1, 2, or 3 
   var color; 
@@ -449,10 +467,10 @@ function drawInc(index) { // options are 1, 2, or 3
 
 function redrawSyringe() {
   ctx.globalAlpha = ctx.globalAlpha + 0.1;
-  console.log(ctx.globalAlpha);
-  if (ctx.globalAlpha > 0.99) {
-    console.log("opaque");
-  }
+  // console.log(ctx.globalAlpha);
+  // if (ctx.globalAlpha > 0.99) {
+  //   console.log("opaque");
+  // }
   ctx.drawImage(s1, 238 * 2.0, 65 * 2.0,35 * 2.0,140 * 2.0); // just a factor of 2 
   ctx.drawImage(s2, 302 * 2.0,232 * 2.0, 137 * 2.0, 35 * 2.0);
   ctx.drawImage(s3, 243 * 2.0, 293 * 2.0, 35 * 2.0, 140 * 2.0);

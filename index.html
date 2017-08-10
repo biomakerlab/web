@@ -733,18 +733,28 @@
 	    <p style="font-family: Josefin Sans; text-transform: lowercase; font-size: 16px; text-align: center">  
 	    	  <strong> choose your current project: </strong> <br>
 
-	    	  <label class="project-button" onclick="drawInc(1)"> 
+	    	  <label class="project-button" onclick="drawInc(1), displayInfo(1)"> 
 	    	  	<input type="radio" name="project" value="logo"> biologo <br> 
 	    	  </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-	    	  <label class="project-button" onclick="drawInc(2)"> 
-	    	  	<input type="radio" name="project" value="design"> biodesign <br> 
+	    	  <label class="project-button" onclick="drawInc(2), displayInfo(2)"> 
+	    	  	<input type="radio" name="project" value="design"> biosensor <br> 
 	    	  </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-	    	  <label class="project-button" onclick="drawInc(3)"> 
+	    	  <label class="project-button" onclick="drawInc(3), displayInfo(3)"> 
 	    	  	<input type="radio" name="project" value="cake"> biocakes <br>
-	    	  </label> <br><br><br><br> 
+	    	  </label> <br><br>
 		</p>  
+
+		<div class="row text-center" id="project-info" style="border:0px solid black; width:30%; margin-left:35%">
+			<p style="font-family: Josefin Sans; text-transform: lowercase; font-size: 15px; text-align: center">
+				
+			</p>
+		</div>
+
+		<br><br>
+		<br><br> 
+		<br><br> 
 
  	    	<a class="begin-button" href="#step1"> Begin <br>
 	    		<span class="glyphicon glyphicon-chevron-down"> </span> </a> <p></br></p>
@@ -787,14 +797,14 @@
 					<div class="col-sm-4" style="border:0px solid black;"> 
 						<canvas id="step-1-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
 						<button class="begin-anim-button" onclick="startBacAnim1()"> step 1 animation </button> <br>
-						<p> ----------------------------------------------------------- </p>
+						<p> -------------------------------------------------- </p>
 						<i> place cuvette into solution <br>
-						TEMP: x degrees F  <br> </i>
+						TEMP: x degrees C  <br> </i>
 
 						<canvas id="cuv-anim-1" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
 
 						<form id="frm1" style="font-size:13px" id="hi">
-						  ENTER TIME: <input type="text" name="fname" value="3:00"><br>
+						  ENTER TIME: <input type="text" name="fname" value="3:00"><br><br>
 						</form>
 
 						<div id="cuv-timer-1" class="countdown" style="font-size:20px"> - </div>
@@ -811,12 +821,12 @@
 						<p> -------------------------------------------------- </p>
 
 						<i> perform heat shock <br>
-						TEMP: x degrees F <br> </i>
+						TEMP: x degrees C <br> </i>
 
 						<canvas id="cuv-anim-2" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
 						<!-- <div> countdown: </div> -->
 						<form id="frm2" style="font-size:13px" id="hi">
-						  ENTER TIME: <input type="text" name="fname" value="3:00"><br>
+						  ENTER TIME: <input type="text" name="fname" value="3:00"><br><br>
 						</form>
 
 						<div id="cuv-timer-2" class="countdown" style="font-size:20px"> - </div>
@@ -835,8 +845,8 @@
 						<br> <br>
 
 						<canvas id="cuv-anim-3" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
-						<div style="font-size:13px"> time to take out the cuvette! </div>
-						<div style="font-size:26px; color: #e8efe8"> hi </div> <!-- placeholder --> 
+						<div style="font-size:13px"> time to take out the cuvette! <br><br></div>
+						<div style="font-size:26px; color: #e8efe8"> - </div> <!-- placeholder --> 
 
 
 						<br> <button class="begin-anim-button" onclick="startCuv3()"> 
@@ -869,10 +879,10 @@
 
 				<!-- buttons -->
 				<div class="row text-center" > 
-					<button class="to-top" onclick="drawInc(1)"> (click to test default incubator image) </button>
+					<!-- <button class="to-top" onclick="drawInc(1)"> (click to test default incubator image) </button> -->
 					<br> <button class="to-top" onclick="redrawSyringe()"> (click to test color change) </button> <br><br>
-					<button class="button" onclick="beginButton(), startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()" class="start"> Begin Growth </button> &nbsp;
-					<button class="button" onclick="stopButton()" class="stop"> Stop Growth </button> 
+					<button class="button" onclick="beginButton(), startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()" class="start"> Begin Cycle </button> &nbsp;
+					<button class="button" onclick="stopButton()" class="stop"> Stop Cycle </button> 
 					<br><br><br><br><br>
 				</div> 
 
