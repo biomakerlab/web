@@ -582,7 +582,7 @@
 		  var chart; 
 
 		  // Create a client instance
-		  // client = new Paho.MQTT.Client("m11.cloudmqtt.com", 36025, "web_" + parseInt(Math.random() * 100, 10));
+		  // client = new Paho.MQTT.Client("m12.cloudmqtt.com", 35984, "web_" + parseInt(Math.random() * 100, 10));
 		  client = new Paho.MQTT.Client("m11.cloudmqtt.com", 36025, "web_" + parseInt(Math.random() * 100, 10));
 
 		  // set callback handlers
@@ -731,35 +731,34 @@
 	    <h1 style="font-family: Josefin Slab; letter-spacing: 3px"><br><br><strong>bio.maker.lab</strong></h1> 
 
 	    <p style="font-family: Josefin Sans; text-transform: lowercase; font-size: 16px; text-align: center">  
-	    	  <strong> choose your current project: </strong> <br>
+	    	  <strong> choose your cell type: </strong> <br>
 
 	    	  <label class="project-button" onclick="drawInc(1), displayInfo(1)"> 
-	    	  	<input type="radio" name="project" value="logo"> biologo <br> 
+	    	  	<input type="radio" name="project" value="logo"> prokaryote <br> 
 	    	  </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 	    	  <label class="project-button" onclick="drawInc(2), displayInfo(2)"> 
-	    	  	<input type="radio" name="project" value="design"> biosensor <br> 
+	    	  	<input type="radio" name="project" value="design"> eukaryote <br> 
 	    	  </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-	    	  <label class="project-button" onclick="drawInc(3), displayInfo(3)"> 
+	    	  <!-- <label class="project-button" onclick="drawInc(3), displayInfo(3)"> 
 	    	  	<input type="radio" name="project" value="cake"> biocakes <br>
-	    	  </label> <br><br>
+	    	  </label> <br><br> -->
 		</p>  
 
 		<div class="row text-center" id="project-info" style="border:0px solid black; width:30%; margin-left:35%">
 			<p style="font-family: Josefin Sans; text-transform: lowercase; font-size: 15px; text-align: center">
-				
+				<br><br>
+				<br><br> 
+				<br><br> 
 			</p>
 		</div>
 
-		<br><br>
-		<br><br> 
-		<br><br> 
 
  	    	<a class="begin-button" href="#step1"> Begin <br>
 	    		<span class="glyphicon glyphicon-chevron-down"> </span> </a> <p></br></p>
 	    	
-	  <p> <br><br><br><br><br> </p> </div> 
+	  </div> 
 
 	  <!-- navigation bar --> 
 		<nav class="navbar navbar-default navbar-fixed-top" style="background-color: #f9f9f9; border: 1; border-color: black;">
@@ -790,71 +789,76 @@
 					<h4> <br><br><br>  - step 1 -</h4> 
 					<h2> <strong> TRANSFORM </strong> </h2>  
  
-<p id="demo"></p>
+					<p style="font-size: 13px"> (explanation here) <br><br> </p>
 
 
 					<!-- NEW LAYOUT -->
 					<div class="col-sm-4" style="border:0px solid black;"> 
+
+						<h3> 1. PLACE </h3> 
+						<i> explanation here </i> <br>
+
+						<canvas id="cuv-anim-1" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas> 
+
+						<form id="temp1" style="font-size:13px">
+						  <br> Enter Temperature: <input type="text" name="fname" value="40"> °C
+						</form> <p></p>
+						<form id="frm1" style="font-size:13px">
+						  Enter Countdown: <input type="text" name="fname" value="3:00">&nbsp;&nbsp;
+						</form> <p></p>
+						<button class="begin-anim-button" onclick="userSetTime1(), startCuv1(), cuvStep1(), userSetTemp(1)"> PLACE CUVETTE 
+							<div id="cuv-timer-1" class="countdown" style="font-size:20px"> - </div>
+						</button> <br><br>
+						<p> -------------------------------------------------- </p>
+						<i> animation explanation here </i> <br>
 						<canvas id="step-1-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
-						<button class="begin-anim-button" onclick="startBacAnim1()"> step 1 animation </button> <br>
-						<p> -------------------------------------------------- </p>
-						<i> place cuvette into solution <br>
-						TEMP: x degrees C  <br> </i>
-
-						<canvas id="cuv-anim-1" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
-
-						<form id="frm1" style="font-size:13px" id="hi">
-						  ENTER TIME: <input type="text" name="fname" value="3:00"><br><br>
-						</form>
-
-						<div id="cuv-timer-1" class="countdown" style="font-size:20px"> - </div>
-							<br> <button class="begin-anim-button" onclick="userSetTime1(), startCuv1(), cuvStep1()"> 
-						PLACE CUVETTE </button>
-
-						<p> -------------------------------------------------- </p>
-						<h3> PLACE </h3> 
+						<button class="begin-anim-button" onclick="startBacAnim1()"> step 1 animation </button> 
 						<br><br><br>
 					</div>
-					<div class="col-sm-4" style="border:0px solid black;"> 
-						<canvas id="step-2-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
-						<button class="begin-anim-button" onclick="startBacAnim2()"> step 2 animation </button> <br>
-						<p> -------------------------------------------------- </p>
 
-						<i> perform heat shock <br>
-						TEMP: x degrees C <br> </i>
+					<div class="col-sm-4" style="border:0px solid black;"> 
+						<h3> 2. TRANSFORM </h3> 
+						<i> explanation here <br> </i>
 
 						<canvas id="cuv-anim-2" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
-						<!-- <div> countdown: </div> -->
-						<form id="frm2" style="font-size:13px" id="hi">
-						  ENTER TIME: <input type="text" name="fname" value="3:00"><br><br>
-						</form>
 
+						<form id="temp2" style="font-size:13px">
+						  <br> Enter Temperature: <input type="text" name="fname" value=""> °C
+						</form> <p></p>
+						<form id="frm2" style="font-size:13px">
+						  Enter Countdown: <input type="text" name="fname" value="">&nbsp;&nbsp;
+						</form> <p></p>
+
+ 						<button class="begin-anim-button" onclick="userSetTime2(), startCuv2(), cuvStep2(), userSetTemp(2)"> 
+						BEGIN PROCESS <br>
 						<div id="cuv-timer-2" class="countdown" style="font-size:20px"> - </div>
-						<br> <button class="begin-anim-button" onclick="userSetTime2(), startCuv2(), cuvStep2()"> 
-						START TRANSFORM </button>
+						</button> <br>
 						<br>
-						<p> -------------------------------------------------- </p>
-						<h3> TRANSFORM </h3> 
+
+						<p> --------------------------------------------- </p>
+						<i> animation explanation here </i> <br>
+						<canvas id="step-2-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<button class="begin-anim-button" onclick="startBacAnim2()"> step 2 animation </button>
 						<br><br><br>
 					</div>
+
 					<div class="col-sm-4" style="border:0px solid black;"> 
-						<canvas id="step-3-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
-						<button class="begin-anim-button" onclick="startBacAnim3()"> step 3 animation </button> <br>
-						<p> -------------------------------------------------- </p>
-						<i> remove cuvette from solution </i> 
-						<br> <br>
+						<h3> 3. REMOVE </h3>
+						<i> explanation here </i> <br>
 
 						<canvas id="cuv-anim-3" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
-						<div style="font-size:13px"> time to take out the cuvette! <br><br></div>
-						<div style="font-size:26px; color: #e8efe8"> - </div> <!-- placeholder --> 
+						<br><br><br><br>
 
 
 						<br> <button class="begin-anim-button" onclick="startCuv3()"> 
-						REMOVE CUVETTE </button>
-						<br>
+						REMOVE CUVETTE
+						<div style="font-size:21px; color: #E4AF9A"> - </div> </button>
+						<br><br>
 						<p> -------------------------------------------------- </p>
-						<h3> REMOVE </h3>
-						<br><br><br>
+						<i> animation explanation here </i> <br>
+						<canvas id="step-3-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<button class="begin-anim-button" onclick="startBacAnim3()"> step 3 animation </button>
+						<br><br><br><br>
 					</div> 
 
 
@@ -867,10 +871,13 @@
 			<div class="container-fluid" style="background-color:#dbe0db" id="step2">
 				<h4 class="row text-center"> <br><br><br>- step 2 -</h4> 
 				<h2 class="row text-center"> <strong>INCUBATE</strong> </h2> 
+			    <p class="row text-center" style="font-size: 13px"> (explanation here) <br><br> </p>
+
+
 
 				<div style="border:0px solid black; width:120px; height:20px; margin-left:20%"> 
 					<object style="border:0px solid black; float:left" height="50" data="graphics/therm.png"></object>
-					<div style="border:0px solid black; float:right;" id="display-temp" class="rectangle"> Temp <br> here </div>
+					<div style="border:0px solid black; float:right; font-size:18px" id="display-temp" class="rectangle"> </div>
 				</div>
 
 				<div class="row text-center" style="border:0px solid black;"> 
@@ -881,8 +888,8 @@
 				<div class="row text-center" > 
 					<!-- <button class="to-top" onclick="drawInc(1)"> (click to test default incubator image) </button> -->
 					<br> <button class="to-top" onclick="redrawSyringe()"> (click to test color change) </button> <br><br>
-					<button class="button" onclick="beginButton(), startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()" class="start"> Begin Cycle </button> &nbsp;
-					<button class="button" onclick="stopButton()" class="stop"> Stop Cycle </button> 
+					<button class="button" onclick="beginButton(), startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()" class="start"> Begin Machine </button> &nbsp;
+					<button class="button" onclick="stopButton()" class="stop"> Stop Machine </button> 
 					<br><br><br><br><br>
 				</div> 
 
@@ -921,7 +928,8 @@
 
 			<div class="container-fluid bg-grey" style="background-color:#dee3ed" id="step3"> <!-- original blue: bcc4d1 --> <!-- original green: a4aaa3 -->
 				<h4 class="row text-center"> <br><br><br>- step 3 -</h4> 
-				<h2 class="row text-center"><strong> DATA ANALYSIS</strong> </h2> <br> 	
+				<h2 class="row text-center"><strong> DATA ANALYSIS</strong> </h2>	
+			    <p class="row text-center" style="font-size: 13px"> (explanation here) <br><br> </p>
 
 				<div class="row text-center"> 
 				
@@ -1007,6 +1015,14 @@
 				<div class="row text-center"> <i> bio.maker.lab </i> </div> <br>
  -->
  				<div id="disqus_thread"></div>
+
+
+
+ 				<div> 
+ 					TESTING FORMS HERE <br>
+ 					<button onclick="WriteToFile(hi)"></button> 
+ 					<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.<br>.
+ 				</div>
 			</div>
 <script>
 	/**
@@ -1025,10 +1041,6 @@
 	(d.head || d.body).appendChild(s);
 	})();
 </script>
-
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<script id="dsq-count-scr" src="//biomakerlab.disqus.com/count.js" async></script>
 
 	</body>
 	<script type="text/javascript" src="src/main.js"></script>

@@ -1,8 +1,7 @@
 input {
   width: 50px;
-  padding: 4px 10px;
-  border: none;
-  /*border-radius: 4px;*/
+  padding: 0px 10px;
+  /*border: 1px solid black;*/
   background-color: white;
 }
 
@@ -148,20 +147,6 @@ input:focus {
 	-webkit-border-radius: 50px;
 }
 
-.rectangle {
-  width: 90px;
-  height: 35px;
-  /*background: white;*/
-  font-family: Josefin Sans, sans-serif;
-  font-size: 15px;
-  text-transform: uppercase;
-  outline-style: solid; 
-  outline-width: 0px;
-  outline-color: black;
-}
-
-
-
 h4 {
 	color: #303030;
 	font-family: Josefin Slab, sans-serif;
@@ -201,10 +186,10 @@ h4 {
 	text-align: center;
 	text-decoration: none;
 	outline-style: solid; 
-    outline-width: 1px;
-    padding: 10px 25px;
-    width: 50%;
-    text-align: center;
+  outline-width: 1px;
+  padding: 10px 25px;
+  width: 50%;
+  text-align: center;
 }
 
 .next:hover, .next:active, .next:focus {
@@ -229,9 +214,6 @@ p {
     font-size: 11px;
     letter-spacing: 0;
 	  opacity: 1; 
-    /*outline-style: solid; */
-    /*outline-width: 1px;*/
-    /*padding: 7px 50px 5px;*/
     text-transform: uppercase;
     text-align: center;
     text-decoration: none;
@@ -242,17 +224,17 @@ p {
   background-color: black;
 }
 
-
-/*.project-button:hover, .project-button:active, .project-button:focus {
-  background-color: black;
-  color: white;
-  text-decoration: none;
+.rectangle {
+  width: 90px;
+  height: 35px;
+  /*background: white;*/
+  font-family: Josefin Sans, sans-serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  outline-style: solid; 
+  outline-width: 0px;
   outline-color: black;
 }
-*/
-/*.project-button:active {
-	transform: translateY(-3px);
-}*/
 
 */.thumbnail{
 	background: black;

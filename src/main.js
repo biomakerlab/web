@@ -8,6 +8,17 @@
  var s4;            // colored syringe 4
  var currChart = 0; // chart displayed in analysis
 
+//////////////// WRITING TO FILE //////////////////////
+ function WriteToFile(passForm) {
+    // set fso = CreateObject("Scripting.FileSystemObject");  
+    // set s = fso.CreateTextFile("C:\test.txt", True);
+    // s.writeline(document.passForm.input1.value);
+    // s.writeline(document.passForm.input2.value);
+    // s.writeline(document.passForm.input3.value);
+    // s.Close();
+ }
+
+
 //////////////// COMMENTS SECTION //////////////////////
 $(document).ready(function(){
   $('#comments-container').comments({
@@ -32,6 +43,18 @@ var plas2, bact2;
 var plas3a, plas3b, plas3c, plas3d, bact3; 
 var step1count = 0; 
 var f = 2.0; 
+
+ // draw start image
+  step1ctx = document.getElementById('step-1-anime').getContext("2d"); 
+  var image1 = new Image();
+  var image2 = new Image();
+  image1.src="graphics/plasmid.png";
+  image2.src= "graphics/bact-orig.png";
+  image2.onload = function() {
+    step1ctx.drawImage(image1, 10 * f, 10 * f, 20 * f, 20 * f);
+    step1ctx.drawImage(image2, 50 * f, 30 * f, 140 * f, 60 * f);
+  };
+  
 
 // step 1 anime 
 function startBacAnim1() {
@@ -143,6 +166,17 @@ var userInputTime1;
 var cuv1, cuvWa1;
 var ctx1 = document.getElementById('cuv-anim-1').getContext('2d'); 
 
+ // draw start image
+var image3 = new Image();
+var image4 = new Image();
+image3.src="graphics/cuvette.png";
+image4.src= "graphics/cuvette-water.png";
+image4.onload = function() {
+  ctx1.drawImage(image3, 0 * f, 30 * f, 48 * f, 120 * f);
+  ctx1.drawImage(image4, 100 * f, 70 * f, 140 * f, 120 * f);
+};
+
+
 function startCuv1() {
     cuv1 = new component("graphics/cuvette.png", 0 * f, 30 * f, 48 * f, 120 * f,"image", "areaCuv1");
     cuvWa1 = new component("graphics/cuvette-water.png", 100 * f, 70 * f, 140 * f, 120 * f, "image", "areaCuv1");
@@ -193,22 +227,44 @@ function startTimer1() {
       m = timeArray[0];
       s = checkSecond((timeArray[1] - 1));
     }  
-  if(s==59){m=m-1}
-  if(m<0) {
-    document.getElementById('cuv-timer-1').innerHTML = "complete"
+  if(s == 59){ m = m - 1; }
+  if(m < 0) {
+    document.getElementById('cuv-timer-1').innerHTML = "done"
     return;
   } 
   document.getElementById('cuv-timer-1').innerHTML = m + ":" + s;
-  // }
-  
   setTimeout(startTimer1, 1000);
 }
 
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
-  if (sec < 0) {sec = "59"};
+  if (sec < 0) { sec = "59" };
   return sec;
 }
+
+//////////////// USER SET TEMPERATURE //////////////////////
+var userTemp; 
+
+function userSetTemp(index) {
+  if (index == 1) {
+    var x = document.getElementById("temp1");
+  } else {
+    var x = document.getElementById("temp2"); 
+  }
+    var text = "";
+    var i;
+    for (i = 0; i < x.length ;i++) {
+        text += x.elements[i].value;
+    }
+    userTemp = text;
+    setMachineTemp(text); 
+}
+
+// TODO: connect to machine
+function setMachineTemp(degree) {
+  console.log("TODO: Set machine to " + degree + " degrees C."); 
+}
+
 
 //////////////// CUVETTE ANIMATION #2 //////////////////////
 var userInputTime2; 
@@ -275,7 +331,7 @@ function startTimer2() {
   }
   if(s==59){m=m-1}
   if(m<0) {
-    document.getElementById('cuv-timer-2').innerHTML = "complete"
+    document.getElementById('cuv-timer-2').innerHTML = "done"
     return;
   } 
   document.getElementById('cuv-timer-2').innerHTML = m + ":" + s;
@@ -371,13 +427,18 @@ function component(color, x, y, width, height, type, canvas) {
 }
 
 //////////////// Project Descriptions //////////////////////
+// global var for which project is currently chosen
+var projectChoice = 0; 
+
 function displayInfo(index) {
   if (index == 1) {
-    document.getElementById('project-info').innerHTML = "<u> BIOLOGO DESCRIPTION/OPTIONS </u>" + 
-    "<br> .................. <br> .................. <br> .................."
+    projectChoice = 1; 
+    document.getElementById('project-info').innerHTML = "<u> PROKARYOTE DESCRIPTION/OPTIONS </u>" + 
+    "<br> <br> .................. <br> .................<br><br><br><br>"
   } else if (index == 2) {
-    document.getElementById('project-info').innerHTML = "<u> BIOSENSOR DESCRIPTION/OPTIONS </u>" + 
-    "<br> .................. <br> .................. <br> .................."
+    projectChoice = 2; 
+    document.getElementById('project-info').innerHTML = "<u> EUKARYOTE DESCRIPTION/OPTIONS </u>" + 
+    "<br> .................. <br> .................. <br> ..................<br><br><br><br>"
   } else {
     document.getElementById('project-info').innerHTML = "<u> BIOCAKES DESCRIPTION/OPTIONS </u>" + 
     "<br> .................. <br> .................. <br> .................."
@@ -773,7 +834,7 @@ function disRealTimeOD(sIndex) {
 function disTemp() {
   var pseudoVal = getODRead(1); // dummy value
   pseudoVal = pseudoVal.toFixed(2); 
-  document.getElementById('display-temp').innerHTML = "" +pseudoVal + "<br>degrees F";
+  document.getElementById('display-temp').innerHTML = "" +pseudoVal + "°C";
     setTimeout(function() {
     disTemp();
   }, 1000)
