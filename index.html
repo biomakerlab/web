@@ -1016,13 +1016,16 @@
 				            '\nProject Name: ' + this['projName'].value + 
 				            '\nNotes:\n ' + this['textMain'].value)">  
 				   
-				    Name: <input type="text" name="fullName" value=""> <br>
-				    Date: <input type="text" name="date" value=""> <br>
-				    Project Name: <input type="text" name="projName" value=""><br>
-				    BioMakerLab Notes: <br> <textarea rows=5 cols=30 name="textMain" id="textMainId"></textarea> <br>
-				    File Name (must end in .txt): <input type="text" name="name" value="test.txt"> <br>
-				    <input type="submit" value="Save File">
+				    Name: <input type="text" name="fullName" id="fullNameId" class="notes" value=""> <br>
+				    Date: <input type="text" name="date" id="dateId"  class="notes" value=""> <br>
+				    Project Name: <input type="text" class="notes" name="projName" id="projNameId" value=""><br>
+				    BioMakerLab Notes: <br> <textarea rows=5 cols=30 class="notes" name="textMain" id="textMainId"></textarea> <br>
+				    File Name (must end in .txt): <input type="text" class="notes" name="fileNameId" id="fileNameId" value="test.txt"> <br>
+				    <!-- <input type="submit" value="Save File"> -->
 				  </form>
+				  <br><br><br><br>
+				  <button onclick="compileNotes()"> Save File </button> 
+				  <br><br><br><br>
 				  <br><br><br><br>
  				</div>
 <!-- ............................................................................................. -->

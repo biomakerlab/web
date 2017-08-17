@@ -9,6 +9,17 @@
  var currChart = 0; // chart displayed in analysis
 
 //////////////// WRITING TO FILE //////////////////////
+function compileNotes() {
+  var text = "BIO.MAKER.LAB NOTE SHEET\n\n"; 
+  text += "Name: " + document.getElementById("fullNameId").value;
+  text += "\nDate: " + document.getElementById("dateId").value;
+  text += "\nProjectName: " + document.getElementById("projNameId").value;
+  text += "\n\nNotes:\n " + document.getElementById("textMainId").value; 
+
+  // download the file
+  download(document.getElementById("fileNameId").value, text); 
+}
+
 function download(filename, text) {
     var pom = document.createElement('a');
     pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));

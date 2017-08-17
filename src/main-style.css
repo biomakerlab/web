@@ -9,6 +9,10 @@ input:focus {
   outline: none;
 }
 
+.notes {
+  width:200px;
+}
+
 .begin-anim-button {
     background-color: #E4AF9A; 
     border: none;
