@@ -9,31 +9,53 @@
  var currChart = 0; // chart displayed in analysis
 
 //////////////// WRITING TO FILE //////////////////////
- function WriteToFile(passForm) {
-    // set fso = CreateObject("Scripting.FileSystemObject");  
-    // set s = fso.CreateTextFile("C:\test.txt", True);
-    // s.writeline(document.passForm.input1.value);
-    // s.writeline(document.passForm.input2.value);
-    // s.writeline(document.passForm.input3.value);
-    // s.Close();
- }
+function download(filename, text) {
+    var pom = document.createElement('a');
+    pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    pom.setAttribute('download', filename);
+
+    if (document.createEvent) {
+        var event = document.createEvent('MouseEvents');
+        event.initEvent('click', true, true);
+        pom.dispatchEvent(event);
+    }
+    else {
+        pom.click();
+    }
+}
+//////////////// INCUBATE TIMER //////////////////////
+function startIncubateTime() {
+  var origTime = new Date().getTime(); 
+
+  // Update the count down every 1 second
+  var x = setInterval(function() {
+
+    // Get todays date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now an the count down date
+    var distance = now - origTime;
+
+    // Time calculations for days, hours, minutes and seconds
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // add leading 0's
+    var m = parseInt(minutes);
+    var s = parseInt(seconds);
+    if (m <= 9) { minutes = "0" + minutes; }
+    if (s <= 9) { seconds = "0" + seconds; }
+
+    document.getElementById("incubate-timer").innerHTML = minutes + ":" + seconds;
+  }, 1000);
+}
 
 
 //////////////// COMMENTS SECTION //////////////////////
 $(document).ready(function(){
   $('#comments-container').comments({
       profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
-      // getComments: function(success, error) {
-      //     var commentsArray = [{
-      //         id: 1,
-      //         created: '2015-10-01',
-      //         content: 'Lorem ipsum dolort sit amet',
-      //         fullname: 'Simon Powell',
-      //         upvote_count: 2,
-      //         user_has_upvoted: false
-      //     }];
-      //     success(commentsArray);
-      // }
   });
 })
 
@@ -433,16 +455,13 @@ var projectChoice = 0;
 function displayInfo(index) {
   if (index == 1) {
     projectChoice = 1; 
-    document.getElementById('project-info').innerHTML = "<u> PROKARYOTE DESCRIPTION/OPTIONS </u>" + 
-    "<br> <br> .................. <br> .................<br><br><br><br>"
+    document.getElementById('project-info').innerHTML = "<u>PROKARYOTE DESCRIPTION/OPTIONS</u>" + 
+    "<br>.................<br>.................<br>.................<br><br><br><br>"
   } else if (index == 2) {
     projectChoice = 2; 
-    document.getElementById('project-info').innerHTML = "<u> EUKARYOTE DESCRIPTION/OPTIONS </u>" + 
-    "<br> .................. <br> .................. <br> ..................<br><br><br><br>"
-  } else {
-    document.getElementById('project-info').innerHTML = "<u> BIOCAKES DESCRIPTION/OPTIONS </u>" + 
-    "<br> .................. <br> .................. <br> .................."
-  }
+    document.getElementById('project-info').innerHTML = "<u>EUKARYOTE DESCRIPTION/OPTIONS</u>" + 
+    "<br>.................<br>.................<br>.................<br><br><br><br>"
+  } 
 }
 
 //////////////// DRAWING THE INCUBATOR //////////////////////
@@ -549,7 +568,7 @@ var chart1 = new CanvasJS.Chart("vis-1", {
     fontSize: 17
   },
   axisX:{
-      title:"TIME (sec)",
+      title:"TIME",
       titleFontFamily: "Josefin Sans",
       titleFontSize: 15,
       titleFontColor: "#98A1AD",
@@ -585,7 +604,7 @@ var chart2 = new CanvasJS.Chart("vis-2", {
     fontSize: 17
   },
   axisX:{
-      title:"TIME (sec)",
+      title:"TIME",
       titleFontFamily: "Josefin Sans",
       titleFontSize: 15,
       titleFontColor: "#6c8b98",
@@ -621,7 +640,7 @@ var chart3 = new CanvasJS.Chart("vis-3", {
     fontSize: 17
   },
   axisX:{
-      title:"TIME (sec)",
+      title:"TIME",
       titleFontFamily: "Josefin Sans",
       titleFontSize: 15,
       titleFontColor: "#E4AF9A",
@@ -657,7 +676,7 @@ var chart4 = new CanvasJS.Chart("vis-4", {
     fontSize: 17
   },
   axisX:{
-      title:"TIME (sec)",
+      title:"TIME",
       titleFontFamily: "Josefin Sans",
       titleFontSize: 15,
       titleFontColor: "#AD9A98",
