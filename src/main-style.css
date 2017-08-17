@@ -1,7 +1,23 @@
+#transform-info, #transform-sub1,
+#transform-sub2, #transform-sub3,
+#incubate-info, #data-info, #notes-info {
+  display: none;
+}
+
+.reveal-button {
+  border: 0px solid black;
+  background-color: transparent;
+  outline: none;
+  text-decoration: none;
+}
+
+.reveal-button:hover {
+  transform: scale(1.1,1.1);
+}
+
 input {
   width: 70px;
   padding: 0px 10px;
-  /*border: 1px solid black;*/
   background-color: white;
 }
 
@@ -9,8 +25,17 @@ input:focus {
   outline: none;
 }
 
+#first-button{
+  display: none;
+}
+
 .notes {
+  padding-left: 5px;
+  margin-bottom: 10px;
   width:200px;
+  background-color:white;
+  text-decoration: none;
+  border: 1px solid black;
 }
 
 .begin-anim-button {

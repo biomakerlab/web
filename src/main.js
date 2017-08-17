@@ -8,13 +8,76 @@
  var s4;            // colored syringe 4
  var currChart = 0; // chart displayed in analysis
 
+
+//////////////// SLIDING INFO DIVS //////////////////////
+var transInfo = 0;
+var incubInfo = 0;
+var dataInfo = 0;  
+var notesInfo = 0; 
+
+function slide(id, button, index) {
+  if (index == 0) { 
+    if (transInfo == 0) {
+      transInfo = 1; 
+      $("#" + id).slideDown("fast");
+      $("#" + button).html("( less )"); 
+    } else {
+      transInfo = 0; 
+      $("#" + id).slideUp("fast");
+      $("#" + button).html("( more )"); 
+    }
+  }
+  else if (index == 1) { 
+      $("#" + id).slideDown("fast");
+  }
+  else if (index == 2) {
+      $("#" + id).slideDown("fast");
+  }
+  else if (index == 3) {
+      $("#" + id).slideDown("fast");
+  }
+  else if (index == 4) { 
+    if (incubInfo == 0) {
+      incubInfo = 1; 
+      $("#" + id).slideDown("fast");
+      $("#" + button).html("( less )"); 
+    } else {
+      incubInfo = 0; 
+      $("#" + id).slideUp("fast");
+      $("#" + button).html("( more )"); 
+    }
+  }
+  else if (index == 5) { 
+    if (dataInfo == 0) {
+      dataInfo = 1; 
+      $("#" + id).slideDown("fast");
+      $("#" + button).html("( less )"); 
+    } else {
+      dataInfo = 0; 
+      $("#" + id).slideUp("fast");
+      $("#" + button).html("( more )"); 
+    }
+  }
+ else if (index == 6) { 
+    if (notesInfo == 0) {
+      notesInfo = 1; 
+      $("#" + id).slideDown("fast");
+      $("#" + button).html("( less )"); 
+    } else {
+      notesInfo = 0; 
+      $("#" + id).slideUp("fast");
+      $("#" + button).html("( more )"); 
+    }
+  }
+}
 //////////////// WRITING TO FILE //////////////////////
 function compileNotes() {
   var text = "BIO.MAKER.LAB NOTE SHEET\n\n"; 
   text += "Name: " + document.getElementById("fullNameId").value;
   text += "\nDate: " + document.getElementById("dateId").value;
-  text += "\nProjectName: " + document.getElementById("projNameId").value;
-  text += "\n\nNotes:\n " + document.getElementById("textMainId").value; 
+  text += "\nProject Name: " + document.getElementById("projNameId").value;
+  text += "\n\nNotes:\n" + document.getElementById("textMainId").value; 
+  text += "\n\nQuestions:\n" + document.getElementById("textMainId").value; 
 
   // download the file
   download(document.getElementById("fileNameId").value, text); 
@@ -70,6 +133,15 @@ $(document).ready(function(){
   });
 })
 
+// disqus
+if (document.getElementById("disqus_thread")) {
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://biomakerlab.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+}  
 //////////////// BACTERIA ANIMATION //////////////////////
 var plas1, bact1; 
 var plas2, bact2;
@@ -466,13 +538,16 @@ var projectChoice = 0;
 function displayInfo(index) {
   if (index == 1) {
     projectChoice = 1; 
-    document.getElementById('project-info').innerHTML = "<u>PROKARYOTE DESCRIPTION/OPTIONS</u>" + 
-    "<br>.................<br>.................<br>.................<br><br><br><br>"
+    document.getElementById('project-info').innerHTML = "You have chosen to work with <br> prokaryotic cells! Let's get started." + 
+    "<br><br><br><br>"
   } else if (index == 2) {
     projectChoice = 2; 
-    document.getElementById('project-info').innerHTML = "<u>EUKARYOTE DESCRIPTION/OPTIONS</u>" + 
-    "<br>.................<br>.................<br>.................<br><br><br><br>"
+    document.getElementById('project-info').innerHTML = "You have chosen to work with <br> eukaryotic cells! Let's get started." + 
+    "<br><br><br><br>"
   } 
+
+  // reveal begin button
+  document.getElementById("first-button").style.display = "inline"
 }
 
 //////////////// DRAWING THE INCUBATOR //////////////////////
