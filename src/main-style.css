@@ -1,42 +1,3 @@
-#transform-sub1,
-#transform-sub2, #transform-sub3 {
-  display: none;
-}
-
-.reveal-button {
-  border: 0px solid black;
-  background-color: transparent;
-  outline: none;
-  text-decoration: none;
-}
-
-.reveal-button:hover {
-  transform: scale(1.1,1.1);
-}
-
-input {
-  width: 70px;
-  padding: 0px 10px;
-  background-color: white;
-}
-
-input:focus {
-  outline: none;
-}
-
-#first-button{
-  display: none;
-}
-
-.notes {
-  padding-left: 5px;
-  margin-bottom: 10px;
-  width:200px;
-  background-color:white;
-  text-decoration: none;
-  border: 1px solid black;
-}
-
 .begin-anim-button {
     background-color: #E4AF9A; 
     border: none;
@@ -124,7 +85,6 @@ input:focus {
     color: black;
 }
 
-
 .button {
     background-color: transparent; 
     border: none;
@@ -152,6 +112,7 @@ input:focus {
   background-color: transparent;
   color: black;
 }
+
 .button:focus{
    outline-color: black;
 }
@@ -175,6 +136,10 @@ input:focus {
 	-webkit-border-radius: 50px;
 }
 
+#first-button{
+  display: none;
+}
+
 h4 {
 	color: #303030;
 	font-family: Josefin Slab, sans-serif;
@@ -182,6 +147,16 @@ h4 {
     font-weight: 600;
     margin-bottom: 30px;
 } 
+
+input {
+  width: 70px;
+  padding: 0px 10px;
+  background-color: white;
+}
+
+input:focus {
+  outline: none;
+}
 
 .jumbotron {
 	color: #818181;
@@ -228,6 +203,15 @@ h4 {
     padding: 10px 25px;
 }
 
+.notes {
+  padding-left: 5px;
+  margin-bottom: 10px;
+  width:200px;
+  background-color:white;
+  text-decoration: none;
+  border: 1px solid black;
+}
+
 p { 
 	font-family: Josefin Sans;
 	text-transform: uppercase;
@@ -264,6 +248,17 @@ p {
   outline-color: black;
 }
 
+.reveal-button {
+  border: 0px solid black;
+  background-color: transparent;
+  outline: none;
+  text-decoration: none;
+}
+
+.reveal-button:hover {
+  transform: scale(1.1,1.1);
+}
+
 */.thumbnail{
 	background: black;
 }
@@ -292,4 +287,10 @@ p {
   text-decoration: none;
   background-color: transparent;
   color: black;
+}
+
+
+#transform-sub1,
+#transform-sub2, #transform-sub3 {
+  display: none;
 }

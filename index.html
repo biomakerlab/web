@@ -602,7 +602,7 @@
 		  // called when the client connects
 		  function onConnect() {
 		    // Once a connection has been made, make a subscription and send a message.
-		    console.log("onConnect andrea");
+		    console.log("Successful connection to CloudMQTT");
 		    client.subscribe("directory/#"); // the messages that this client subscribes to
 		    message = new Paho.MQTT.Message("Biolab Page Loaded");
 		    message.destinationName = "directory/initialize";
@@ -610,6 +610,7 @@
 		  }
 
 		  function doFail(e){
+		  	console.log("Failed to connect to CloudMQTT")
 		    console.log(e);
 		  }
 
@@ -706,6 +707,9 @@
 		<link rel="stylesheet" href="src/main-style.css">
  		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> 
 		<script type="text/javascript" src="anime.min.js"></script>
+
+		<script type="text/javascript" src="html2canvas.js"></script>
+
 		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -718,6 +722,7 @@
 		<!-- google fonts --> 
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Slab" rel="stylesheet" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet" type="text/css">
+
 	</head>
 
 	<body id="myPage" data-spy="scroll" data-target=".navbar" 
@@ -730,11 +735,15 @@
 	    	  <strong> CHOOSE A CELL TYPE: </strong> <br>
 
 	    	  <label class="project-button" onclick="drawInc(1), displayInfo(1)"> 
-	    	  	<input type="radio" name="project" value="logo"> prokaryote <br> 
+	    	  	<input type="radio" name="project" value="logo"> biologo <br> 
 	    	  </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 	    	  <label class="project-button" onclick="drawInc(2), displayInfo(2)"> 
-	    	  	<input type="radio" name="project" value="design"> eukaryote <br> 
+	    	  	<input type="radio" name="project" value="design"> biosensor <br> 
+	    	  </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+	    	  <label class="project-button" onclick="drawInc(3), displayInfo(3)"> 
+	    	  	<input type="radio" name="project" value="logo"> biocakes <br> 
 	    	  </label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		</p>  
 
@@ -771,288 +780,264 @@
 		  </div>
 		</nav>
 
-		<!-- <div class="container">  -->
-			<div class="container-fluid" style="background-color:#e8efe8"  id="step1">
-				<div class="row text-center"> 
-					<h4> <br><br><br>  - step 1 -</h4> 
-					<h2> <strong> TRANSFORM </strong> </h2>  
+		<div class="container-fluid" style="background-color:#e8efe8"  id="step1">
+			<div class="row text-center"> 
+				<h4> <br><br><br>  - step 1 -</h4> 
+				<h2> <strong> TRANSFORM </strong> </h2>  
 
-					<div id="transform-info"> 
-						<p style="font-size: 15px; text-transform:none; width: 60%; margin-left:20%"> 
-							In this section, we will explore the process of bacterial transformation. <br>
-							Follow along as we go through the steps of how bacteria is transformed! <br><br>
-						</p>
+				<div id="transform-info"> 
+					<p style="font-size: 15px; text-transform:none; width: 60%; margin-left:20%"> 
+						In this section, we will explore the process of bacterial transformation. <br>
+						Follow along as we go through the steps of how bacteria is transformed. <br><br>
+					</p>
+				</div>
+
+				<div class="col-sm-4" style="border:0px solid black; padding:0px 30px 0px 30px"> 
+					<h3> 1. Place </h3> 
+					First, the cuvette must be placed into a cooler to stabilize the solution. Enter a low temperature for a long amount of time.  <br>
+					<canvas id="cuv-anim-1" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>  <br>
+					<form id="temp1" style="font-size:13px">
+					  <br> Enter Temperature: <input type="text" name="fname" value="25"> °C
+					</form> <p></p>
+					<form id="frm1" style="font-size:13px">
+					  Enter Countdown: <input type="text" name="fname" value="3:00">&nbsp;&nbsp;
+					</form> <p></p>
+					<button class="begin-anim-button" onclick="userSetTime1(), startCuv1(), cuvStep1(), userSetTemp(1)"> PLACE CUVETTE <div id="cuv-timer-1" class="countdown" style="font-size:20px"> - </div></button> <br><br>
+
+					<button id="trig-sub1" class="reveal-button" onclick="slide('transform-sub1', 'trig-sub1', 1)">
+						( see graphic )
+					</button> <br>
+
+					<div id="transform-sub1"> 
+						This cooling process prepares the bacteria for gene uptake by changing membrane fluidity. <br>
+
+						<canvas id="step-1-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<button class="begin-anim-button" onclick="startBacAnim1()"> view process </button> 
 					</div>
+					<br><br><br>
+				</div>
 
-					<div class="col-sm-4" style="border:0px solid black; padding:0px 30px 0px 30px"> 
+				<div class="col-sm-4" style="border:0px solid black; padding:0px 30px 0px 30px"> 
+					<h3 style="text-transform:none;"> 2. Transform </h3> 
+					Next, it is time for heat shock by creating a high temperature environment. Select the proper settings for this short burst of heat.  <br>
 
-						<h3> 1. Place </h3> 
-						First, the cuvette filled with the solution must be placed into a cooler in order to make it cold. fill fill fill fill fill fill fill fill fill fill fill fill fill fill <br>
+					<canvas id="cuv-anim-2" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
 
-						<canvas id="cuv-anim-1" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>  <br>
+					<form id="temp2" style="font-size:13px">
+					  <br> Enter Temperature: <input type="text" name="fname" value=""> °C
+					</form> <p></p>
+					<form id="frm2" style="font-size:13px">
+					  Enter Countdown: <input type="text" name="fname" value="">&nbsp;&nbsp;
+					</form> <p></p>
 
-						<form id="temp1" style="font-size:13px">
-						  <br> Enter Temperature: <input type="text" name="fname" value="40"> °C
-						</form> <p></p>
-						<form id="frm1" style="font-size:13px">
-						  Enter Countdown: <input type="text" name="fname" value="3:00">&nbsp;&nbsp;
-						</form> <p></p>
-						<button class="begin-anim-button" onclick="userSetTime1(), startCuv1(), cuvStep1(), userSetTemp(1)"> PLACE CUVETTE 
-							<div id="cuv-timer-1" class="countdown" style="font-size:20px"> - </div>
-						</button> <br><br>
+						<button class="begin-anim-button" onclick="userSetTime2(), startCuv2(), cuvStep2(), userSetTemp(2)"> 
+					BEGIN transform <br>
+					<div id="cuv-timer-2" class="countdown" style="font-size:20px"> - </div>
+					</button> <br>
+					<br>
 
-						<button id="trig-sub1" class="reveal-button" onclick="slide('transform-sub1', 'trig-sub1', 1)">
-							( see bacteria )
-						</button> <br>
+					<button id="trig-sub2" class="reveal-button" onclick="slide('transform-sub2', 'trig-sub2', 2)">
+						( see graphic )
+					</button> <br>
 
-						<div id="transform-sub1"> 
-							The purpose of this first step is to be able to fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill <br>
-
-							<canvas id="step-1-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
-							<button class="begin-anim-button" onclick="startBacAnim1()"> view process </button> 
-						</div>
-						<br><br><br>
+					<div id="transform-sub2"> 
+						The rapid change in temperature creates pores in the membrane, allowing the plasmids to enter. <br>
+						<canvas id="step-2-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<button class="begin-anim-button" onclick="startBacAnim2()"> view process </button>
 					</div>
+					<br><br><br>
+				</div>
+				<div class="col-sm-4" style="border:0px solid black; padding:0px 30px 0px 30px"> 
+					<h3> 3. Remove </h3>
+					Finally, it is time to move the transformed solution to be incubated. This creates ideal conditions for cell multiplication. <br>
 
-					<div class="col-sm-4" style="border:0px solid black; padding:0px 30px 0px 30px"> 
-						<h3 style="text-transform:none;"> 2. Transform </h3> 
-						Next, the solution will now undergo the process of heat shock. This will be accomplished by setting the temperature to a high temperature. fill fill fill  <br>
+					<canvas id="cuv-anim-3" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
+					<br><br><br><br>
 
-						<canvas id="cuv-anim-2" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
+					<br> <button class="begin-anim-button" onclick="startCuv3()"> 
+					REMOVE CUVETTE
+					<div style="font-size:21px; color: #E4AF9A"> - </div> </button>
+					<br><br>
 
-						<form id="temp2" style="font-size:13px">
-						  <br> Enter Temperature: <input type="text" name="fname" value=""> °C
-						</form> <p></p>
-						<form id="frm2" style="font-size:13px">
-						  Enter Countdown: <input type="text" name="fname" value="">&nbsp;&nbsp;
-						</form> <p></p>
+					<button id="trig-sub3" class="reveal-button" onclick="slide('transform-sub3', 'trig-sub3', 3)">
+						( see graphic )
+					</button> <br>
 
- 						<button class="begin-anim-button" onclick="userSetTime2(), startCuv2(), cuvStep2(), userSetTemp(2)"> 
-						BEGIN transform <br>
-						<div id="cuv-timer-2" class="countdown" style="font-size:20px"> - </div>
-						</button> <br>
-						<br>
-
-						<button id="trig-sub2" class="reveal-button" onclick="slide('transform-sub2', 'trig-sub2', 2)">
-							( see bacteria )
-						</button> <br>
-
-						<div id="transform-sub2"> 
-							The purpose of the heat shock is to be able to fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill <br>
-							<canvas id="step-2-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
-							<button class="begin-anim-button" onclick="startBacAnim2()"> view process </button>
-						</div>
-						<br><br><br>
-					</div>
-
-					<div class="col-sm-4" style="border:0px solid black; padding:0px 30px 0px 30px"> 
-						<h3> 3. Remove </h3>
-						Finally, the transformation has occurred, and it is time to take out the cuvette. Now we will incubate the solution to duplicate the bacteria. <br>
-
-						<canvas id="cuv-anim-3" style="border:0px solid black; width:250px;" width="500" height="400">  </canvas>
-						<br><br><br><br>
-
-						<br> <button class="begin-anim-button" onclick="startCuv3()"> 
-						REMOVE CUVETTE
-						<div style="font-size:21px; color: #E4AF9A"> - </div> </button>
-						<br><br>
-
-						<button id="trig-sub3" class="reveal-button" onclick="slide('transform-sub3', 'trig-sub3', 3)">
-							( see bacteria )
-						</button> <br>
-
-						<div id="transform-sub3">
-							Once the cuvette is taken out of the water, fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill fill <br>
-							<canvas id="step-3-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
-							<button class="begin-anim-button" onclick="startBacAnim3()"> view process </button>
-						</div> 
+					<div id="transform-sub3">
+						Now the cell membrane can comfortably self-heal with the plasmid inside. <br>
+						<canvas id="step-3-anime" style="border:0px solid black; width:250px;" width="400" height="210"> </canvas> <br>
+						<button class="begin-anim-button" onclick="startBacAnim3()"> view process </button>
 					</div> 
-
-			    	</div>
-				<div class="row text-center" style="border:0px solid black;">
-						<a class="begin-button" href="#step2"> Next <br>
-		    			<span class="glyphicon glyphicon-chevron-down"> </span> </a> <p></br><br></p>
-		    		</div>
-			</div>
-
-
-			<div class="container-fluid" style="background-color:#dbe0db" id="step2">
-				<h4 class="row text-center"> <br><br><br>- step 2 -</h4> 
-				<h2 class="row text-center"> <strong>INCUBATE</strong> </h2> 
-
-				<div class="row text-center" id="incubate-info" style="font-size: 15px; width: 60%; margin-left:20%">
-			    	<p style="text-transform:none;"> Once the bacteria has been transformed, it is time for incubation. The Bio.Maker.Lab machine runs this process, which is controlled by this page! Once the machine starts, the digital incubator below follows the rotation of the actual machine. Additionally, there are real time readings of temperature, time and optical density. <br><br> </p>
-			    </div>
-
-				<div style="border:0px solid black; width:120px; height:20px; margin-left:20%"> 
-					<object style="border:0px solid black; float:left" height="50" data="graphics/therm.png"></object>
-					<div style="border:0px solid black; float:right; font-size:18px" id="display-temp" class="rectangle"> </div>
-				</div>
-
-				<div class="row text-center" style="border:0px solid black;"> 
-					<canvas id="incubator-image" style="border:0px solid black; width:40%; margin-right:25%" width="1000" height="1000"> </canvas>
-				</div>
-
-				<div style="margin-left:20%"> TIME: </div>
-				<div style="margin-left:20%;" id="incubate-timer"> 00:00 </div>
-
-
-				<!-- buttons -->
-				<div class="row text-center" > 
-					<!-- <br> <button class="to-top" onclick="redrawSyringe()"> (click to test color change) </button> <br><br> -->
-					<button class="button" onclick="beginButton(), startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp(), startIncubateTime()" class="start"> Begin Machine </button> &nbsp;
-					<button class="button" onclick="stopButton()" class="stop"> Stop Machine </button> 
-					<br><br><br><br><br>
 				</div> 
+		    </div>
+			<div class="row text-center" style="border:0px solid black;">
+				<a class="begin-button" href="#step2"> Next <br>
+	    		<span class="glyphicon glyphicon-chevron-down"> </span> </a> <p></br><br></p>
+	    	</div>
+		</div>
 
 
-				<!-- OD TIMING VIS --> 
-				<div class="row text-center" style="">
-					<div id="realTimeOD" style="font-size:17px;"> <strong> OPTICAL DENSITY (OD) READINGS: </strong> <br><br></div> 
-					<div class="col-sm-4"></div>
- 				    <div class="col-sm-1">
-				      <div class="thumbnail-holder">
-				        <div id="od-1" class="circle" style="background-color:#98A1AD;"><br><br> </div> <p> <br> Syringe 1 </p>
-				      </div>
-				    </div>
-				    <div class="col-sm-1">
-				      <div class="thumbnail-holder">
-				        <div id="od-2" class="circle" style="background-color:#6c8b98"><br><br> </div>	<p> <br> Syringe 2 </p>		<!-- #4F6C7A -->	     
-				      </div>
-				    </div>
-				    <div class="col-sm-1">
-				      <div class="thumbnail-holder">
-				        <div id="od-3" class="circle" style="background-color:#E4AF9A;"><br><br> </div> <p> <br> Syringe 3 </p>
-				      </div>
-				    </div>
-				    <div class="col-sm-1">
-				      <div class="thumbnail-holder">
-				        <div id="od-4" class="circle" style="background-color:#AD9A98;"><br><br> </div> <p> <br> Syringe 4 </p>
-				      </div>
-				    </div>
-				    <div class="col-sm-4"></div>
-					<p><br><br><br><br><br><br><br><br><br><br></p>
+		<div class="container-fluid" style="background-color:#dbe0db" id="step2">
+			<h4 class="row text-center"> <br><br><br>- step 2 -</h4> 
+			<h2 class="row text-center"> <strong>INCUBATE</strong> </h2> 
 
-					<a class="begin-button" href="#step3"> Next <br>
-		    		<span class="glyphicon glyphicon-chevron-down"> </span> </a> <p></br><br></p>
-	    		</div>
+			<div class="row text-center" id="incubate-info" style="font-size: 15px; width: 60%; margin-left:20%">
+		    	<p style="text-transform:none;"> Once the bacteria has been transformed, it is time to incubate. The Bio.Maker.Lab machine runs this process, and this page controls the machine. Once the machine starts, the digital incubator below follows the rotation of the actual machine. Additionally, there are real time readings of temperature, time and optical density. <br><br> </p>
+		    </div>
+
+			<div style="border:0px solid black; width:120px; height:20px; margin-left:20%"> 
+				<object style="border:0px solid black; float:left" height="50" data="graphics/therm.png"></object>
+				<div style="border:0px solid black; float:right; font-size:18px" id="display-temp" class="rectangle"> </div>
 			</div>
 
-			<div class="container-fluid bg-grey" style="background-color:#dee3ed" id="step3"> <!-- original blue: bcc4d1 --> <!-- original green: a4aaa3 -->
-				<h4 class="row text-center"> <br><br><br>- step 3 -</h4> 
-				<h2 class="row text-center"><strong> DATA ANALYSIS</strong> </h2>	
-
-				<div class="row text-center" id="data-info" style="font-size: 15px; width: 60%; margin-left:20%">
-			    	<p style="text-transform: none;"> Now that the machine has started running, it is time to analyze the data. Below, each syringe being incubated has a graph of its optical density history. Additionally, the raw spectrum reading which come straight from the machine can be viewed. <br><br> </p>
-				</div>
-
-				<div class="row text-center"> 
-				
-				  <!-- <div class="row text-center"> -->
-				  	<div style="width: 70%; margin-left: 15%" id="vis-1"></div> 
-				  	<div style="width: 70%; margin-left: 15%" id="vis-2"></div> 
-				  	<div style="width: 70%; margin-left: 15%" id="vis-3"></div> 
-				  	<div style="width: 70%; margin-left: 15%" id="vis-4"></div> 
-				  	
-				<p> <br><br><br><br><br><br><br> </p>
-				<p> <br><br><br><br><br><br><br> </p>
-				  <p> <br> <button class="to-top" id="updateDataOD" style="font-size:15px; outline-width:1px; outline-color:black; outline-style: solid; padding:3px 10px 0px 10px; "> click to update reading  </button> <br><br></p>
-
-				    <div class="col-sm-2"></div> <!-- to make border --> 
- 				    <div class="col-sm-2">
-				      <div class="thumbnail-holder">
-				      	<button class="begin-button" style="background-color:#98A1AD; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(1)"> Display Syringe 1 </button>
-						<br><br> <div id="vis-1a"></div>
-				      </div>
-				    </div>
-				    <div class="col-sm-2">
-				      <div class="thumbnail-holder">
-				      	<button class="begin-button" style="background-color:#6c8b98; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(2)"> Display Syringe 2 </button>
-				        <br><br> <div id="vis-2a"></div>
-				      </div>
-				    </div>
-				    <div class="col-sm-2">
-				      <div class="thumbnail-holder">
-				      	<button class="begin-button" style="background-color:#E4AF9A; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(3)"> Display Syringe 3 </button>
-				        <br><br> <div id="vis-3a"></div>
-				      </div>
-				    </div>
-				    <div class="col-sm-2">
-				      <div class="thumbnail-holder">
-				      	<button class="begin-button" style="background-color:#AD9A98; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(4)"> Display Syringe 4 </button>
-				        <br><br> <div id="vis-4a"></div>
-				      </div>
-				    </div>
-				    <div class="col-sm-2"></div>
-					<p> <br><br><br><br> </p>
-
-					<!-- Trigger the modal with a button -->
-					<div style="font-size: 14px;font-family:Josefin Sans;padding-bottom:10px"> CLICK FOR RAW SPECTRUM RESULTS: </div>  
-				  <button type="button" class="button" data-toggle="modal" data-target="#myModal">  
-				  	  Raw <br> Spectrum <br> Reading <br> </button>
-
-				</div>
-
-				<div class="container">
-				  <!-- Modal -->
-				  <div class="modal fade" id="myModal" role="dialog">
-				    <div class="modal-dialog" style="width: 90%;">
-				    
-				      <!-- Modal content-->
-				      <div class="modal-content">
-				        <div class="modal-header">
-				          <button type="button" class="close" data-dismiss="modal">&times;</button>
-				          <!-- <h4 class="modal-title"> - results - </h4> -->
-				        </div>
-				        <div class="modal-body">
-				         	<div id="chartContainer" style="height: 300px; width: 70%; margin-left: 15%;" class="row text-center"> </div>  
-				         	<br><br><br><br><br><br><br>
-				     	</div>
-				        <div class="modal-footer">
-				          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        </div>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-				<p><br><br><br>
+			<div class="row text-center" style="border:0px solid black;"> 
+				<canvas id="incubator-image" style="border:0px solid black; width:40%; margin-right:25%" width="1000" height="1000"> </canvas>
 			</div>
 
-			<!--  temporarily removing "comments" section 
-			<div class="container-fluid bg-grey" style="outline: 2px solid black; background-color:#f3e1d9" id="step4">
-				<h4 class="row text-center"> <br><br><br>- feedback or questions? -</h4> 
-				<h2 class="row text-center"><strong> LEAVE A COMMENT </strong> </h2> <br><br>
- 				<div id="disqus_thread"></div>
-			</div> -->
+			<!-- <div style="margin-left:20%"> TIME: </div>
+			<div style="margin-left:20%;" id="incubate-timer"> 00:00 </div> -->
 
-			<div class="container-fluid bg-grey" style="outline: 2px solid black; background-color:#f3e1d9" id="step4">
-				<h4 class="row text-center"> <br><br><br>- notes - </h4> 
-				<h2 class="row text-center"><strong> RECORD </strong> </h2> 
+			<!-- buttons -->
+			<div class="row text-center" > 
+				<!-- <br> <button class="to-top" onclick="redrawSyringe()"> (test color change) </button> <br><br> -->
+				<button class="button" onclick="beginButton(), startTime(), disRealTimeOD(1), disRealTimeOD(2), disRealTimeOD(3), disRealTimeOD(4), disTemp()" class="start"> Begin Machine </button> &nbsp;
+				<button class="button" onclick="stopButton()" class="stop"> Stop Machine </button> 
+				<br><br><br><br><br>
+			</div> 
 
-				<div class="row text-center" id="notes-info" style="font-size: 15px; width: 60%; margin-left:20%">
-			    	<p style="text-transform: none;">Fill out and download this form to remember your project details! </p> 
-
+			<!-- OD TIMING VIS --> 
+			<div class="row text-center" style="">
+				<div id="realTimeOD" style="font-size:17px;"> <strong> OPTICAL DENSITY (OD) READINGS: </strong> <br><br></div> 
+				<div class="col-sm-4"></div>
+				    <div class="col-sm-1">
+			      <div class="thumbnail-holder">
+			        <div id="od-1" class="circle" style="background-color:#98A1AD;"><br><br> </div> <p> <br> Syringe 1 </p>
+			      </div>
 			    </div>
-	 				<div class="row text-center"> 
-					  <form id="user-data">  
-				   	    <br>
+			    <div class="col-sm-1">
+			      <div class="thumbnail-holder">
+			        <div id="od-2" class="circle" style="background-color:#6c8b98"><br><br> </div>	<p> <br> Syringe 2 </p>
+			      </div>
+			    </div>
+			    <div class="col-sm-1">
+			      <div class="thumbnail-holder">
+			        <div id="od-3" class="circle" style="background-color:#E4AF9A;"><br><br> </div> <p> <br> Syringe 3 </p>
+			      </div>
+			    </div>
+			    <div class="col-sm-1">
+			      <div class="thumbnail-holder">
+			        <div id="od-4" class="circle" style="background-color:#AD9A98;"><br><br> </div> <p> <br> Syringe 4 </p>
+			      </div>
+			    </div>
+			    <div class="col-sm-4"></div>
+				<p><br><br><br><br><br><br><br><br><br><br></p>
+				<a class="begin-button" href="#step3"> Next <br>
+	    		<span class="glyphicon glyphicon-chevron-down"> </span> </a> <p></br><br></p>
+    		</div>
+		</div>
+
+		<div class="container-fluid bg-grey" style="background-color:#dee3ed" id="step3">
+			<h4 class="row text-center"> <br><br><br>- step 3 -</h4> 
+			<h2 class="row text-center"><strong> DATA ANALYSIS</strong> </h2>	
+			<div class="row text-center" id="data-info" style="font-size: 15px; width: 60%; margin-left:20%">
+		    	<p style="text-transform: none;"> Now that the machine has started running, it is time to analyze the data. Below, each syringe being incubated has a graph of its optical density history. Additionally, the raw spectrum reading can be viewed. <br><br> </p>
+			</div>
+			<div id="od-history-graphs" class="row text-center"> 
+			  	<div style="width: 70%; margin-left: 15%" id="vis-1"></div> 
+			  	<div style="width: 70%; margin-left: 15%" id="vis-2"></div> 
+			  	<div style="width: 70%; margin-left: 15%" id="vis-3"></div> 
+			  	<div style="width: 70%; margin-left: 15%" id="vis-4"></div> 
+				<p> <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> </p>
+			    <p> <button class="to-top" id="updateDataOD" style="font-size:15px; outline-width:1px; outline-color:black; outline-style: solid; padding:3px 10px 0px 10px; "> click to update reading  </button> <br><br></p>
+			    <div class="col-sm-2"></div>
+				    <div class="col-sm-2">
+			      <div class="thumbnail-holder">
+			      	<button class="begin-button" style="background-color:#98A1AD; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(1)"> Display Syringe 1 </button>
+					<br><br> <div id="vis-1a"></div>
+			      </div>
+			    </div>
+			    <div class="col-sm-2">
+			      <div class="thumbnail-holder">
+			      	<button class="begin-button" style="background-color:#6c8b98; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(2)"> Display Syringe 2 </button>
+			        <br><br> <div id="vis-2a"></div>
+			      </div>
+			    </div>
+			    <div class="col-sm-2">
+			      <div class="thumbnail-holder">
+			      	<button class="begin-button" style="background-color:#E4AF9A; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(3)"> Display Syringe 3 </button>
+			        <br><br> <div id="vis-3a"></div>
+			      </div>
+			    </div>
+			    <div class="col-sm-2">
+			      <div class="thumbnail-holder">
+			      	<button class="begin-button" style="background-color:#AD9A98; color: black; outline-width:1px; padding: 11px 20px 9px;" onclick="chooseGraph(4)"> Display Syringe 4 </button>
+			        <br><br> <div id="vis-4a"></div>
+			      </div>
+			    </div>
+			    <div class="col-sm-2"></div>
+				<p> <br><br><br><br> </p>
+
+			<div class="row text-center">
+				<button class="to-top" id="save_image_locally"> ( Download Graph ) </button>
+			</div>
+				<!-- Trigger the modal with a button -->
+				<div style="font-size: 14px;font-family:Josefin Sans;padding-bottom:10px"> <br>CLICK FOR RAW SPECTRUM RESULTS: </div>  
+			  <button type="button" class="button" data-toggle="modal" data-target="#myModal">  
+			  	  Raw <br> Spectrum <br> Reading <br> </button>
+			</div>
+
+
+			<div class="container">
+			  <!-- Modal -->
+			  <div class="modal fade" id="myModal" role="dialog">
+			    <div class="modal-dialog" style="width: 90%;">
+			    
+			      <!-- Modal content-->
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button type="button" class="close" data-dismiss="modal">&times;</button>
+			        </div>
+			        <div class="modal-body">
+			         	<div id="chartContainer" style="height: 300px; width: 70%; margin-left: 15%;" class="row text-center"> </div>  
+			         	<br><br><br><br><br><br><br>
+			     	</div>
+			        <div class="modal-footer">
+			          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<p><br><br><br>
+		</div>
+		<!--  temporarily removing "comments" section 
+		<div class="container-fluid bg-grey" style="outline: 2px solid black; background-color:#f3e1d9" id="step4">
+			<h4 class="row text-center"> <br><br><br>- feedback or questions? -</h4> 
+			<h2 class="row text-center"><strong> LEAVE A COMMENT </strong> </h2> <br><br>
+				<div id="disqus_thread"></div>
+		</div> -->
+		<div class="container-fluid bg-grey" style="outline: 2px solid black; background-color:#f3e1d9" id="step4">
+			<h4 class="row text-center"> <br><br><br>- notes - </h4> 
+			<h2 class="row text-center"><strong> RECORD </strong> </h2> 
+			<div class="row text-center" id="notes-info" style="font-size: 15px; width: 60%; margin-left:20%">
+		    	<p style="text-transform: none;">Fill out and download this form to remember your project details! </p> 
+		    </div>
+ 				<div class="row text-center"> 
+				    <form id="user-data"> <br>
 					    Name: &nbsp;<input type="text" name="fullName" id="fullNameId" class="notes" value=""><br>
 					    Date: &nbsp;&nbsp;&nbsp;<input type="text" name="date" id="dateId"  class="notes" value=""><br>
 					    Project: <input type="text" class="notes" name="projName" id="projNameId" value=""><br><br>
 					    Notes about the project: <br> <textarea style="width:350px" rows=8 cols=150 class="notes" name="textMain" id="textMainId"></textarea> <br>
 					    Questions I still have: <br> <textarea style="width:350px"  rows=4 cols=100 class="notes" name="question" id="questionsId"></textarea> <br>
 					    File Name (must end in .txt): <br> <input type="text" class="notes" name="fileName" id="fileNameId" value="biologo.txt"> <br>
-					  </form>
-					  <br>
-					  <button class="button" onclick="compileNotes()"> Download Notes </button> 
-					  <br><br>
-	 				</div>
+				    </form> <br>
+				  <button class="button" onclick="compileNotes()"> Download Notes </button><br><br>
+ 				</div>
 
-				<div class="row text-center"> 
-					<br><br><br> <a class="to-top" href="#myPage"> ( back to top ) </a> <p></br></p>
-				</div>
-
+			<div class="row text-center"> 
+				<br><br><br><a class="to-top" href="#myPage"> ( back to top ) </a><p></br></p>
 			</div>
+		</div>
 	</body>
 	<script type="text/javascript" src="src/main.js"></script>
 </html>

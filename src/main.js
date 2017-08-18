@@ -9,6 +9,20 @@
  var currChart = 0; // chart displayed in analysis
 
 
+///////////////// SCREEN CAPTURE //////////////////////
+$('#save_image_locally').click(function(){
+    html2canvas($('#od-history-graphs'), 
+    {
+      onrendered: function (canvas) {
+        var a = document.createElement('a');
+        // toDataURL defaults to png, so we need to request a jpeg, then convert for file download.
+        a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+        a.download = 'od-graph.jpg';
+        a.click();
+      }
+    });
+  });
+
 //////////////// SLIDING INFO DIVS //////////////////////
 function slide(id, button, index) {
   if (index == 1) { 
@@ -26,9 +40,9 @@ function compileNotes() {
   var text = "BIO.MAKER.LAB NOTE SHEET\n\n"; 
   text += "Name: " + document.getElementById("fullNameId").value;
   text += "\nDate: " + document.getElementById("dateId").value;
-  text += "\nProject Name: " + document.getElementById("projNameId").value;
+  text += "\nProject: " + document.getElementById("projNameId").value;
   text += "\n\nNotes:\n" + document.getElementById("textMainId").value; 
-  text += "\n\nQuestions:\n" + document.getElementById("textMainId").value; 
+  text += "\n\nQuestions:\n" + document.getElementById("questionsId").value; 
 
   // download the file
   download(document.getElementById("fileNameId").value, text); 
@@ -48,6 +62,23 @@ function download(filename, text) {
         pom.click();
     }
 }
+//////////////// COMMENTS SECTION //////////////////////
+$(document).ready(function(){
+  $('#comments-container').comments({
+      profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
+  });
+})
+
+// disqus
+if (document.getElementById("disqus_thread")) {
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://biomakerlab.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+}  
+
 //////////////// INCUBATE TIMER //////////////////////
 function startIncubateTime() {
   var origTime = new Date().getTime(); 
@@ -76,23 +107,6 @@ function startIncubateTime() {
   }, 1000);
 }
 
-
-//////////////// COMMENTS SECTION //////////////////////
-$(document).ready(function(){
-  $('#comments-container').comments({
-      profilePictureURL: 'https://app.viima.com/static/media/user_profiles/user-icon.png',
-  });
-})
-
-// disqus
-if (document.getElementById("disqus_thread")) {
-  (function() { // DON'T EDIT BELOW THIS LINE
-  var d = document, s = d.createElement('script');
-  s.src = 'https://biomakerlab.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-  })();
-}  
 //////////////// BACTERIA ANIMATION //////////////////////
 var plas1, bact1; 
 var plas2, bact2;
@@ -114,7 +128,6 @@ var f = 2.0;
 
 // step 1 anime 
 function startBacAnim1() {
-  // component object params: color, x, y, width, height, type, canvas
     plas1  = new component("graphics/plasmid.png", 10 * f, 10 * f, 20 * f, 20 * f,"image", "bactArea1");
     bact1 = new component("graphics/bact-orig.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea1");
     bactArea1.start();
@@ -136,7 +149,6 @@ function updateBactArea1() {
     bactArea1.clear();
     plas1.update(); 
     bact1.update();
-    // bact1b.update(); 
     step1count += 1; 
 }
 
@@ -511,13 +523,17 @@ var projectChoice = 0;
 function displayInfo(index) {
   if (index == 1) {
     projectChoice = 1; 
-    document.getElementById('project-info').innerHTML = "You have chosen to work with <br> prokaryotic cells! Let's get started." + 
+    document.getElementById('project-info').innerHTML = "You have chosen the biologo <br> project! Let's get started." + 
     "<br><br><br><br>"
   } else if (index == 2) {
     projectChoice = 2; 
-    document.getElementById('project-info').innerHTML = "You have chosen to work with <br> eukaryotic cells! Let's get started." + 
+    document.getElementById('project-info').innerHTML = "You have chosen the biosensor <br> project! Let's get started." + 
     "<br><br><br><br>"
-  } 
+  } else {
+    projectChoice = 3; 
+    document.getElementById('project-info').innerHTML = "You have chosen the biocakes <br> project! Let's get started." + 
+    "<br><br><br><br>"
+  }
 
   // reveal begin button
   document.getElementById("first-button").style.display = "inline"
@@ -531,8 +547,8 @@ function drawInc(index) { // options are 1, 2, or 3
   } else if (index == 2) {
     color = "green";
   } else {
-    color = "pink"; 
-  }
+    color = "pink";
+  } 
   
   ctx = document.getElementById('incubator-image').getContext('2d');
 
@@ -606,10 +622,6 @@ function drawInc(index) { // options are 1, 2, or 3
 
 function redrawSyringe() {
   ctx.globalAlpha = ctx.globalAlpha + 0.1;
-  // console.log(ctx.globalAlpha);
-  // if (ctx.globalAlpha > 0.99) {
-  //   console.log("opaque");
-  // }
   ctx.drawImage(s1, 238 * 2.0, 65 * 2.0,35 * 2.0,140 * 2.0); // just a factor of 2 
   ctx.drawImage(s2, 302 * 2.0,232 * 2.0, 137 * 2.0, 35 * 2.0);
   ctx.drawImage(s3, 243 * 2.0, 293 * 2.0, 35 * 2.0, 140 * 2.0);
