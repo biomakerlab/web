@@ -10,24 +10,8 @@
 
 
 //////////////// SLIDING INFO DIVS //////////////////////
-var transInfo = 0;
-var incubInfo = 0;
-var dataInfo = 0;  
-var notesInfo = 0; 
-
 function slide(id, button, index) {
-  if (index == 0) { 
-    if (transInfo == 0) {
-      transInfo = 1; 
-      $("#" + id).slideDown("fast");
-      $("#" + button).html("( less )"); 
-    } else {
-      transInfo = 0; 
-      $("#" + id).slideUp("fast");
-      $("#" + button).html("( more )"); 
-    }
-  }
-  else if (index == 1) { 
+  if (index == 1) { 
       $("#" + id).slideDown("fast");
   }
   else if (index == 2) {
@@ -35,39 +19,6 @@ function slide(id, button, index) {
   }
   else if (index == 3) {
       $("#" + id).slideDown("fast");
-  }
-  else if (index == 4) { 
-    if (incubInfo == 0) {
-      incubInfo = 1; 
-      $("#" + id).slideDown("fast");
-      $("#" + button).html("( less )"); 
-    } else {
-      incubInfo = 0; 
-      $("#" + id).slideUp("fast");
-      $("#" + button).html("( more )"); 
-    }
-  }
-  else if (index == 5) { 
-    if (dataInfo == 0) {
-      dataInfo = 1; 
-      $("#" + id).slideDown("fast");
-      $("#" + button).html("( less )"); 
-    } else {
-      dataInfo = 0; 
-      $("#" + id).slideUp("fast");
-      $("#" + button).html("( more )"); 
-    }
-  }
- else if (index == 6) { 
-    if (notesInfo == 0) {
-      notesInfo = 1; 
-      $("#" + id).slideDown("fast");
-      $("#" + button).html("( less )"); 
-    } else {
-      notesInfo = 0; 
-      $("#" + id).slideUp("fast");
-      $("#" + button).html("( more )"); 
-    }
   }
 }
 //////////////// WRITING TO FILE //////////////////////
@@ -190,6 +141,17 @@ function updateBactArea1() {
 }
 
 // step 2 anime 
+// draw start image
+  var step2ctx = document.getElementById('step-2-anime').getContext("2d"); 
+  var image1 = new Image();
+  var image2 = new Image();
+  image1.src="graphics/plasmid.png";
+  image2.src= "graphics/bact-perm.png";
+  image2.onload = function() {
+    step2ctx.drawImage(image1, 10 * f, 40 * f, 20 * f, 20 * f);
+    step2ctx.drawImage(image2, 50 * f, 30 * f, 140 * f, 60 * f);
+  };
+
 function startBacAnim2() {
     plas2 = new component("graphics/plasmid.png", 10 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea2");
     bact2 = new component("graphics/bact-perm.png", 50 * f, 30 * f, 140 * f, 60 * f, "image", "bactArea2");
@@ -215,6 +177,17 @@ function updateBactArea2() {
 }
 
 // step 3 anime 
+// draw start image
+  var step3ctx = document.getElementById('step-3-anime').getContext("2d"); 
+  var image1 = new Image();
+  var image2 = new Image();
+  image1.src="graphics/plasmid.png";
+  image2.src= "graphics/bact-orig.png";
+  image2.onload = function() {
+    step3ctx.drawImage(image1, 70 * f, 40 * f, 20 * f, 20 * f);
+    step3ctx.drawImage(image2, 50 * f, 30 * f, 140 * f, 60 * f);
+  };
+
 function startBacAnim3() {
     plas3a = new component("graphics/plasmid.png", 70 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea3");
     plas3b = new component("graphics/plasmid.png", 70 * f, 40 * f, 20 * f, 20 * f,"image", "bactArea3");

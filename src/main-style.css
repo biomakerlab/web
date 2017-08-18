@@ -1,6 +1,5 @@
-#transform-info, #transform-sub1,
-#transform-sub2, #transform-sub3,
-#incubate-info, #data-info, #notes-info {
+#transform-sub1,
+#transform-sub2, #transform-sub3 {
   display: none;
 }
 
